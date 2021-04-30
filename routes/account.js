@@ -2,9 +2,9 @@ const express = require("express")
 
 const appRouter = express()
 
-appRouter.get("/", (req, res)=>{
+appRouter.post("/login", (req, res)=>{
     res.json({
-        message: "lo"
+        message: "login here"
     })
 })
 

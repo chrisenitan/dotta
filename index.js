@@ -25,7 +25,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
 //routes
-const indexRoute = require("./routes/index")
+const indexRoute = require("./routes/indexRoute")
 app.use("/", indexRoute)
 
 
