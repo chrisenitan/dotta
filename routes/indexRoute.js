@@ -9,9 +9,7 @@ appRouter.get("/", (req, res)=>{
 })
 
 appRouter.get("/login", (req, res)=>{
-    res.json({
-        message: "login here"
-    })
+    res.render("index")
 })
 
 module.exports = appRouter;

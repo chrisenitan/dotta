@@ -1,0 +1,9 @@
+/* styles for sub */
+body{
+    background-color: #453b64;
+	font-family: 'Montserrat', sans-serif;
+	text-align: center;
+	width:100%;
+	max-width: 500px;
+	margin:auto;
+}
