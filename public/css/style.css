@@ -7,3 +7,21 @@ body{
 	max-width: 500px;
 	margin:auto;
 }
+.cta{
+    height: 30px;
+	width: 210px;
+	color: #000000;
+	margin: 10px;
+	background-color: #a9ffa9;
+	border: 1px solid #a9ffa9;
+	border-radius: 50px;
+}
+.altcta{
+	height: 30px;
+    width: 210px;
+    color: #ffffff;
+    margin: 10px;
+    background-color: #a9ffa92b;
+    border: 1px solid #a9ffa9;
+    border-radius: 50px;
+}
