@@ -7,6 +7,23 @@ body{
 	max-width: 500px;
 	margin:auto;
 }
+a{
+	color:#1f72f1;
+}
+input{
+	height: 40px;
+    width: 210px;
+    background-color: #262d39;
+    border: none;
+    color: #fff;
+    outline: none;
+    padding: 10px;
+    padding-left: 5%;
+    padding-right: 5%;
+    border-radius: 5px;
+	font-size: 14px;
+	font-family: 'Montserrat', sans-serif;
+}
 .cta{
     height: 30px;
 	width: 210px;
