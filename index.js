@@ -28,6 +28,11 @@ app.use(express.urlencoded({extended: true}))
 const indexRoute = require("./routes/indexRoute")
 app.use("/", indexRoute)
 
+//accounts route
+//routes
+const accountRoute = require("./routes/account")
+app.use("/account", accountRoute)
+
 
 
 
