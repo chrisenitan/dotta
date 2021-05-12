@@ -4,10 +4,10 @@ const appRouter = express()
 
 //set mysql
 const sqldb = mysql.createConnection({
-    host     : process.env.fhserver,
-    user     : process.env.fhuser,
-    password : process.env.fhpass,
-	database : process.env.fhdb
+  host: process.env.fhserver,
+  user: process.env.fhuser,
+  password: process.env.fhpass,
+  database: process.env.fhdb,
 })
 //connect mysql
 sqldb.connect((err) => {
@@ -15,7 +15,7 @@ sqldb.connect((err) => {
     throw err
   }
   console.log(
-    `Connected to Account ${process.env.fhserver} on thread: ${sqldb.threadId}`
+    `Route: Account: connected to Account ${process.env.fhserver} on thread: ${sqldb.threadId}`
   )
 })
 
@@ -24,5 +24,15 @@ appRouter.post("/login", (req, res) => {
     message: "login acocunt here",
   })
 })
+
+appRouter.post("/signup", (req, res) => {
+  res.json({
+    message: "signup acocunt here",
+  })
+})
+
+
+
+
 
 module.exports = appRouter
