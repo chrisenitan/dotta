@@ -25,12 +25,19 @@ appRouter.post("/login", (req, res) => {
   })
 })
 
+//sign up
 appRouter.post("/signup", (req, res) => {
   res.json({
     message: "signup acocunt here",
   })
 })
 
+//all recovery of account
+appRouter.get("/recovery", (req, res) => {
+  res.json({
+    message: "recover account here",
+  })
+})
 
 
 
