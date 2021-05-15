@@ -27,8 +27,21 @@ appRouter.post("/login", (req, res) => {
 
 //sign up
 appRouter.post("/signup", (req, res) => {
-  res.json({
-    message: "signup acocunt here",
+  //get request body
+  let signUpData = req.body
+  //do some sanitisation
+
+  //signup
+  let signUp = `INSERT INTO profiles SET ?`
+  sqldb.query(signUp, signUpData, (err, signupResult, field) => {
+    if (err) throw err
+    if (signupResult.insertId != undefined) {
+      //define and set cookie
+      signupResult.cookie = "Something"
+      res.cookie("user", signupResult.cookie)
+      //render onboarding or something
+      res.render("profile", signupResult)
+    }
   })
 })
 
@@ -38,8 +51,5 @@ appRouter.get("/recovery", (req, res) => {
     message: "recover account here",
   })
 })
-
-
-
 
 module.exports = appRouter
