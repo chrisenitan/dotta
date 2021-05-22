@@ -1,0 +1,27 @@
+<html>
+	<head>
+		{{> heads}}
+<title>Welcome to Subs</title>
+	</head>
+
+	<body>
+<!--recieve //id title body owner from sqlRoute.js-->
+	<p>Sign up for a new account</p>
+<img style="width:200px;heigt:200px" src="/images/art.jpg">
+
+<form method="post" action="account/signup">
+
+<input type="email" value="test@test.com" name="email"><br>
+<label for="email">Email</label><br><br>
+
+<input type="password" value="12342" name="password"><br>
+<label for="password">Password</label><br><br>
+
+<input type="hidden" name="action" value="signUp">
+<button class="cta">Sign Up</button>
+</form>
+<a href="login">Already have an account? Login here</a>
+
+	</body>
+</html>
+
