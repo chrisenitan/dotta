@@ -30,25 +30,31 @@ appRouter.post("/login", (req, res) => {
 appRouter.post("/signup", (req, res) => {
   //get request body
   let signUpData = req.body
-  //do some sanitisation
-  let ranVal = localTools.randomValue()
-  res.send(`Cookie gotten ${ranVal}`) 
- 
+  //do some form sanitisation
+
+  let newUser = {
+    "email": signUpData.email
+  }
+  //render onboarding or something
+  //res.render("profile", newUser)
 
   //signup
-/*   let signUp = `INSERT INTO profiles SET ?`
+  let signUp = `INSERT INTO profiles SET ?`
   sqldb.query(signUp, signUpData, (err, signupResult, field) => {
     if (err) throw err
     if (signupResult.insertId != undefined) {
       //define and set cookie
-      let ranVal = localTools.randomValue
-      console.log("randy is" + ranVal)
+      let ranVal = localTools.randomValue()
       signupResult.cookie = ranVal
       res.cookie("user", signupResult.cookie)
+      //trim new user profile
+      let newUser = {
+        "email": signupResult.email
+      }
       //render onboarding or something
-      res.render("profile", signupResult)
+      res.render("profile", newUser)
     }
-  }) */
+  })
 })
 
 //all recovery of account
