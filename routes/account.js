@@ -32,25 +32,27 @@ appRouter.post(
   "/signup",
   [
     //do some form sanitisation. need a module
-    check("email", "Email is invalid").isEmail(),
+    check("email", "Email is invalid").isEmpty(),
     check("action", "Action is not signup").equals("signUp"),
   ],
   (req, res) => {
     //get request body
     let signUpData = req.body
 
-    const sanitryError = validationResult(req)
-    if (!sanitryError.isEmpty()) {
-      return res.status(400).json({ errors: sanitryError.array() })
+    const reqErr = validationResult(req)
+    if (!reqErr.isEmpty()) {
+      //return res.status(400).json({ errors: reqErr.array() })
+      let sanitryError = reqErr.array()[0]
+      res.render("profile", sanitryError)
+    } else {
+      //demo
+      let isNewUser = {
+        email: signUpData.email,
+      }
+      res.render("profile", isNewUser)
     }
 
-    //demo
-   /*  let newUser = {
-      email: signUpData.email,
-    }
-    res.render("profile", newUser) */
-
-    //signup
+    /*  //signup
   let signUp = `INSERT INTO profiles SET ?`
   sqldb.query(signUp, signUpData, (err, signupResult, field) => {
     if (err) throw err
@@ -66,7 +68,7 @@ appRouter.post(
       //render onboarding or something
       res.render("profile", newUser)
     }
-  })
+  }) */
   }
 )
 
