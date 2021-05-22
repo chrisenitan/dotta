@@ -1,6 +1,7 @@
 const express = require("express")
 const mysql = require("mysql")
 const appRouter = express()
+const { check, validationResult } = require("express-validator")
 const localTools = require("../subModules/localTools")
 
 //set mysql
@@ -27,18 +28,29 @@ appRouter.post("/login", (req, res) => {
 })
 
 //sign up
-appRouter.post("/signup", (req, res) => {
-  //get request body
-  let signUpData = req.body
-  //do some form sanitisation
+appRouter.post(
+  "/signup",
+  [
+    //do some form sanitisation. need a module
+    check("email", "Email is invalid").isEmail(),
+    check("action", "Action is not signup").equals("signUp"),
+  ],
+  (req, res) => {
+    //get request body
+    let signUpData = req.body
 
-  let newUser = {
-    "email": signUpData.email
-  }
-  //render onboarding or something
-  //res.render("profile", newUser)
+    const sanitryError = validationResult(req)
+    if (!sanitryError.isEmpty()) {
+      return res.status(400).json({ errors: sanitryError.array() })
+    }
 
-  //signup
+    //demo
+   /*  let newUser = {
+      email: signUpData.email,
+    }
+    res.render("profile", newUser) */
+
+    //signup
   let signUp = `INSERT INTO profiles SET ?`
   sqldb.query(signUp, signUpData, (err, signupResult, field) => {
     if (err) throw err
@@ -49,13 +61,14 @@ appRouter.post("/signup", (req, res) => {
       res.cookie("user", signupResult.cookie)
       //trim new user profile
       let newUser = {
-        "email": signupResult.email
+        email: signupResult.email,
       }
       //render onboarding or something
       res.render("profile", newUser)
     }
   })
-})
+  }
+)
 
 //all recovery of account
 appRouter.get("/recovery", (req, res) => {
