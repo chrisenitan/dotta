@@ -21,6 +21,19 @@ sqldb.connect((err) => {
   )
 })
 
+//BEGIN ROUTES
+
+//trial mode
+appRouter.get("/trial", (req, res)=>{
+  //clear existing cookie
+  //create cookie
+  //give rand name and acct values
+  //use those to create account
+  //render profile
+  res.send("You are trying this app")
+})
+
+//login
 appRouter.post("/login", (req, res) => {
   res.json({
     message: "login acocunt here",
