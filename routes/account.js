@@ -45,7 +45,7 @@ appRouter.post(
   "/signup",
   [
     //do some form sanitisation. need a module
-    check("email", "Email is invalid").isEmpty(),
+    check("email", "Email is invalid").isEmail(),
     check("action", "Action is not signup").equals("signUp"),
   ],
   (req, res) => {

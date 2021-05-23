@@ -10,16 +10,23 @@
 <img style="width:200px;heigt:200px" src="/images/art.jpg">
 
 <form method="post" action="account/signup">
-
+<div class="TinputDiv">
+	<label for="email">Email</label><br>
 <input type="email" value="test@test.com" name="email"><br>
-<label for="email">Email</label><br><br>
+<h class="inputDis">We'll never share your email with anyone</h><br><br>
+</div>
 
+<div class="TinputDiv">
+	<label for="password">Password</label><br>
 <input type="password" value="12342" name="password"><br>
-<label for="password">Password</label><br><br>
+<h class="inputDis">Your password is always secure</h><br><br>
+</div>
+
 
 <input type="hidden" name="action" value="signUp">
 <button class="cta">Sign Up</button>
 </form>
+<br>
 <a href="login">Already have an account? Login here</a>
 
 	</body>
