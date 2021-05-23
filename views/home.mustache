@@ -8,13 +8,13 @@
 <!--recieve //id title body owner from sqlRoute.js-->
 	<p>Welcome to Subs</p>
 <img style="width:200px;heigt:200px" src="/images/art.jpg">
-{{#msg}}
-<p>{{msg}}</p>
-{{/msg}}
+{{#reason}}
+<p>{{reason.msg}}</p>
+{{/reason}}
 
-{{^msg}}
+{{^reason}}
 <p>Your account emails is {{email}} </p>
-{{/msg}}
+{{/reason}}
 
 	</body>
 </html>

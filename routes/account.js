@@ -1,8 +1,9 @@
 const express = require("express")
 const mysql = require("mysql")
 const appRouter = express()
-const { check, validationResult } = require("express-validator")
+const { check, validationResult, cookie } = require("express-validator")
 const localTools = require("../subModules/localTools")
+const { ResumeToken } = require("mongodb")
 
 //set mysql
 const sqldb = mysql.createConnection({
@@ -24,7 +25,7 @@ sqldb.connect((err) => {
 //BEGIN ROUTES
 
 //trial mode
-appRouter.get("/trial", (req, res)=>{
+appRouter.get("/trial", (req, res) => {
   //clear existing cookie
   //create cookie
   //give rand name and acct values
@@ -43,45 +44,65 @@ appRouter.post("/login", (req, res) => {
 //sign up
 appRouter.post(
   "/signup",
+  //do some form sanitisation. need a module
   [
-    //do some form sanitisation. need a module
-    check("email", "Email is invalid").isEmail(),
+    check("email", "Email format is invalid").isEmpty(),
     check("action", "Action is not signup").equals("signUp"),
   ],
   (req, res) => {
+    //delete old cookie now
+    if (req.cookies.user) {
+      res.clearCookie("user")
+    }
     //get request body
     let signUpData = req.body
+    //define account creation status object
+    const createAccount = {}
 
+    //check for express validations
     const reqErr = validationResult(req)
     if (!reqErr.isEmpty()) {
       //return res.status(400).json({ errors: reqErr.array() })
-      let sanitryError = reqErr.array()[0]
-      res.render("profile", sanitryError)
+      createAccount.reason = reqErr.array()[0]
+      createAccount.status = false
+      res.render("home", createAccount)
     } else {
-      //demo
-      let isNewUser = {
-        email: signUpData.email,
-      }
-      res.render("profile", isNewUser)
+      //check for old emails
+      let checkForUniqueMail =
+        `SELECT * FROM profiles WHERE email = ` +
+        sqldb.escape(signUpData.email) +
+        `LIMIT 1`
+      sqldb.query(checkForUniqueMail, (err, result) => {
+        if (err) throw err
+        if (Object.keys(result).length == 0) {
+          //register user
+          let signUp = `INSERT INTO profiles SET ?`
+          sqldb.query(signUp, signUpData, (err, signupResult, field) => {
+            if (err) throw err
+            if (signupResult.insertId != undefined) {
+              //define and set cookie
+              let ranVal = localTools.randomValue()
+              signupResult.cookie = ranVal
+              res.cookie("user", signupResult.cookie, {
+                maxAge: 2592000000,
+                httpOnly: false,
+              })
+              //trim new user profile
+              let newUser = {
+                email: signupResult.email,
+              }
+              //render onboarding or something
+              res.render("profile", newUser)
+            }
+          })
+        }
+        //found existing user, do not regiater
+        else {
+          createAccount.status = false
+          createAccount.reason = { msg: "Email has already been registered" }
+        }
+      })
     }
-
-    /*  //signup
-  let signUp = `INSERT INTO profiles SET ?`
-  sqldb.query(signUp, signUpData, (err, signupResult, field) => {
-    if (err) throw err
-    if (signupResult.insertId != undefined) {
-      //define and set cookie
-      let ranVal = localTools.randomValue()
-      signupResult.cookie = ranVal
-      res.cookie("user", signupResult.cookie)
-      //trim new user profile
-      let newUser = {
-        email: signupResult.email,
-      }
-      //render onboarding or something
-      res.render("profile", newUser)
-    }
-  }) */
   }
 )
 
