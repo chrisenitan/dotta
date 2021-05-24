@@ -75,19 +75,20 @@ appRouter.post(
       sqldb.query(checkForUniqueMail, (err, result) => {
         if (err) throw err
         if (Object.keys(result).length == 0) {
+          //define and set cookie and other data 
+          let ranVal = localTools.randomValue()
+          signUpData.cookie = ranVal
           //register user
           let signUp = `INSERT INTO profiles SET ?`
-          sqldb.query(signUp, signUpData, (err, signupResult, field) => {
+          sqldb.query(signUp, signUpData, (err, signupResult, fields) => {
             if (err) throw err
             if (signupResult.insertId != undefined) {
-              //define and set cookie
-              let ranVal = localTools.randomValue()
-              signupResult.cookie = ranVal
-              res.cookie("user", signupResult.cookie, {
+              //set client cookie
+              res.cookie("user", signUpData.cookie, {
                 maxAge: 2592000000,
                 httpOnly: false,
               })
-              //trim new user profile
+              //set new user profile obj
               let newUser = {
                 email: signupResult.email,
               }
