@@ -35,10 +35,30 @@ appRouter.get("/trial", (req, res) => {
 })
 
 //login
-appRouter.post("/login", (req, res) => {
-  res.json({
-    message: "login acocunt here",
-  })
+appRouter.post("/login", [
+  check("email", "Email format is invalid").isEmpty(),
+    check("action", "Action is not login").equals("logIn"),
+], (req, res) => {
+  //clear existing cookie
+  res.clearCookie("user")
+
+  //define login status handler
+  const loginError = {}
+  //check validation result
+  const reqErr = validationResult(req)
+  if (!reqErr.isEmpty()) {
+    //return res.status(400).json({ errors: reqErr.array() })
+    loginError.errReason = reqErr.array()[0]
+    loginError.errStatus = false
+    res.render("login", loginError)
+  }
+  else{
+    res.json({
+      message: "login acocunt here",
+    })
+  }
+
+ 
 })
 
 //sign up
@@ -57,15 +77,15 @@ appRouter.post(
     //get request body
     let signUpData = req.body
     //define account creation status object
-    const createAccount = {}
+    const signupError = {}
 
     //check for express validations
     const reqErr = validationResult(req)
     if (!reqErr.isEmpty()) {
       //return res.status(400).json({ errors: reqErr.array() })
-      createAccount.reason = reqErr.array()[0]
-      createAccount.status = false
-      res.render("home", createAccount)
+      signupError.reason = reqErr.array()[0]
+      signupError.status = false
+      res.render("home", signupError)
     } else {
       //check for old emails
       let checkForUniqueMail =
@@ -99,8 +119,8 @@ appRouter.post(
         }
         //found existing user, do not regiater
         else {
-          createAccount.status = false
-          createAccount.reason = { msg: "Email has already been registered" }
+          signupError.status = false
+          signupError.reason = { msg: "Email has already been registered" }
         }
       })
     }

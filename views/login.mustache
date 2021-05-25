@@ -7,8 +7,13 @@
 	<body>
 		{{> header}}
 <!--recieve //id title body owner from sqlRoute.js-->
-	<p>Login to your account</p>
 
+{{#errReason}}
+<p>We have an issue {{errReason.msg}}</p>
+{{/errReason}}
+
+{{^errReason}}
+	<p>Login to your account</p>
 <form method="post" action="account/login">
 <div class="TinputDiv">
 	<label for="email">Email</label><br>
@@ -26,6 +31,8 @@
 </form>
 <br>
 <a href="account/recovery">Forgot Password?</a>
+{{/errReason}}
+
 
 	</body>
 </html>
