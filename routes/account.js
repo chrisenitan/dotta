@@ -53,12 +53,25 @@ appRouter.post("/login", [
     res.render("login", loginError)
   }
   else{
-    res.json({
-      message: "login acocunt here",
+    let loginUser = `SELECT * FROM profiles WHERE email = ` + sqldb.escape(req.email) + `LIMIT 1`
+    sqldb.query(loginUser, (err, returnedUser)=>{
+      if (err) throw err
+      if(Object.keys(returnedUser).length != 0){
+        //user found
+        res.cookie("user", returnedUser.cookie, {
+          maxAge: 2592000000,
+          httpOnly: false,
+        })
+        res.render("home", returnedUser)
+      }
+      else{
+        //no user found
+        loginError.errReason = { msg: "No user found for that email" }
+        loginError.status = false
+      }
     })
   }
 
- 
 })
 
 //sign up
