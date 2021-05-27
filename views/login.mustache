@@ -8,10 +8,6 @@
 		{{> header}}
 <!--recieve //id title body owner from sqlRoute.js-->
 
-{{#errReason}}
-<p>We have an issue {{errReason.msg}}</p>
-{{/errReason}}
-
 {{^errReason}}
 	<p>Login to your account</p>
 <form method="post" action="account/login">

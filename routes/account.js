@@ -68,6 +68,7 @@ appRouter.post("/login", [
         //no user found
         loginError.errReason = { msg: "No user found for that email" }
         loginError.status = false
+        res.render("login", returnedUser)
       }
     })
   }
@@ -96,8 +97,8 @@ appRouter.post(
     const reqErr = validationResult(req)
     if (!reqErr.isEmpty()) {
       //return res.status(400).json({ errors: reqErr.array() })
-      signupError.reason = reqErr.array()[0]
-      signupError.status = false
+      signupError.errReason = reqErr.array()[0]
+      signupError.errStatus = false
       res.render("home", signupError)
     } else {
       //check for old emails
@@ -132,8 +133,9 @@ appRouter.post(
         }
         //found existing user, do not regiater
         else {
-          signupError.status = false
-          signupError.reason = { msg: "Email has already been registered" }
+          signupError.errStatus = false
+          signupError.errReason = { msg: "Email has already been registered" }
+          res.render("signup", returnedUser)
         }
       })
     }

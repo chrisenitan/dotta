@@ -7,8 +7,9 @@
 	<body>
 		{{> header}}
 <!--recieve //id title body owner from sqlRoute.js-->
-	<p>Sign up for a new account</p>
 
+{{^errReason}}
+	<p>Sign up for a new account</p>
 <form method="post" action="account/signup">
 <div class="TinputDiv">
 	<label for="email">Email</label><br>
@@ -28,7 +29,7 @@
 </form>
 <br>
 <a href="login">Already have an account? Login here</a>
-
+{{/errReason}}
 	</body>
 </html>
 
