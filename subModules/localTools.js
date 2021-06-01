@@ -1,7 +1,7 @@
 let randomValue = (req)=>{
     var ranId = ""
 	var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-	for(var i = 0; i < 8; i++){
+	for(var i = 0; i < req; i++){
 		ranId += characters.charAt(Math.floor(Math.random() * characters.length))
 	}
     return ranId

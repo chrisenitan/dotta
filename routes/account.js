@@ -27,7 +27,11 @@ sqldb.connect((err) => {
 //trial mode
 appRouter.get("/trial", (req, res) => {
   //clear existing cookie
+  res.clearCookie("user")
   //create cookie
+  //define and set cookie and other data 
+  let ranVal = localTools.randomValue(8)
+  req.cookie = ranVal
   //give rand name and acct values
   //use those to create account
   //render profile
@@ -110,7 +114,7 @@ appRouter.post(
         if (err) throw err
         if (Object.keys(result).length == 0) {
           //define and set cookie and other data 
-          let ranVal = localTools.randomValue()
+          let ranVal = localTools.randomValue(8)
           signUpData.cookie = ranVal
           //register user
           let signUp = `INSERT INTO profiles SET ?`
