@@ -1,3 +1,5 @@
+
+//generate a random char: recieves int param for lenght
 let randomValue = (req)=>{
     var ranId = ""
 	var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"

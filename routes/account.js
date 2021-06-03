@@ -31,11 +31,17 @@ appRouter.get("/trial", (req, res) => {
   //create cookie
   //define and set cookie and other data 
   let ranVal = localTools.randomValue(8)
-  req.cookie = ranVal
+  let ranUsername = localTools.randomValue(6)
   //give rand name and acct values
+  req.username = ranUsername
+  req.email = `${ranUsername}@subs.vrixe.com`
   //use those to create account
+  appRouter.post("/signup",(req)=>{
+    console.log(req)
+    res.send("okay")
+  })
   //render profile
-  res.send("You are trying this app")
+  //res.send("You are trying this app")
 })
 
 //login
