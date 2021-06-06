@@ -23,20 +23,77 @@ sqldb.connect((err) => {
 })
 
 //BEGIN ROUTES
+//testing inroutin
+
+var cb0 = function (req, res, next) {
+  console.log('CB0')
+  next()
+}
+
+var cb1 = function (req, res, next) {
+  console.log('CB1')
+  next()
+}
+
+var cb2 = function (req, res) {
+  res.send('Hello from C!')
+}
+
+appRouter.get('/ex', [cb0, cb1, cb2])
+
+
+let sedate = (req)=>{ 
+  console.log('the response will be sent by the next function ...')
+ /*  appRouter.get('/zx', function (req, res, next) {
+    console.log('the response will be sent by the next function ...')
+    next()
+  }, function (req, res) {
+    //res.send('Damn it worked')
+    var Hello = "Damn it works"
+    return Hello
+  })
+   */
+var req
+  let checkForUniqueMail =
+        `SELECT * FROM profiles WHERE email = 'ennycris1@gmail.com'`
+      sqldb.query(checkForUniqueMail, (err, result) => {
+        if (err) throw err
+        if (Object.keys(result).length == 0) {
+          req = "Damn it works db"
+        }
+        else{
+          req = "Damn it works no db"
+        }
+        
+      })
+      return req
+      
+      
+}
+
+  appRouter.get("/zq", (req, res)=>{
+    let unSedate = sedate()
+    console.log(unSedate)
+    res.send("Hi")
+  })
+
+
+
+
 
 //trial mode
 appRouter.get("/trial", (req, res) => {
   //clear existing cookie
   res.clearCookie("user")
   //create cookie
-  //define and set cookie and other data 
+  //define and set cookie and other data
   let ranVal = localTools.randomValue(8)
   let ranUsername = localTools.randomValue(6)
   //give rand name and acct values
   req.username = ranUsername
   req.email = `${ranUsername}@subs.vrixe.com`
   //use those to create account
-  appRouter.post("/signup",(req)=>{
+  appRouter.post("/signup", (req) => {
     console.log(req)
     res.send("okay")
   })
@@ -45,45 +102,49 @@ appRouter.get("/trial", (req, res) => {
 })
 
 //login
-appRouter.post("/login", [
-  check("email", "Email format is invalid").isEmpty(),
+appRouter.post(
+  "/login",
+  [
+    check("email", "Email format is invalid").isEmpty(),
     check("action", "Action is not login").equals("logIn"),
-], (req, res) => {
-  //clear existing cookie
-  res.clearCookie("user")
+  ],
+  (req, res) => {
+    //clear existing cookie
+    res.clearCookie("user")
 
-  //define login status handler
-  const loginError = {}
-  //check validation result
-  const reqErr = validationResult(req)
-  if (!reqErr.isEmpty()) {
-    //return res.status(400).json({ errors: reqErr.array() })
-    loginError.errReason = reqErr.array()[0]
-    loginError.errStatus = false
-    res.render("login", loginError)
+    //define login status handler
+    const loginError = {}
+    //check validation result
+    const reqErr = validationResult(req)
+    if (!reqErr.isEmpty()) {
+      //return res.status(400).json({ errors: reqErr.array() })
+      loginError.errReason = reqErr.array()[0]
+      loginError.errStatus = false
+      res.render("login", loginError)
+    } else {
+      let loginUser =
+        `SELECT * FROM profiles WHERE email = ` +
+        sqldb.escape(req.email) +
+        `LIMIT 1`
+      sqldb.query(loginUser, (err, returnedUser) => {
+        if (err) throw err
+        if (Object.keys(returnedUser).length != 0) {
+          //user found
+          res.cookie("user", returnedUser.cookie, {
+            maxAge: 2592000000,
+            httpOnly: false,
+          })
+          res.render("home", returnedUser)
+        } else {
+          //no user found
+          loginError.errReason = { msg: "No user found for that email" }
+          loginError.status = false
+          res.render("login", returnedUser)
+        }
+      })
+    }
   }
-  else{
-    let loginUser = `SELECT * FROM profiles WHERE email = ` + sqldb.escape(req.email) + `LIMIT 1`
-    sqldb.query(loginUser, (err, returnedUser)=>{
-      if (err) throw err
-      if(Object.keys(returnedUser).length != 0){
-        //user found
-        res.cookie("user", returnedUser.cookie, {
-          maxAge: 2592000000,
-          httpOnly: false,
-        })
-        res.render("home", returnedUser)
-      }
-      else{
-        //no user found
-        loginError.errReason = { msg: "No user found for that email" }
-        loginError.status = false
-        res.render("login", returnedUser)
-      }
-    })
-  }
-
-})
+)
 
 //sign up
 appRouter.post(
@@ -119,7 +180,7 @@ appRouter.post(
       sqldb.query(checkForUniqueMail, (err, result) => {
         if (err) throw err
         if (Object.keys(result).length == 0) {
-          //define and set cookie and other data 
+          //define and set cookie and other data
           let ranVal = localTools.randomValue(8)
           signUpData.cookie = ranVal
           //register user
