@@ -25,7 +25,7 @@ sqldb.connect((err) => {
 //BEGIN ROUTES
 //testing inroutin
 
-var cb0 = function (req, res, next) {
+/* var cb0 = function (req, res, next) {
   console.log('CB0')
   next()
 }
@@ -39,47 +39,7 @@ var cb2 = function (req, res) {
   res.send('Hello from C!')
 }
 
-appRouter.get('/ex', [cb0, cb1, cb2])
-
-
-let sedate = (req)=>{ 
-  console.log('the response will be sent by the next function ...')
- /*  appRouter.get('/zx', function (req, res, next) {
-    console.log('the response will be sent by the next function ...')
-    next()
-  }, function (req, res) {
-    //res.send('Damn it worked')
-    var Hello = "Damn it works"
-    return Hello
-  })
-   */
-var req
-  let checkForUniqueMail =
-        `SELECT * FROM profiles WHERE email = 'ennycris1@gmail.com'`
-      sqldb.query(checkForUniqueMail, (err, result) => {
-        if (err) throw err
-        if (Object.keys(result).length == 0) {
-          req = "Damn it works db"
-        }
-        else{
-          req = "Damn it works no db"
-        }
-        
-      })
-      return req
-      
-      
-}
-
-  appRouter.get("/zq", (req, res)=>{
-    let unSedate = sedate()
-    console.log(unSedate)
-    res.send("Hi")
-  })
-
-
-
-
+appRouter.get('/ex', [cb0, cb1, cb2]) */
 
 //trial mode
 appRouter.get("/trial", (req, res) => {
@@ -87,16 +47,30 @@ appRouter.get("/trial", (req, res) => {
   res.clearCookie("user")
   //create cookie
   //define and set cookie and other data
-  let ranVal = localTools.randomValue(8)
+  let ranCookie = localTools.randomValue(8)
   let ranUsername = localTools.randomValue(6)
   //give rand name and acct values
   req.username = ranUsername
   req.email = `${ranUsername}@subs.vrixe.com`
   //use those to create account
-  appRouter.post("/signup", (req) => {
-    console.log(req)
-    res.send("okay")
+  let trialSignUp = `INSERT INTO profiles SET ?`
+  sqldb.query(trialSignUp, req, (err, signupResult, fields) => {
+    if (err) throw err
+    if (signupResult.insertId != undefined) {
+      //set client cookie
+      res.cookie("user", ranCookie, {
+        maxAge: 2592000000,
+        httpOnly: false,
+      })
+      //set new user profile obj
+      let newUser = {
+        email: signupResult.email,
+      }
+      //render onboarding or something
+      res.render("profile", newUser)
+    }
   })
+
   //render profile
   //res.send("You are trying this app")
 })
