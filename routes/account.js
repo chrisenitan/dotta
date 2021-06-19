@@ -7,10 +7,10 @@ const { ResumeToken } = require("mongodb")
 
 //set mysql
 const sqldb = mysql.createConnection({
-  host: process.env.fhserver,
-  user: process.env.fhuser,
-  password: process.env.fhpass,
-  database: process.env.fhdb,
+  host: process.env.gcpserver,
+  user: process.env.gcpuser,
+  password: process.env.gcppass,
+  database: process.env.gcpdb,
 })
 //connect mysql
 sqldb.connect((err) => {
@@ -18,7 +18,7 @@ sqldb.connect((err) => {
     throw err
   }
   console.log(
-    `Route = /account: Connected to ${process.env.fhserver} on thread: ${sqldb.threadId}`
+    `Route = /account: Connected to ${process.env.gcpserver} on thread: ${sqldb.threadId}`
   )
 })
 
@@ -125,7 +125,7 @@ appRouter.post(
   "/signup",
   //do some form sanitisation. need a module
   [
-    check("email", "Email format is invalid").isEmpty(),
+    check("email", "Email format is invalid").isEmail(),
     check("action", "Action is not signup").equals("signUp"),
   ],
   (req, res) => {
@@ -133,7 +133,8 @@ appRouter.post(
     if (req.cookies.user) {
       res.clearCookie("user")
     }
-    //get request body
+    //get request body and remove defaul action 
+    delete req.body.action
     let signUpData = req.body
     //define account creation status object
     const signupError = {}
@@ -168,10 +169,9 @@ appRouter.post(
                 httpOnly: false,
               })
               //set new user profile obj
-              let newUser = {
-                email: signupResult.email,
-              }
+              let newUser = signUpData
               //render onboarding or something
+              console.log(signUpData)
               res.render("profile", newUser)
             }
           })
