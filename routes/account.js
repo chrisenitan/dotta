@@ -18,7 +18,7 @@ sqldb.connect((err) => {
     throw err
   }
   console.log(
-    `Route: Account: connected to Account ${process.env.fhserver} on thread: ${sqldb.threadId}`
+    `Route = /account: Connected to ${process.env.fhserver} on thread: ${sqldb.threadId}`
   )
 })
 
@@ -144,7 +144,7 @@ appRouter.post(
       //return res.status(400).json({ errors: reqErr.array() })
       signupError.errReason = reqErr.array()[0]
       signupError.errStatus = false
-      res.render("home", signupError)
+      res.render("signup", signupError)
     } else {
       //check for old emails
       let checkForUniqueMail =
