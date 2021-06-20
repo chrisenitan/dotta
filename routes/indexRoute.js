@@ -8,6 +8,7 @@ appRouter.get("/", (req, res) => {
   const cookie = req.cookies
   if(cookie.user != undefined){
 		console.log(`home dir: found cookie: ${cookie.user}`) 
+    res.clearCookie("user")//for now
 	}
   res.render("index")
 })

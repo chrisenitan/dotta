@@ -11,14 +11,8 @@ const sqldb = mysql.createConnection({
   user: process.env.gcpuser,
   password: process.env.gcppass,
   database: process.env.gcpdb,
-})
-var pool = mysql.createPool({
-  connectionLimit: 11,
-  host: process.env.gcpserver,
-  user: process.env.gcpuser,
-  password: process.env.gcppass,
-  database: process.env.gcpdb,
-})
+}) 
+
 
 //connect mysql
 sqldb.connect((err) => {
@@ -52,11 +46,9 @@ appRouter.get('/ex', [cb0, cb1, cb2]) */
 //magic mode
 var magic = function (req) {
   const reqUser = req
-  pool.getConnection(function (err, connection) {
-    if (err) throw err // not connected!
     //use those to create account
     let trialSignUp = `INSERT INTO profiles SET ?`
-    connection.query(trialSignUp, reqUser, (err, signupResult, fields) => {
+    sqldb.query(trialSignUp, reqUser, (err, signupResult, fields) => {
       if (err) {
         console.log("sorry again")
       }
@@ -64,7 +56,6 @@ var magic = function (req) {
         console.log("testing done succ")
       }
     })
-  })
 }
 
 //trial mode
@@ -81,7 +72,7 @@ appRouter.get("/trial", (req, res) => {
   var req = {}
   req.password = ranPassword
   req.email = `${ranUsername}@subs.vrixe.com`
-  req.cookie = `${ranCookie}@subs.vrixe.com`
+  req.cookie = ranCookie
 
   magic(req)
   //set client cookie
@@ -90,8 +81,12 @@ appRouter.get("/trial", (req, res) => {
     httpOnly: false,
   })
 
+  //set new user profile obj
+  const newUser = req
+    delete newUser.password
+    console.log(newUser)
   //render onboarding or something
-  res.send("user created succesfully, do some cookie here...")
+  res.render("profile", newUser)
   console.log("user created succesfully, do some cookie here...")
 })
 
