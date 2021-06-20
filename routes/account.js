@@ -41,6 +41,7 @@ var cb2 = function (req, res) {
 
 appRouter.get('/ex', [cb0, cb1, cb2]) */
 
+
 //trial mode
 appRouter.get("/trial", (req, res) => {
   //clear existing cookie
@@ -180,7 +181,7 @@ appRouter.post(
         else {
           signupError.errStatus = false
           signupError.errReason = { msg: "Email has already been registered" }
-          res.render("signup", returnedUser)
+          res.render("signup", signupError)
         }
       })
     }

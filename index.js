@@ -1,5 +1,6 @@
 //Index. Rewuire and initialize Express server
 const express = require("express")
+const accountMgm = require("./subModules/accountMgm")
 const app = express()
 
 //cookie parser
@@ -26,12 +27,12 @@ app.use(express.urlencoded({extended: true}))
 
 //routes
 const indexRoute = require("./routes/indexRoute")
-app.use("/", indexRoute)
+app.use("/", accountMgm, indexRoute)
 
 //accounts route
 //routes
 const accountRoute = require("./routes/account")
-app.use("/account", accountRoute)
+app.use("/account", accountMgm, accountRoute)
 
 
 
