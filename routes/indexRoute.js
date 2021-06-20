@@ -31,7 +31,7 @@ appRouter.get("/signup", (req, res) => {
 //profile
 appRouter.get("/:username", (req, res) => {
   //get account via cookie or via req
-
+  console.log("/username hit")
   //checko for cookie
   if (req.cookies.user) {
     //cookie exists. go get name from db

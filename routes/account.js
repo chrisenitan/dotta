@@ -12,6 +12,14 @@ const sqldb = mysql.createConnection({
   password: process.env.gcppass,
   database: process.env.gcpdb,
 })
+var pool = mysql.createPool({
+  connectionLimit: 11,
+  host: process.env.gcpserver,
+  user: process.env.gcpuser,
+  password: process.env.gcppass,
+  database: process.env.gcpdb,
+})
+
 //connect mysql
 sqldb.connect((err) => {
   if (err) {
@@ -41,6 +49,23 @@ var cb2 = function (req, res) {
 
 appRouter.get('/ex', [cb0, cb1, cb2]) */
 
+//magic mode
+var magic = function (req) {
+  const reqUser = req
+  pool.getConnection(function (err, connection) {
+    if (err) throw err // not connected!
+    //use those to create account
+    let trialSignUp = `INSERT INTO profiles SET ?`
+    connection.query(trialSignUp, reqUser, (err, signupResult, fields) => {
+      if (err) {
+        console.log("sorry again")
+      }
+      if (signupResult.insertId != undefined) {
+        console.log("testing done succ")
+      }
+    })
+  })
+}
 
 //trial mode
 appRouter.get("/trial", (req, res) => {
@@ -50,30 +75,24 @@ appRouter.get("/trial", (req, res) => {
   //define and set cookie and other data
   let ranCookie = localTools.randomValue(8)
   let ranUsername = localTools.randomValue(6)
+  let ranPassword = localTools.secureKey(6)
+
   //give rand name and acct values
-  req.username = ranUsername
+  var req = {}
+  req.password = ranPassword
   req.email = `${ranUsername}@subs.vrixe.com`
-  //use those to create account
-  let trialSignUp = `INSERT INTO profiles SET ?`
-  sqldb.query(trialSignUp, req, (err, signupResult, fields) => {
-    if (err) throw err
-    if (signupResult.insertId != undefined) {
-      //set client cookie
-      res.cookie("user", ranCookie, {
-        maxAge: 2592000000,
-        httpOnly: false,
-      })
-      //set new user profile obj
-      let newUser = {
-        email: signupResult.email,
-      }
-      //render onboarding or something
-      res.render("profile", newUser)
-    }
+  req.cookie = `${ranCookie}@subs.vrixe.com`
+
+  magic(req)
+  //set client cookie
+  res.cookie("user", ranCookie, {
+    maxAge: 2592000000,
+    httpOnly: false,
   })
 
-  //render profile
-  //res.send("You are trying this app")
+  //render onboarding or something
+  res.send("user created succesfully, do some cookie here...")
+  console.log("user created succesfully, do some cookie here...")
 })
 
 //login
@@ -131,7 +150,7 @@ appRouter.post(
     check("action", "Action is not signup").equals("signUp"),
   ],
   (req, res) => {
-    //get request body and remove defaul action 
+    //get request body and remove defaul action
     delete req.body.action
     let signUpData = req.body
     //define account creation status object
@@ -159,7 +178,10 @@ appRouter.post(
           //register user
           let signUp = `INSERT INTO profiles SET ?`
           sqldb.query(signUp, signUpData, (err, signupResult, fields) => {
-            if (err) throw err
+            if (err) {
+              res.send("sorry cannot sign up")
+              return false
+            }
             if (signupResult.insertId != undefined) {
               //set client cookie
               res.cookie("user", signUpData.cookie, {

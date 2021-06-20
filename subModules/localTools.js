@@ -13,7 +13,7 @@ let randomValue = (req)=>{
 let secureKey = (req)=>{
     var ranKey = ""
 	var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*"
-	for(var i = 0; i < 8; i++){
+	for(var i = 0; i < req; i++){
 		ranKey += characters.charAt(Math.floor(Math.random() * characters.length))
 	}
     return ranKey
