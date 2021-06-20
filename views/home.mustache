@@ -8,12 +8,9 @@
 <!--recieve //id title body owner from sqlRoute.js-->
 	<p>Welcome to Subs</p>
 <img style="width:200px;heigt:200px" src="/images/art.jpg">
-{{#errReason}}
-<p>{{errReason.msg}}</p>
-{{/errReason}}
 
 {{^errReason}}
-<p>Your account emails is {{email}} </p>
+<p>Logged in: Your account emails is {{email}} </p>
 {{/errReason}}
 
 	</body>

@@ -80,7 +80,7 @@ appRouter.get("/trial", (req, res) => {
 appRouter.post(
   "/login",
   [
-    check("email", "Email format is invalid").isEmpty(),
+    check("email", "Email format is invalid").isEmail(),
     check("action", "Action is not login").equals("logIn"),
   ],
   (req, res) => {
@@ -99,22 +99,23 @@ appRouter.post(
     } else {
       let loginUser =
         `SELECT * FROM profiles WHERE email = ` +
-        sqldb.escape(req.email) +
+        sqldb.escape(req.body.email) +
         `LIMIT 1`
       sqldb.query(loginUser, (err, returnedUser) => {
         if (err) throw err
         if (Object.keys(returnedUser).length != 0) {
-          //user found
+          //user found, set new cookie
           res.cookie("user", returnedUser.cookie, {
             maxAge: 2592000000,
             httpOnly: false,
           })
-          res.render("home", returnedUser)
+          console.log(returnedUser)
+          res.render("home", returnedUser[0])
         } else {
           //no user found
           loginError.errReason = { msg: "No user found for that email" }
           loginError.status = false
-          res.render("login", returnedUser)
+          res.render("login", loginError)
         }
       })
     }
@@ -130,10 +131,6 @@ appRouter.post(
     check("action", "Action is not signup").equals("signUp"),
   ],
   (req, res) => {
-    //delete old cookie now
-    if (req.cookies.user) {
-      res.clearCookie("user")
-    }
     //get request body and remove defaul action 
     delete req.body.action
     let signUpData = req.body

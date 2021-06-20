@@ -3,17 +3,28 @@ const { cookie } = require("express-validator")
 
 const appRouter = express()
 
+
 appRouter.get("/", (req, res) => {
+  const cookie = req.cookies
+  if(cookie.user != undefined){
+		console.log(`home dir: found cookie: ${cookie.user}`) 
+	}
   res.render("index")
 })
 
 //login
 appRouter.get("/login", (req, res) => {
+  if (req.cookies.user) {
+    res.clearCookie("user")
+  }
   res.render("login")
 })
 
 //signup
 appRouter.get("/signup", (req, res) => {
+  if (req.cookies.user) {
+    res.clearCookie("user")
+  }
   res.render("signup")
 })
 
