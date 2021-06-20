@@ -1,44 +1,69 @@
 /* styles for sub */
-body{
-    background-color: #453b64;
-	font-family: 'Montserrat', sans-serif;
-	text-align: center;
-	width:100%;
-	max-width: 500px;
-	margin:auto;
+body {
+  background-color: #f4ffff;
+  font-family: "Montserrat", sans-serif;
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
 }
-a{
-	color:#1f72f1;
+a {
+  color: #1f72f1;
 }
-input{
-	height: 40px;
-    width: 210px;
-    background-color: #262d39;
-    border: none;
-    color: #fff;
-    outline: none;
-    padding: 10px;
-    padding-left: 5%;
-    padding-right: 5%;
-    border-radius: 5px;
-	font-size: 14px;
-	font-family: 'Montserrat', sans-serif;
+form{
+    margin: auto;
 }
-.cta{
-    height: 30px;
-	width: 210px;
-	color: #000000;
-	margin: 10px;
-	background-color: #a9ffa9;
-	border: 1px solid #a9ffa9;
-	border-radius: 50px;
+label{
+    float: left;
+    margin-bottom: 5px;
 }
-.altcta{
-	height: 30px;
-    width: 210px;
-    color: #ffffff;
-    margin: 10px;
-    background-color: #a9ffa92b;
-    border: 1px solid #a9ffa9;
-    border-radius: 50px;
+input {
+  height: 45px;
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #1a2739;
+  color: #28549a;
+  outline: none;
+  padding: 10px;
+  padding-left: 5%;
+  padding-right: 5%;
+  margin-bottom: 5px;
+  border-radius: 3px;
+  font-size: 14px;
+  font-family: "Montserrat", sans-serif;
+  transition: 0.3s;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+}
+input:hover{
+    border: 3px solid #28549a;
+}
+.inputDis{
+    color: #929292;
+}
+.TinputDiv {
+  width: 90%;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.cta {
+  height: 45px;
+  width: 210px;
+  font-size: 20px;
+  color: #000000;
+  margin: 10px;
+  background-color: #a9ffa9;
+  border: 1px solid #a9ffa9;
+  border-radius: 50px;
+}
+.altcta {
+  height: 45px;
+  width: 210px;
+  font-size: 20px;
+  color: #ffffff;
+  margin: 10px;
+  background-color: #a9ffa92b;
+  border: 1px solid #a9ffa9;
+  border-radius: 50px;
 }

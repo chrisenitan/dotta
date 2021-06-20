@@ -7,9 +7,11 @@
 	<body>
 <!--recieve //id title body owner from sqlRoute.js-->
 	<p>Welcome to Subs</p>
-<img style="width:200px;hieght:200px" src="/images/art.jpg">
+<img style="width:200px;heigt:200px" src="/images/art.jpg">
 
-<p>Your account data is Email: "{{email}}"</p>
+{{^errReason}}
+<p>Logged in: Your account emails is {{email}} </p>
+{{/errReason}}
 
 	</body>
 </html>
