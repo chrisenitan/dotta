@@ -11,8 +11,7 @@ const sqldb = mysql.createConnection({
   user: process.env.gcpuser,
   password: process.env.gcppass,
   database: process.env.gcpdb,
-}) 
-
+})
 
 //connect mysql
 sqldb.connect((err) => {
@@ -23,9 +22,6 @@ sqldb.connect((err) => {
     `Route = /account: Connected to ${process.env.gcpserver} on thread: ${sqldb.threadId}`
   )
 })
-
-//BEGIN ROUTES
-//testing inroutin
 
 /* var cb0 = function (req, res, next) {
   console.log('CB0')
@@ -44,18 +40,18 @@ var cb2 = function (req, res) {
 appRouter.get('/ex', [cb0, cb1, cb2]) */
 
 //magic mode
-var magic = function (req) {
+var insertNewAccount = function (req) {
   const reqUser = req
-    //use those to create account
-    let trialSignUp = `INSERT INTO profiles SET ?`
-    sqldb.query(trialSignUp, reqUser, (err, signupResult, fields) => {
-      if (err) {
-        console.log("sorry again")
-      }
-      if (signupResult.insertId != undefined) {
-        console.log("testing done succ")
-      }
-    })
+  //use those to create account
+  let trialSignUp = `INSERT INTO profiles SET ?`
+  sqldb.query(trialSignUp, reqUser, (err, signupResult, fields) => {
+    if (err) {
+      console.log("sorry again")
+    }
+    if (signupResult.insertId != undefined) {
+      console.log("testing done succ")
+    }
+  })
 }
 
 //trial mode
@@ -74,7 +70,7 @@ appRouter.get("/trial", (req, res) => {
   req.email = `${ranUsername}@subs.vrixe.com`
   req.cookie = ranCookie
 
-  magic(req)
+  insertNewAccount(req)
   //set client cookie
   res.cookie("user", ranCookie, {
     maxAge: 2592000000,
@@ -83,8 +79,8 @@ appRouter.get("/trial", (req, res) => {
 
   //set new user profile obj
   const newUser = req
-    delete newUser.password
-    console.log(newUser)
+  delete newUser.password
+  console.log(newUser)
   //render onboarding or something
   res.render("profile", newUser)
   console.log("user created succesfully, do some cookie here...")
@@ -119,11 +115,11 @@ appRouter.post(
         if (err) throw err
         if (Object.keys(returnedUser).length != 0) {
           //user found, set new cookie
-          res.cookie("user", returnedUser.cookie, {
+          res.cookie("user", returnedUser[0].cookie, {
             maxAge: 2592000000,
             httpOnly: false,
           })
-          console.log(returnedUser)
+          console.log(returnedUser[0])
           res.render("home", returnedUser[0])
         } else {
           //no user found
