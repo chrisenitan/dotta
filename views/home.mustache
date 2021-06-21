@@ -6,11 +6,16 @@
 
 	<body>
 <!--recieve //id title body owner from sqlRoute.js-->
-	<p>Welcome to Subs</p>
-<img style="width:200px;heigt:200px" src="/images/art.jpg">
+	{{> header}}
+
 
 {{^errReason}}
-<p>Logged in: Your account emails is {{email}} </p>
+<p>Welcome to Subs</p>
+<p>This is your homepage: <br> {{email}} @{{username}}</p>
+
+
+<br>
+<a href="/logout"><button class="cta">Logout</button></a>
 {{/errReason}}
 
 	</body>

@@ -28,12 +28,34 @@ appRouter.get("/", (req, res) => {
   if (cookie.user != undefined) {
     console.log(`home dir: found cookie: ${cookie.user}`)
     //res.clearCookie("user")//for now
+    let getUser =
+      `SELECT * FROM profiles WHERE cookie = ` +
+      sqldb.escape(cookie.user) +
+      `LIMIT 1`
+    sqldb.query(getUser, (err, result) => {
+      if (err) {
+        console.log("User not fetchs via cookie")
+        return false
+      }
+      if (Object.keys(result).length != 0) {
+        res.redirect(`/${result[0].username}`)
+      }
+    })
+  } else {
+    res.render("index")
   }
-  res.render("index")
 })
 
 //login
 appRouter.get("/login", (req, res) => {
+  if (req.cookies.user) {
+    res.clearCookie("user")
+  }
+  res.render("login")
+})
+
+//logout
+appRouter.get("/logout", (req, res) => {
   if (req.cookies.user) {
     res.clearCookie("user")
   }
@@ -50,44 +72,35 @@ appRouter.get("/signup", (req, res) => {
 
 //profile
 appRouter.get("/:username", (req, res) => {
-  //get cookie
+  //set dependecies
   const cookie = req.cookies
-  //get account via cookie or via req
-  console.log("/username hit")
+  const paramUser = req.params.username
 
-  /* //checko for cookie
-  if (req.cookies.user) {
-    //cookie exists. go get name from db
-  } else {
-    //no cookie, just set a name to get from db
-  } */
+  //only show if user is logged in and sessioned
+  if (paramUser && cookie.user) {
+    let getUser =
+      `SELECT * FROM profiles WHERE username = ` +
+      sqldb.escape(paramUser) +
+      `LIMIT 1`
+    sqldb.query(getUser, (err, returnedUser) => {
+      if (err) throw err
+      if (Object.keys(returnedUser).length != 0) {
+        //get users data from data table
+        //...
 
-  let getUser =
-    `SELECT * FROM profiles WHERE cookie = ` +
-    sqldb.escape(req.cookies.user) +
-    `LIMIT 1`
-  sqldb.query(getUser, (err, returnedUser) => {
-    if (err) throw err
-    if (Object.keys(returnedUser).length != 0) {
-      res.render("home", returnedUser[0])
-    } else {
-      //no user found
-      const loginError = {}
-      loginError.errReason = { msg: "No user found for that email" }
-      loginError.status = false
-      res.render("profile", loginError)
-    }
-  })
-
-  /*  if(createAccount == true){
-  //no cookie. login via db
-  const user = {}
-  user.username = req.params.username
-  res.render("profile", user)
-  }else{
-    //send no data somewhere 
-    return false
-  } */
+        res.render("home", returnedUser[0])
+      } else {
+        //no user found for provided username
+        const loginError = {}
+        loginError.errReason = { msg: "No valid user found" }
+        loginError.status = false
+        res.render("home", loginError)
+      }
+    })
+  }
+  else{
+    res.redirect("/")
+  }
 })
 
 module.exports = appRouter
