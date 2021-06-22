@@ -59,7 +59,7 @@ appRouter.get("/logout", (req, res) => {
   if (req.cookies.user) {
     res.clearCookie("user")
   }
-  res.render("login")
+  res.redirect("/")
 })
 
 //signup

@@ -69,7 +69,8 @@ var insertNewAccount = function (req) {
 appRouter.get("/trial", (req, res) => {
   //clear existing cookie
   res.clearCookie("user")
-  //
+  //reload of this url should not resignup. app makes sure cookie logeed in is redirected 
+  
   let ranUsername = localTools.randomValue(6)
   let ranPassword = localTools.secureKey(6)
 
