@@ -85,10 +85,23 @@ appRouter.get("/:username", (req, res) => {
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
       if (Object.keys(returnedUser).length != 0) {
+        //set user objct
+        let user = returnedUser[0]
         //get users data from data table
         //...
+        let getUserSubs = `SELECT * FROM subs WHERE username = '${user.username}'`
+        sqldb.query(getUserSubs, (err, returnedSubs) => {
+          if (err) throw err
+          if (Object.keys(returnedSubs).length != 0) {
+            //set user subs objct
+            let userSubs = returnedSubs
+            //set subs to user obj
+            user.subs = userSubs
+            console.log(user)
+          }
 
-        res.render("home", returnedUser[0])
+          res.render("home", user)
+        })
       } else {
         //no user found for provided username
         const loginError = {}
@@ -97,8 +110,7 @@ appRouter.get("/:username", (req, res) => {
         res.render("home", loginError)
       }
     })
-  }
-  else{
+  } else {
     res.redirect("/")
   }
 })

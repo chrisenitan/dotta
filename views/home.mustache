@@ -13,6 +13,18 @@
 <p>Welcome to Subs</p>
 <p>This is your homepage: <br> {{email}} @{{username}}</p>
 
+<p class="wtxt">Subscriptions</p>
+{{#subs}}
+	{{./}}
+	<div class="subsHolder">
+		<h class="wtxt">{{price}}</h><br>
+		<h class="wtxt">in: </h><br>
+		<h class="wtxt">{{name}}<br>
+	</div>
+	{{/subs}}
+
+
+
 
 <br>
 <a href="/logout"><button class="cta">Logout</button></a>
