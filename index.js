@@ -38,7 +38,6 @@ app.use("/account", [isActiveCookie, urlLog], accountRoute)
 
 
 //start server
-const port = 1000
-app.listen(port, ()=>{
-    console.log(`\x1b[32m...Subs ready on port ${port}... \x1b[0m  \n`)
+app.listen(process.env.port, ()=>{
+    console.log(`\x1b[32m...Subs ready on port ${process.env.port}... \x1b[0m  \n`)
 })
