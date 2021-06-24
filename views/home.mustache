@@ -6,7 +6,9 @@
 
 	<body>
 <!--recieve //id title body owner from sqlRoute.js-->
-	{{> header}}
+<div id="navHeader">
+	This is the header
+</div>
 
 
 {{^errReason}}
@@ -17,7 +19,7 @@
 {{#subs}}
 	{{./}}
 	<div class="subsHolder">
-		<h class="wtxt">{{price}}</h><br>
+		<h class="wtxt">{{currency}}{{price}}</h><br>
 		<h class="wtxt">in: </h><br>
 		<h class="wtxt">{{name}}<br>
 	</div>

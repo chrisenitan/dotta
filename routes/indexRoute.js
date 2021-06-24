@@ -93,10 +93,8 @@ appRouter.get("/:username", (req, res) => {
         sqldb.query(getUserSubs, (err, returnedSubs) => {
           if (err) throw err
           if (Object.keys(returnedSubs).length != 0) {
-            //set user subs objct
-            let userSubs = returnedSubs
             //set subs to user obj
-            user.subs = userSubs
+            user.subs = returnedSubs
             console.log(user)
           }
 
