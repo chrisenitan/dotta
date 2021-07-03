@@ -70,6 +70,11 @@ appRouter.get("/signup", (req, res) => {
   res.render("signup")
 })
 
+//settings
+appRouter.get("/settings", (req, res) => {
+  res.render("settings")
+})
+
 //profile
 appRouter.get("/:username", (req, res) => {
   //set dependecies
@@ -95,9 +100,8 @@ appRouter.get("/:username", (req, res) => {
           if (Object.keys(returnedSubs).length != 0) {
             //set subs to user obj
             user.subs = returnedSubs
-            console.log(user)
           }
-
+          console.log(user)
           res.render("home", user)
         })
       } else {
@@ -112,5 +116,7 @@ appRouter.get("/:username", (req, res) => {
     res.redirect("/")
   }
 })
+
+
 
 module.exports = appRouter

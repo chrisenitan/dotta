@@ -17,6 +17,10 @@ label {
   float: left;
   margin-bottom: 5px;
 }
+.mini-input {
+  width: 40%;
+  display: inline-block;
+}
 input {
   height: 45px;
   width: 100%;
@@ -40,6 +44,24 @@ input:hover {
 }
 .inputDis {
   color: #929292;
+}
+select{
+  height: 45px;
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #1a2739;
+  color: #28549a;
+  outline: none;
+  padding: 10px;
+  padding-left: 5%;
+  padding-right: 5%;
+  margin-bottom: 5px;
+  border-radius: 3px;
+  font-size: 14px;
+  font-family: "Montserrat", sans-serif;
+  transition: 0.3s;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
 }
 .TinputDiv {
   width: 90%;
@@ -85,9 +107,60 @@ input:hover {
   display: inline-block;
 }
 #navHeader {
-  height: 50px;
+  height: auto;
   width: 96%;
   background-color: white;
   padding: 2%;
   display: inline-block;
+}
+#navMenu {
+  height: auto;
+  width: 30%;
+  padding: 2%;
+  font-size: 19px;
+  color: #000000;
+  margin: 5px;
+  background-color: #f4f4f4;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+}
+#navAdd {
+  height: auto;
+  width: 60%;
+  padding: 2%;
+  font-size: 19px;
+  color: #000000;
+  margin: 5px;
+  background-color: #bdb6ea;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.material-icons-two-tone {
+  vertical-align: text-bottom;
+}
+.material-icons-two-tone.md-18 {
+  font-size: 18px;
+}
+.material-icons-two-tone.md-24 {
+  font-size: 24px;
+}
+.material-icons-two-tone.md-36 {
+  font-size: 36px;
+}
+.material-icons-two-tone.md-48 {
+  font-size: 48px;
+}
+#addPanel {
+  /* display: none; */
+  width: 80%;
+  background-color: #b6d9ea;
+  padding: 5%;
+  height: auto;
+  z-index: 100;
+  position: fixed;
+  margin-left: 4.5%;
+  top: 20%;
+  border-radius: 5px;
 }

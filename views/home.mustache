@@ -6,16 +6,52 @@
 
 	<body>
 <!--recieve //id title body owner from sqlRoute.js-->
+
+{{!-- add new event --}}
+	<div id="addPanel">
+<form>
+	<div class="TinputDiv">
+	<label for="email">Name</label><br>
+<input type="text" value="Netflix" name="name"><br>
+<h class="inputDis">What are you calling this</h><br><br>
+</div>
+
+	<div class="TinputDiv">
+	<label for="email">Cost</label><br>
+<input class="mini-input" type="number" value="9.99" name="cost">
+<select class="mini-input" name="currency">
+	<option>$</option>
+	<option>€</option>
+	<option>₦</option>
+</select><br>
+<h class="inputDis">How much is it</h><br><br>
+</div>
+
+	<div class="TinputDiv">
+	<label for="email">Start Date</label><br>
+<input type="date" name="startDate"><br>
+<h class="inputDis">When is this starting</h><br><br>
+</div>
+
+
+<input type="hidden" name="action" value="signUp">
+<button class="cta"><span class="material-icons-two-tone md-light">addchart</span> Create</button>
+</form>
+	</div>
+
+	{{!-- Nav menu --}}
 <div id="navHeader">
-	This is the header
+<a href="/settings"><button id="navMenu"><span class="material-icons-two-tone">horizontal_split</span> Menu</button></a>
+<button id="navAdd"><span class="material-icons-two-tone" style="vertical-align: text-bottom;">add_circle</span> New Subscription</button>
 </div>
 
 
 {{^errReason}}
 <p>Welcome to Subs</p>
-<p>This is your homepage: <br> {{email}} @{{username}}</p>
+<p>Your test email is: <br> {{email}} 
+<br>and username is @{{username}}</p>
 
-<p class="wtxt">Subscriptions</p>
+<p class="wtxt">Your Subscriptions</p>
 {{#subs}}
 	{{./}}
 	<div class="subsHolder">
@@ -29,7 +65,7 @@
 
 
 <br>
-<a href="/logout"><button class="cta">Logout</button></a>
+<a href="/logout"><button class="cta"><span class="material-icons-two-tone">logout</span> Logout</button></a>
 {{/errReason}}
 
 	</body>
