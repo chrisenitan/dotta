@@ -1,36 +1,37 @@
 <html>
-	<head>
-		{{> heads}}
-<title>Welcome to Subs</title>
-	</head>
 
-	<body>
-		{{> header}}
-<!--recieve //id title body owner from sqlRoute.js-->
+<head>
+	{{> heads}}
+	<title>Welcome to Subs</title>
+</head>
 
-{{^errReason}}
+<body>
+	{{> header}}
+	<!--recieve //id title body owner from sqlRoute.js-->
+
+	{{^errReason}}
 	<p>Login to your account</p>
-<form method="post" action="account/login">
-<div class="TinputDiv">
-	<label for="email">Email or Username</label><br>
-<input type="text" value="test@test.com" name="email"><br>
-<h class="inputDis">Private and safe from spam.</h><br><br>
-</div>
+	<form method="post" action="account/login">
+		<div class="TinputDiv">
+			<label for="email">Email or Username</label><br>
+			<input type="text" value="test@test.com" name="email"><br>
+			<h class="inputDis">Private and safe from spam.</h><br><br>
+		</div>
 
-<div class="TinputDiv">
-	<label for="password">Password</label><br>
-<input type="password" value="12342" name="password"><br>
-<h class="inputDis">Your password is always secure</h><br><br>
-</div>
+		<div class="TinputDiv">
+			<label for="password">Password</label><br>
+			<input type="password" value="12342" name="password"><br>
+			<h class="inputDis">Your password is always secure</h><br><br>
+		</div>
 
-<input type="hidden" name="action" value="logIn">
-<button class="cta">Login</button>
-</form>
-<br>
-<a href="account/recovery" class="smallTxt">Forgot Password?</a>
-{{/errReason}}
+		<input type="hidden" name="action" value="logIn">
+		<button class="cta">Login</button>
+	</form>
+	<br>
+	<a href="account/recovery" class="smallTxt">Forgot Password?</a>
+	{{/errReason}}
 
 
-	</body>
+</body>
+
 </html>
-
