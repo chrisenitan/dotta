@@ -1,5 +1,5 @@
 const express = require("express")
-const { cookie } = require("express-validator")
+const { check, validationResult, cookie } = require("express-validator")
 const mysql = require("mysql")
 const appRouter = express()
 
@@ -117,6 +117,27 @@ appRouter.get("/:username", (req, res) => {
   }
 })
 
-
+//save or update new sub entry
+appRouter.post(
+  "/record",
+  [
+    check("name", "Name is not valid").isAlpha(),
+    check("cost", "Cost needs to be a number").isNumeric(),
+    check("startDate", "Date should be calendar date").isDate(),
+    check("action", "Action is not login").equals("create"),
+  ],
+  (req, res) => {
+    //define login status handler
+    const createError = {}
+    const reqErr = validationResult(req)
+    if (!reqErr.isEmpty()) {
+      createError.errReason = reqErr.array()[0]
+      createError.errStatus = false
+      res.send(createError.errReason.msg)
+    } else {
+      res.send("save subs data here")
+    }
+  }
+)
 
 module.exports = appRouter

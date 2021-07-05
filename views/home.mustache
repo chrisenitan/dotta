@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
 
 <head>
 	{{> heads}}
@@ -10,16 +10,16 @@
 
 	{{!-- add new event --}}
 	<div id="addPanel">
-		<form>
+		<form method="post" action="/record">
 			<div class="TinputDiv">
-				<label for="email">Name</label><br>
+				<label for="name">Name</label><br>
 				<input type="text" value="Netflix" name="name"><br>
 				<h class="inputDis">What are you calling this</h><br><br>
 			</div>
 
 			<div class="TinputDiv">
-				<label for="email">Cost</label><br>
-				<input class="mini-input" type="number" value="9.99" name="cost">
+				<label for="cost">Cost</label><br>
+				<input class="mini-input" type="text" value="9.99" name="cost">
 				<select class="mini-input" name="currency">
 					<option>$</option>
 					<option>€</option>
@@ -29,13 +29,13 @@
 			</div>
 
 			<div class="TinputDiv">
-				<label for="email">Start Date</label><br>
+				<label for="startDate">Start Date</label><br>
 				<input type="date" name="startDate"><br>
 				<h class="inputDis">When is this starting</h><br><br>
 			</div>
 
 
-			<input type="hidden" name="action" value="signUp">
+			<input type="hidden" name="action" value="create">
 			<button class="cta"><span class="material-icons-two-tone md-light">addchart</span> Create</button>
 		</form>
 	</div>
