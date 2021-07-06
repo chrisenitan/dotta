@@ -75,6 +75,43 @@ appRouter.get("/settings", (req, res) => {
   res.render("settings")
 })
 
+//save or update new sub entry
+appRouter.post(
+  "/record",
+  [
+    check("name", "Name is not valid").isAlpha("en-GB", { ignore: " " }),
+    check("cost", "Cost needs to be a number").isNumeric(),
+    check("date", "Date should be calendar date").isDate(),
+    //sanitise username and currency
+    check("action", "Action is not login").equals("create"),
+  ],
+  (req, res) => {
+    //define login status handler
+    const createError = {}
+    const reqErr = validationResult(req)
+    if (!reqErr.isEmpty()) {
+      createError.errReason = reqErr.array()[0]
+      createError.errStatus = false
+      res.send(createError.errReason.msg)
+      //redirect to sub individual view
+    } else {
+      //sanitise request
+      delete req.body.action
+      let insertNewSub = `INSERT INTO subs SET ?`
+      sqldb.query(insertNewSub, req.body, (err, insertSubResult, fields) => {
+        if (err) {
+          createError.errReason = err
+          createError.errStatus = false
+          res.send(createError.errReason)
+        }
+        if (insertSubResult.insertId != undefined) {
+          res.json(req.body)
+        }
+      })
+    }
+  }
+)
+
 //profile
 appRouter.get("/:username", (req, res) => {
   //set dependecies
@@ -116,28 +153,5 @@ appRouter.get("/:username", (req, res) => {
     res.redirect("/")
   }
 })
-
-//save or update new sub entry
-appRouter.post(
-  "/record",
-  [
-    check("name", "Name is not valid").isAlpha(),
-    check("cost", "Cost needs to be a number").isNumeric(),
-    check("startDate", "Date should be calendar date").isDate(),
-    check("action", "Action is not login").equals("create"),
-  ],
-  (req, res) => {
-    //define login status handler
-    const createError = {}
-    const reqErr = validationResult(req)
-    if (!reqErr.isEmpty()) {
-      createError.errReason = reqErr.array()[0]
-      createError.errStatus = false
-      res.send(createError.errReason.msg)
-    } else {
-      res.send("save subs data here")
-    }
-  }
-)
 
 module.exports = appRouter

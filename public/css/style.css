@@ -71,24 +71,24 @@ select{
 }
 .cta {
   height: 45px;
-  width: 210px;
+  width: 45%;
   font-size: 20px;
-  color: #f4ffff;
+  color: #000000;
   margin: 10px;
-  background-color: #634ed5;
-  border: 1px solid #634ed5;
-  border-radius: 5px;
+  background-color: #bdb6ea;
+  border: none;
+  border-radius: 3px;
   cursor: pointer;
 }
 .altcta {
   height: 45px;
-  width: 210px;
+  width: 40%;
   font-size: 20px;
-  color: #634ed5;
+  color: #000000;
   margin: 10px;
-  background-color: #f4ffff;
-  border: 1px solid #634ed5;
-  border-radius: 5px;
+  background-color: #f4f4f4;
+  border: none;
+  border-radius: 3px;
 }
 .smallTxt {
   font-size: 12px;
@@ -154,13 +154,18 @@ select{
 }
 #addPanel {
   /* display: none; */
-  width: 80%;
-  background-color: #b6d9ea;
-  padding: 5%;
-  height: auto;
+  width: 90%;
+  background-color: #f4f4f4;
+  padding: 2.5%;
+  height: 0;
   z-index: 100;
   position: fixed;
-  margin-left: 4.5%;
-  top: 20%;
+  margin-left: 2.5%;
+  bottom: 5px;
   border-radius: 5px;
+  overflow: scroll;
+  box-shadow: 0px 0px 3px 1px #a9a9a9;
+  transition: 0.3s;
+  -moz-transition: 0.3s;
+  -webkit-transition: 0.3s;
 }

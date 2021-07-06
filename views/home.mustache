@@ -29,14 +29,16 @@
 			</div>
 
 			<div class="TinputDiv">
-				<label for="startDate">Start Date</label><br>
-				<input type="date" name="startDate"><br>
+				<label for="date">Start Date</label><br>
+				<input type="date" name="date" value="2002-07-29" required><br>
 				<h class="inputDis">When is this starting</h><br><br>
 			</div>
 
 
 			<input type="hidden" name="action" value="create">
+			<input type="hidden" name="username" value="{{username}}">
 			<button class="cta"><span class="material-icons-two-tone md-light">addchart</span> Create</button>
+			<button type='button' class="altcta" id="closeAddPanel"><span class="material-icons-two-tone md-light">cancel</span> Cancel</button>
 		</form>
 	</div>
 
@@ -57,7 +59,7 @@
 	{{#subs}}
 	{{./}}
 	<div class="subsHolder">
-		<h class="wtxt">{{currency}}{{price}}</h><br>
+		<h class="wtxt">{{currency}}{{cost}}</h><br>
 		<h class="wtxt">in: </h><br>
 		<h class="wtxt">{{name}}<br>
 	</div>
