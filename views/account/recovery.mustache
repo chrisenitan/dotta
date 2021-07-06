@@ -1,57 +1,58 @@
 <html>
-	<head>
-		{{> heads}}
-<title>Recover your account</title>
-	</head>
 
-	<body>
+<head>
+	{{> heads}}
+	<title>Recover your account</title>
+</head>
 
-{{#message}}
-{{#confirm}}
-<p>{{message}}</p>
-{{!-- need to verify password is same here --}}
-<form action="/account/reset" method="post">
+<body>
 
-<label for="email">Your Accounts Email and reset token</label><br>
-<input type="email" name="email" placeholder="Email" value="sample@test.com"/><br><br>
+	{{#message}}
+	{{#confirm}}
+	<p>{{message}}</p>
+	{{!-- need to verify password is same here --}}
+	<form action="/account/reset" method="post">
 
-<input type="password" name="npassword" placeholder="New Password" value="abcdefg"/><br><br>
-<input type="password" name="rnPassword" placeholder="Renter Password" value="abcdefg"/><br><br>
-<input type="text" name="token" placeholder="Your recovery token" value="ChrisToken"/><br><br>
+		<label for="email">Your Accounts Email and reset token</label><br>
+		<input type="email" name="email" placeholder="Email" value="sample@test.com" /><br><br>
 
-<button>Recover </button>
+		<input type="password" name="npassword" placeholder="New Password" value="abcdefg" /><br><br>
+		<input type="password" name="rnPassword" placeholder="Renter Password" value="abcdefg" /><br><br>
+		<input type="text" name="token" placeholder="Your recovery token" value="ChrisToken" /><br><br>
 
-</form>
-{{/confirm}}
+		<button>Recover </button>
 
-{{!-- if completed reset --}}
-{{#completed}}
-<p>{{message}}</p>
-<p>Please login with your new account credentials</p>
-<a href="/login"><button>Login</button></a>
-{{/completed}}
-{{/message}}
+	</form>
+	{{/confirm}}
 
-
-{{^message}}
-<p>Recover your account here</p>
-
-<form action="/account/recovery" method="post">
-
-<label for="email">Your Accounts Email</label><br>
-<input type="text" name="email" placeholder="Email" value="test@test.com"/><br><br>
-
-<input type="hidden" name="bt" value=""/>
-<input type="hidden" name="request" value="resetPassword"/>
-
-<button>Recover </button>
-
-</form>
-{{/message}}
+	{{!-- if completed reset --}}
+	{{#completed}}
+	<p>{{message}}</p>
+	<p>Please login with your new account credentials</p>
+	<a href="/login"><button>Login</button></a>
+	{{/completed}}
+	{{/message}}
 
 
+	{{^message}}
+	<p>Recover your account here</p>
+
+	<form action="/account/recovery" method="post">
+
+		<label for="email">Your Accounts Email</label><br>
+		<input type="text" name="email" placeholder="Email" value="test@test.com" /><br><br>
+
+		<input type="hidden" name="bt" value="" />
+		<input type="hidden" name="request" value="resetPassword" />
+
+		<button>Recover </button>
+
+	</form>
+	{{/message}}
 
 
-	</body>
+
+
+</body>
+
 </html>
-

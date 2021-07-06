@@ -12,6 +12,7 @@ const sqldb = mysql.createConnection({
   password: process.env.gcppass,
   database: process.env.gcpdb,
 })
+
 //connect mysql
 sqldb.connect((err) => {
   if (err) {
@@ -21,9 +22,6 @@ sqldb.connect((err) => {
     `Route = /account: Connected to ${process.env.gcpserver} on thread: ${sqldb.threadId}`
   )
 })
-
-//BEGIN ROUTES
-//testing inroutin
 
 /* var cb0 = function (req, res, next) {
   console.log('CB0')
@@ -41,46 +39,62 @@ var cb2 = function (req, res) {
 
 appRouter.get('/ex', [cb0, cb1, cb2]) */
 
+//magic mode
+var insertNewAccount = function (req) {
+  const reqUser = req
+
+  //create other needed data
+  let ranCookie = localTools.randomValue(8)
+  let ranUsername = localTools.randomValue(6)
+  req.cookie = ranCookie
+  req.username = ranUsername
+
+  //use those to create account
+  let trialSignUp = `INSERT INTO profiles SET ?`
+  sqldb.query(trialSignUp, reqUser, (err, signupResult, fields) => {
+    if (err) {
+      console.log("sorry again")
+    }
+    if (signupResult.insertId != undefined) {
+      console.log("testing done succ")
+    }
+  })
+
+  //strip secure dtat here first... wip
+
+  return req
+}
 
 //trial mode
 appRouter.get("/trial", (req, res) => {
   //clear existing cookie
   res.clearCookie("user")
-  //create cookie
-  //define and set cookie and other data
-  let ranCookie = localTools.randomValue(8)
+  //reload of this url should not resignup. app makes sure cookie logeed in is redirected 
+  
   let ranUsername = localTools.randomValue(6)
+  let ranPassword = localTools.secureKey(6)
+
   //give rand name and acct values
-  req.username = ranUsername
+  var req = {}
+  req.password = ranPassword
   req.email = `${ranUsername}@subs.vrixe.com`
-  //use those to create account
-  let trialSignUp = `INSERT INTO profiles SET ?`
-  sqldb.query(trialSignUp, req, (err, signupResult, fields) => {
-    if (err) throw err
-    if (signupResult.insertId != undefined) {
-      //set client cookie
-      res.cookie("user", ranCookie, {
-        maxAge: 2592000000,
-        httpOnly: false,
-      })
-      //set new user profile obj
-      let newUser = {
-        email: signupResult.email,
-      }
-      //render onboarding or something
-      res.render("profile", newUser)
-    }
+
+  let createUser = insertNewAccount(req)
+  //set client cookie
+  res.cookie("user", createUser.cookie, {
+    maxAge: 2592000000,
+    httpOnly: false,
   })
 
-  //render profile
-  //res.send("You are trying this app")
+  //render onboarding or something
+  res.render("profile", createUser)
 })
 
 //login
 appRouter.post(
   "/login",
   [
-    check("email", "Email format is invalid").isEmail(),
+    //check("email", "Email format is invalid").isEmail(),
     check("action", "Action is not login").equals("logIn"),
   ],
   (req, res) => {
@@ -100,17 +114,21 @@ appRouter.post(
       let loginUser =
         `SELECT * FROM profiles WHERE email = ` +
         sqldb.escape(req.body.email) +
+        `OR username = ` +
+        sqldb.escape(req.body.email) +
+        `AND password = ` +
+        sqldb.escape(req.body.password) +
         `LIMIT 1`
       sqldb.query(loginUser, (err, returnedUser) => {
         if (err) throw err
         if (Object.keys(returnedUser).length != 0) {
           //user found, set new cookie
-          res.cookie("user", returnedUser.cookie, {
+          res.cookie("user", returnedUser[0].cookie, {
             maxAge: 2592000000,
             httpOnly: false,
           })
-          console.log(returnedUser)
-          res.render("home", returnedUser[0])
+          console.log(returnedUser[0])
+          res.redirect(`/${returnedUser[0].username}`)
         } else {
           //no user found
           loginError.errReason = { msg: "No user found for that email" }
@@ -131,7 +149,7 @@ appRouter.post(
     check("action", "Action is not signup").equals("signUp"),
   ],
   (req, res) => {
-    //get request body and remove defaul action 
+    //get request body and remove defaul action
     delete req.body.action
     let signUpData = req.body
     //define account creation status object
@@ -153,26 +171,14 @@ appRouter.post(
       sqldb.query(checkForUniqueMail, (err, result) => {
         if (err) throw err
         if (Object.keys(result).length == 0) {
-          //define and set cookie and other data
-          let ranVal = localTools.randomValue(8)
-          signUpData.cookie = ranVal
           //register user
-          let signUp = `INSERT INTO profiles SET ?`
-          sqldb.query(signUp, signUpData, (err, signupResult, fields) => {
-            if (err) throw err
-            if (signupResult.insertId != undefined) {
-              //set client cookie
-              res.cookie("user", signUpData.cookie, {
-                maxAge: 2592000000,
-                httpOnly: false,
-              })
-              //set new user profile obj
-              let newUser = signUpData
-              //render onboarding or something
-              console.log(signUpData)
-              res.render("profile", newUser)
-            }
+          let createUser = insertNewAccount(signUpData)
+          //set client cookie
+          res.cookie("user", createUser.cookie, {
+            maxAge: 2592000000,
+            httpOnly: false,
           })
+          res.render("profile", createUser)
         }
         //found existing user, do not regiater
         else {

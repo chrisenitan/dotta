@@ -1,8 +1,20 @@
 # Subs
-Subs helps you keep a simple log of all your recurrent subcriptions.
- - Subs is a Vrixe project
+Subs helps you keep a simple log of all your recurring subcriptions.
+ - Subs is a Vrixe sub-project
 
 ## Main
 **A Node Js based web app**
- - Work in progress 
- - Working off https://trello.com/b/EmsTM56q/qboard 
+ - Still work in progress 
+ - Working off board https://trello.com/b/EmsTM56q/qboard 
+
+## Setup
+**This document assumes you have some knowledge of npm**
+ - Clone repo
+ - Install dependencies via npm `npm install`
+ - Setup env file to connect to database with below values:
+```
+    gcpserver = your server
+    gcpuser = root
+    gcppass = password
+    gcpdb = test database
+```
