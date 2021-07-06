@@ -24,8 +24,26 @@ sqldb.connect((err) => {
 })
 
 //load and form sub
-appRouter.get("/:id", (req, res) => {
-  res.render("sub/subView")
+appRouter.get("/:ref", (req, res) => {
+  if (req.params.ref) {
+    let getSub =
+      `SELECT * FROM subs WHERE ref =` +
+      sqldb.escape(req.params.ref) +
+      `LIMIT 1`
+    sqldb.query(getSub, (err, resultSub) => {
+      if (err) {
+        console.log(err)
+      }
+      if (Object.keys(resultSub).length != 0) {
+        console.log(resultSub[0])
+        res.render("sub/subView", resultSub[0])
+      } else {
+        res.send("did not find any sub with that ref")
+      }
+    })
+  } else {
+    res.render("sub/subView")
+  }
 })
 
 module.exports = appRouter

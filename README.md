@@ -1,5 +1,5 @@
 # Subs
-Subs helps you keep a simple log of all your recurrent subcriptions.
+Subs helps you keep a simple log of all your recurring subcriptions.
  - Subs is a Vrixe sub-project
 
 ## Main

@@ -9,7 +9,13 @@
 	<!--recieve //id title body owner from sqlRoute.js-->
 
 	{{!-- add new event --}}
-	{{> addPanel}}
+	<div id="addPanel">
+		<form method="post" action="/record">
+			{{> addPanel}}
+			<button class="cta"><span class="material-icons-two-tone md-light">addchart</span> Create</button>
+			<button type='button' class="altcta" id="closeAddPanel"><span class="material-icons-two-tone md-light">cancel</span> Cancel</button>
+		</form>
+	</div>
 
 	{{!-- Page nav head --}}
 	{{> navHeader}}
