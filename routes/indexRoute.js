@@ -2,6 +2,7 @@ const express = require("express")
 const { check, validationResult, cookie } = require("express-validator")
 const mysql = require("mysql")
 const appRouter = express()
+const localTools = require("../subModules/localTools")
 
 const sqldb = mysql.createConnection({
   host: process.env.gcpserver,
@@ -95,8 +96,9 @@ appRouter.post(
       res.send(createError.errReason.msg)
       //redirect to sub individual view
     } else {
-      //sanitise request
+      //sanitise request, generate a reference code
       delete req.body.action
+      req.body.ref = localTools.randomValue(6)
       let insertNewSub = `INSERT INTO subs SET ?`
       sqldb.query(insertNewSub, req.body, (err, insertSubResult, fields) => {
         if (err) {
@@ -105,7 +107,7 @@ appRouter.post(
           res.send(createError.errReason)
         }
         if (insertSubResult.insertId != undefined) {
-          res.json(req.body)
+          res.redirect(`/sub/${req.body.ref}`)
         }
       })
     }

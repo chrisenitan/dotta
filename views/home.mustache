@@ -9,44 +9,10 @@
 	<!--recieve //id title body owner from sqlRoute.js-->
 
 	{{!-- add new event --}}
-	<div id="addPanel">
-		<form method="post" action="/record">
-			<div class="TinputDiv">
-				<label for="name">Name</label><br>
-				<input type="text" value="Netflix" name="name"><br>
-				<h class="inputDis">What are you calling this</h><br><br>
-			</div>
+	{{> addPanel}}
 
-			<div class="TinputDiv">
-				<label for="cost">Cost</label><br>
-				<input class="mini-input" type="text" value="9.99" name="cost">
-				<select class="mini-input" name="currency">
-					<option>$</option>
-					<option>€</option>
-					<option>₦</option>
-				</select><br>
-				<h class="inputDis">How much is it</h><br><br>
-			</div>
-
-			<div class="TinputDiv">
-				<label for="date">Start Date</label><br>
-				<input type="date" name="date" value="2002-07-29" required><br>
-				<h class="inputDis">When is this starting</h><br><br>
-			</div>
-
-
-			<input type="hidden" name="action" value="create">
-			<input type="hidden" name="username" value="{{username}}">
-			<button class="cta"><span class="material-icons-two-tone md-light">addchart</span> Create</button>
-			<button type='button' class="altcta" id="closeAddPanel"><span class="material-icons-two-tone md-light">cancel</span> Cancel</button>
-		</form>
-	</div>
-
-	{{!-- Nav menu --}}
-	<div id="navHeader">
-		<a href="/settings"><button id="navMenu"><span class="material-icons-two-tone">horizontal_split</span> Menu</button></a>
-		<button id="navAdd"><span class="material-icons-two-tone" style="vertical-align: text-bottom;">add_circle</span> New Subscription</button>
-	</div>
+	{{!-- Page nav head --}}
+	{{> navHeader}}
 
 
 	{{^errReason}}

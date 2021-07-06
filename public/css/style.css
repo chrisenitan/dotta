@@ -17,22 +17,20 @@ label {
   float: left;
   margin-bottom: 5px;
 }
-.mini-input {
-  width: 40%;
-  display: inline-block;
-}
 input {
   height: 45px;
   width: 100%;
-  background-color: #ffffff;
+  background-color: transparent;
   border: 1px solid #1a2739;
+  border-left: none;
+  border-right: none;
+  border-radius: 0px;
   color: #28549a;
   outline: none;
   padding: 10px;
   padding-left: 5%;
   padding-right: 5%;
   margin-bottom: 5px;
-  border-radius: 3px;
   font-size: 14px;
   font-family: "Montserrat", sans-serif;
   transition: 0.3s;
@@ -44,19 +42,23 @@ input:hover {
 }
 .inputDis {
   color: #929292;
+  font-size: 10px;
+  float: left;
 }
-select{
+select {
   height: 45px;
   width: 100%;
-  background-color: #ffffff;
   border: 1px solid #1a2739;
+  background-color: transparent;
+  border-left: none;
+  border-right: none;
+  border-radius: 0px;
   color: #28549a;
   outline: none;
   padding: 10px;
   padding-left: 5%;
   padding-right: 5%;
   margin-bottom: 5px;
-  border-radius: 3px;
   font-size: 14px;
   font-family: "Montserrat", sans-serif;
   transition: 0.3s;
@@ -66,7 +68,7 @@ select{
 .TinputDiv {
   width: 90%;
   margin: auto;
-  margin-top: 20px;
+  margin-top: 10px;
   margin-bottom: 10px;
 }
 .cta {

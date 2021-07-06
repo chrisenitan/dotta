@@ -1,6 +1,6 @@
 //Index. Rewuire and initialize Express server
 const express = require("express")
-const {isActiveCookie, urlLog} = require("./subModules/accountMgm")
+const { isActiveCookie, urlLog } = require("./subModules/accountMgm")
 const app = express()
 
 //cookie parser
@@ -8,7 +8,7 @@ const cookieParser = require("cookie-parser")
 app.use(cookieParser())
 
 //dotenv file
-require("dotenv").config();
+require("dotenv").config()
 
 //views default
 const path = require("path")
@@ -23,21 +23,23 @@ app.use(express.static(path.join(__dirname, "public")))
 
 //express form parser
 app.use(express.json())
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }))
 
 //routes
 const indexRoute = require("./routes/indexRoute")
 app.use("/", urlLog, indexRoute)
 
 //accounts route
-//routes
 const accountRoute = require("./routes/account")
 app.use("/account", [isActiveCookie, urlLog], accountRoute)
 
-
-
+//subs route
+const subRoute = require("./routes/sub")
+app.use("/sub", [urlLog], subRoute)
 
 //start server
-app.listen(process.env.port, ()=>{
-    console.log(`\x1b[32m...Subs ready on port ${process.env.port}... \x1b[0m  \n`)
+app.listen(process.env.port, () => {
+  console.log(
+    `\x1b[32m...Subs ready on port ${process.env.port}... \x1b[0m  \n`
+  )
 })

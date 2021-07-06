@@ -1,0 +1,54 @@
+<html>
+
+<head>
+	{{> heads}}
+	<title>Recover your account</title>
+</head>
+
+<body>
+	{{!-- Page nav head --}}
+	{{> navHeader}}
+
+	{{> header}}
+
+	{{!-- add new event --}}
+	{{> addPanel}}
+
+	{{!-- view an event --}}
+	<form method="post" action="/record">
+		<div class="TinputDiv">
+			<label for="name">Name</label><br>
+			<input type="text" value="Netflix" name="name"><br>
+			<h class="inputDis">What are you calling this</h><br><br>
+		</div>
+
+		<div class="TinputDiv">
+			<label for="cost">Cost</label><br>
+			<input type="text" value="9.99" name="cost">
+			<h class="inputDis">How much is it</h><br><br>
+			<select name="currency">
+				<option>$</option>
+				<option>€</option>
+				<option>₦</option>
+			</select><br>
+			<h class="inputDis">What currency is it</h><br><br>
+		</div>
+
+		<div class="TinputDiv">
+			<label for="date">Date</label><br>
+			<input type="date" name="date" value="2002-07-29" required><br>
+			<h class="inputDis">Next billing. We'll setup frequency later</h><br><br>
+		</div>
+
+
+		<input type="hidden" name="action" value="create">
+		<input type="hidden" name="username" value="{{username}}">
+		<button class="cta"><span class="material-icons-two-tone md-light">addchart</span> Create</button>
+		<button type='button' class="altcta" id="closeAddPanel"><span class="material-icons-two-tone md-light">cancel</span> Cancel</button>
+	</form>
+
+
+
+</body>
+
+</html>
