@@ -1,14 +1,15 @@
 <div class="TinputDiv">
     <label for="name">Name</label><br>
-    <input type="text" value="Netflix" name="name"><br>
+    <input type="text" value="{{name}}" name="name"><br>
     <h class="inputDis">What are you calling this</h><br><br>
 </div>
 
 <div class="TinputDiv">
     <label for="cost">Cost</label><br>
-    <input type="text" value="9.99" name="cost">
+    <input type="text" value="{{cost}}" name="cost">
     <h class="inputDis">How much is it</h><br><br>
     <select name="currency">
+        <option selected>{{currency}}</option>
         <option>$</option>
         <option>€</option>
         <option>₦</option>
@@ -18,10 +19,8 @@
 
 <div class="TinputDiv">
     <label for="date">Date</label><br>
-    <input type="date" name="date" value="2002-07-29" required><br>
-    <h class="inputDis">Next billing. We'll setup frequency later</h><br><br>
+    <input type="date" name="date" value="{{date}}" required><br>
+    <h class="inputDis">Next billing</h><br><br>
 </div>
 
-
-<input type="hidden" name="action" value="create">
 <input type="hidden" name="username" value="{{username}}">

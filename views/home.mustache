@@ -11,7 +11,8 @@
 	{{!-- add new event --}}
 	<div id="addPanel"><br>
 		<form method="post" action="/record">
-			{{> addPanel}}
+			{{> subForm}}
+			<input type="hidden" name="action" value="create">
 			<button class="cta"><span class="material-icons-two-tone md-light">addchart</span> Create</button>
 			<button type='button' class="altcta" id="closeAddPanel"><span class="material-icons-two-tone md-light">cancel</span> Cancel</button>
 		</form>

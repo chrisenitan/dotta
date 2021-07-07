@@ -11,20 +11,45 @@
 
 	{{> header}}
 
-	{{!-- add new event --}}
+	{{!-- add new sub --}}
 	<div id="addPanel"><br>
 		<form method="post" action="/record">
-			{{> addPanel}}
+			{{> subForm}}
 			<button class="cta"><span class="material-icons-two-tone md-light">addchart</span> Create</button>
 			<button type='button' class="altcta" id="closeAddPanel"><span class="material-icons-two-tone md-light">cancel</span> Cancel</button>
 		</form>
 	</div>
 
+	{{!-- edit current sub --}}
+	<form method="post" action="/record">
+		{{> subForm}}
+		<div class="TinputDiv">
+			<label for="cost">Frequency</label><br>
+			<select name="frequency">
+				<option>{{frequency}}</option>
+				<option>Every Week</option>
+				<option>Every Month</option>
+			</select><br>
+			<h class="inputDis">How often do you pay</h><br><br>
+		</div>
 
-	{{> addPanel}}
-	<button class="cta"><span class="material-icons-two-tone md-light">addchart</span> Update</button>
-	<button type='button' class="altcta" id="closeAddPanel"><span class="material-icons-two-tone md-light">delete</span> Delete</button>
+		<div class="TinputDiv">
+			<label for="cost">Logo</label><br>
+			<select name="logo">
+				<option selected>{{logo}}</option>
+				<option>Apple</option>
+				<option>Google</option>
+				<option>Default</option>
+			</select><br>
+			<h class="inputDis">Choose a preferred logo</h><br><br>
+		</div>
+		<input type="hidden" name="ref" value="{{ref}}">
+		<input type="hidden" name="action" value="update">
+		<button class="cta"><span class="material-icons-two-tone md-light">addchart</span> Update</button>
+		<button type='button' class="altcta" id="closeAddPanel"><span class="material-icons-two-tone md-light">delete</span> Delete</button>
+	</form>
 
+	<br><br><br>
 </body>
 
 </html>

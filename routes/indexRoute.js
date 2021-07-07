@@ -83,33 +83,53 @@ appRouter.post(
     check("name", "Name is not valid").isAlpha("en-GB", { ignore: " " }),
     check("cost", "Cost needs to be a number").isNumeric(),
     check("date", "Date should be calendar date").isDate(),
-    //sanitise username and currency
-    check("action", "Action is not login").equals("create"),
+    //sanitise username...others
+    check("action", "Action is not create").isIn(["create", "update"]),
+    check("currency", "Currency is not valid").isIn(["$", "€", "₦"]),
   ],
   (req, res) => {
     //define login status handler
-    const createError = {}
+    const actionError = {}
     const reqErr = validationResult(req)
     if (!reqErr.isEmpty()) {
-      createError.errReason = reqErr.array()[0]
-      createError.errStatus = false
-      res.send(createError.errReason.msg)
+      actionError.errReason = reqErr.array()[0]
+      actionError.errStatus = false
+      res.send(actionError.errReason.msg)
       //redirect to sub individual view
     } else {
-      //sanitise request, generate a reference code
-      delete req.body.action
-      req.body.ref = localTools.randomValue(6)
       let insertNewSub = `INSERT INTO subs SET ?`
-      sqldb.query(insertNewSub, req.body, (err, insertSubResult, fields) => {
-        if (err) {
-          createError.errReason = err
-          createError.errStatus = false
-          res.send(createError.errReason)
-        }
-        if (insertSubResult.insertId != undefined) {
-          res.redirect(`/sub/${req.body.ref}`)
-        }
-      })
+      if(req.body.action == "create"){
+        //generate a reference code
+      req.body.ref = localTools.randomValue(6)
+        delete req.body.action
+        sqldb.query(insertNewSub, req.body, (err, insertSubResult, fields) => {
+          if (err) {
+            actionError.errReason = err
+            actionError.errStatus = false
+            res.send(actionError.errReason)
+          }
+          if (insertSubResult.insertId != undefined) {
+            res.redirect(`/sub/${req.body.ref}`)
+          }
+        })
+      }
+      else if(req.body.action == "update"){
+        console.log(req.body)
+         sqldb.query('UPDATE subs SET name = ?, cost = ?, currency = ?, date = ?, frequency = ?, logo = ? WHERE ref = ?', [`${req.body.name}`, `${req.body.cost}`, `${req.body.currency}`, `${req.body.date}`, `${req.body.frequency}`, `${req.body.logo}`, `${req.body.ref}`], (err, updateSubResult) => { 
+          if (err) {
+            actionError.errReason = err
+            actionError.errStatus = false
+            res.send(actionError.errReason)
+            console.log(err)
+          }
+          console.log(req.body.ref)
+          console.log(updateSubResult)
+          res.redirect(`/sub/${req.body.ref}`) 
+        })
+      }
+      else{
+        //do nothing catch errorr
+      }
     }
   }
 )
