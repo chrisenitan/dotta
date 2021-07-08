@@ -20,5 +20,12 @@ let secureKey = (req)=>{
     
 }
 
+let dateToNextSub = (req)=>{
+    var ranKey = req + 2
+    return ranKey
+    
+}
+
+exports.dateToNextSub = dateToNextSub
 exports.secureKey = secureKey
 exports.randomValue = randomValue

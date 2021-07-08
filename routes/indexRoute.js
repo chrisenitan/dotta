@@ -170,9 +170,14 @@ appRouter.get("/:username", (req, res) => {
           if (Object.keys(returnedSubs).length != 0) {
             //set subs to user obj
             user.subs = returnedSubs
+            //get date to sub countdown and set for all items
+            for (let dateSub = 0; dateSub < returnedSubs.length; dateSub++) {
+              returnedSubs[dateSub].daysRemaining = localTools.dateToNextSub(
+                returnedSubs[dateSub].id
+              )
+            }
+            res.render("home", user)
           }
-          console.log(user)
-          res.render("home", user)
         })
       } else {
         //no user found for provided username
