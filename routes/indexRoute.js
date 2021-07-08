@@ -5,21 +5,22 @@ const appRouter = express()
 const localTools = require("../subModules/localTools")
 
 const sqldb = mysql.createConnection({
-  host: process.env.gcpserver,
-  user: process.env.gcpuser,
-  password: process.env.gcppass,
-  database: process.env.gcpdb,
+  host: process.env.awsserver,
+  port: process.env.awsport,
+  user: process.env.awsuser,
+  password: process.env.awspass,
+  database: process.env.awsdb,
 })
 
 sqldb.connect((err) => {
   if (err) {
     console.log(
-      `Error connecting to ${process.env.gcpserver} on thread: ${sqldb.threadId}`
+      `Error connecting to ${process.env.awsserver} on thread: ${sqldb.threadId}`
     )
     console.log(err)
   } else {
     console.log(
-      `Route = /indexRoute: Connected to ${process.env.gcpserver} on thread: ${sqldb.threadId}`
+      `Route = /indexRoute: Connected to ${process.env.awsserver} on thread: ${sqldb.threadId}`
     )
   }
 })
@@ -98,9 +99,9 @@ appRouter.post(
       //redirect to sub individual view
     } else {
       let insertNewSub = `INSERT INTO subs SET ?`
-      if(req.body.action == "create"){
+      if (req.body.action == "create") {
         //generate a reference code
-      req.body.ref = localTools.randomValue(6)
+        req.body.ref = localTools.randomValue(6)
         delete req.body.action
         sqldb.query(insertNewSub, req.body, (err, insertSubResult, fields) => {
           if (err) {
@@ -112,22 +113,32 @@ appRouter.post(
             res.redirect(`/sub/${req.body.ref}`)
           }
         })
-      }
-      else if(req.body.action == "update"){
+      } else if (req.body.action == "update") {
         console.log(req.body)
-         sqldb.query('UPDATE subs SET name = ?, cost = ?, currency = ?, date = ?, frequency = ?, logo = ? WHERE ref = ?', [`${req.body.name}`, `${req.body.cost}`, `${req.body.currency}`, `${req.body.date}`, `${req.body.frequency}`, `${req.body.logo}`, `${req.body.ref}`], (err, updateSubResult) => { 
-          if (err) {
-            actionError.errReason = err
-            actionError.errStatus = false
-            res.send(actionError.errReason)
-            console.log(err)
+        sqldb.query(
+          "UPDATE subs SET name = ?, cost = ?, currency = ?, date = ?, frequency = ?, logo = ? WHERE ref = ?",
+          [
+            `${req.body.name}`,
+            `${req.body.cost}`,
+            `${req.body.currency}`,
+            `${req.body.date}`,
+            `${req.body.frequency}`,
+            `${req.body.logo}`,
+            `${req.body.ref}`,
+          ],
+          (err, updateSubResult) => {
+            if (err) {
+              actionError.errReason = err
+              actionError.errStatus = false
+              res.send(actionError.errReason)
+              console.log(err)
+            }
+            console.log(req.body.ref)
+            console.log(updateSubResult)
+            res.redirect(`/sub/${req.body.ref}`)
           }
-          console.log(req.body.ref)
-          console.log(updateSubResult)
-          res.redirect(`/sub/${req.body.ref}`) 
-        })
-      }
-      else{
+        )
+      } else {
         //do nothing catch errorr
       }
     }

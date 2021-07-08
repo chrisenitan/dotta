@@ -7,10 +7,11 @@ const { ResumeToken } = require("mongodb")
 
 //set mysql
 const sqldb = mysql.createConnection({
-  host: process.env.gcpserver,
-  user: process.env.gcpuser,
-  password: process.env.gcppass,
-  database: process.env.gcpdb,
+  host: process.env.awsserver,
+  port: process.env.awsport,
+  user: process.env.awsuser,
+  password: process.env.awspass,
+  database: process.env.awsdb,
 })
 
 //connect mysql
@@ -19,7 +20,7 @@ sqldb.connect((err) => {
     throw err
   }
   console.log(
-    `Route = /sub: Connected to ${process.env.gcpserver} on thread: ${sqldb.threadId}`
+    `Route = /sub: Connected to ${process.env.awsserver} on thread: ${sqldb.threadId}`
   )
 })
 

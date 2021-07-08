@@ -30,12 +30,18 @@
 
 	<p class="wtxt">Your Subscriptions</p>
 	{{#subs}}
-	{{./}}
+
+
 	<div class="subsHolder">
+
 		<h class="wtxt">{{currency}}{{cost}}</h><br>
 		<h class="wtxt">in: </h><br>
-		<h class="wtxt">{{name}}<br>
+		<a href="sub/{{ref}}">
+			<h class="wtxt">{{name}}
+		</a><br>
+
 	</div>
+
 	{{/subs}}
 
 
