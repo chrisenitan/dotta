@@ -74,7 +74,25 @@ appRouter.get("/signup", (req, res) => {
 
 //settings
 appRouter.get("/settings", (req, res) => {
-  res.render("settings")
+  if (req.cookies.user) {
+    //get user data
+    let getUser =
+      `SELECT * FROM profiles WHERE cookie = ` +
+      sqldb.escape(req.cookies.user) +
+      `LIMIT 1`
+    sqldb.query(getUser, (err, returnedUser) => {
+      if (err) throw err
+      if (Object.keys(returnedUser).length != 0) {
+        res.render("settings", returnedUser[0])
+      } else {
+        //no user found
+        const getUserError = {}
+        getUserError.errReason = { msg: "No user found for logged in data" }
+        getUserError.status = false
+        res.redirect("logout")
+      }
+    })
+  }
 })
 
 //save or update new sub entry

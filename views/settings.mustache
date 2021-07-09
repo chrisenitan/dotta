@@ -19,23 +19,24 @@
 	{{!-- Page nav head --}}
 	{{> navHeader}}
 	{{> header}}
-<br><br>
+	<br><br>
+	<div id="pageContainer">
 
+		<br><label>Account</label><br>
+		<a href="/logout">
+			<div class="setBox">
+				<button class="setButton">Logout</button>
+				<button class="setIcon"><span class="material-icons-two-tone md-light">logout</span></button>
+			</div>
+		</a>
 
-
-	<a href="/logout">
+		<br><label>App</label><br>
 		<div class="setBox">
-			<button class="setButton">Logout</button>
-			<button class="setIcon"><span class="material-icons-two-tone md-light">logout</span></button>
+			<button class="setButton">Email: {{email}}</button>
+			<button class="setIcon"><span class="material-icons-two-tone md-light">email</span></button>
 		</div>
-	</a>
 
-	<a href="/logout">
-		<div class="setBox">
-			<button class="setButton">Logout</button>
-			<button class="setIcon"><span class="material-icons-two-tone md-light">logout</span></button>
-		</div>
-	</a>
+	</div>
 
 </body>
 

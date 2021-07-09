@@ -16,6 +16,8 @@ form {
 label {
   float: left;
   margin-bottom: 5px;
+  font-weight: bold;
+  color: #275699;
 }
 input {
   height: 45px;
@@ -66,7 +68,7 @@ select {
   -moz-transition: 0.3s;
 }
 .TinputDiv {
-  width: 90%;
+  width: 100%;
   margin: auto;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -76,7 +78,7 @@ select {
   width: 45%;
   font-size: 20px;
   color: #000000;
-  margin: 10px;
+  margin: 5px;
   background-color: #bdb6ea;
   border: none;
   border-radius: 3px;
@@ -84,10 +86,10 @@ select {
 }
 .altcta {
   height: 45px;
-  width: 40%;
+  width: 45%;
   font-size: 20px;
   color: #000000;
-  margin: 10px;
+  margin: 5px;
   background-color: #f4f4f4;
   border: none;
   border-radius: 3px;
@@ -156,13 +158,15 @@ select {
 }
 #addPanel {
   /* display: none; */
-  width: 90%;
+  width: 84%;
   background-color: #f4f4f4;
-  padding: 2.5%;
+  padding: 5%;
+  padding-top: 2.5%;
+  padding-bottom: 2.5%;
   height: 0;
   z-index: 100;
   position: fixed;
-  margin-left: 2.5%;
+  margin-left: 3%;
   bottom: 5px;
   border-radius: 5px;
   overflow: scroll;
@@ -199,4 +203,11 @@ select {
   float: right;
   background: none;
   border: none;
+}
+#pageContainer{
+  width: 90%;
+  margin: auto;
+  overflow: hidden;
+  padding: 3%;
+  border-radius: 5px;
 }
