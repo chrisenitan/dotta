@@ -3,9 +3,8 @@ const mysql = require("mysql")
 const appRouter = express()
 const { check, validationResult, cookie } = require("express-validator")
 const localTools = require("../subModules/localTools")
-const { ResumeToken } = require("mongodb")
 
-//set mysql
+//set mysql data
 const sqldb = mysql.createConnection({
   host: process.env.awsserver,
   port: process.env.awsport,
@@ -24,23 +23,7 @@ sqldb.connect((err) => {
   )
 })
 
-/* var cb0 = function (req, res, next) {
-  console.log('CB0')
-  next()
-}
-
-var cb1 = function (req, res, next) {
-  console.log('CB1')
-  next()
-}
-
-var cb2 = function (req, res) {
-  res.send('Hello from C!')
-}
-
-appRouter.get('/ex', [cb0, cb1, cb2]) */
-
-//magic mode
+//magic mode: insert new account reuse
 var insertNewAccount = function (req) {
   const reqUser = req
 
@@ -66,7 +49,7 @@ var insertNewAccount = function (req) {
   return req
 }
 
-//trial mode
+//trial sign up
 appRouter.get("/trial", (req, res) => {
   //clear existing cookie
   res.clearCookie("user")
@@ -198,5 +181,6 @@ appRouter.get("/recovery", (req, res) => {
     message: "recover account here",
   })
 })
+
 
 module.exports = appRouter
