@@ -21,7 +21,7 @@ let secureKey = (req)=>{
 }
 
 let dateToNextSub = (req)=>{
-    var ranKey = req + 2
+    var ranKey = req + 2 + " days"
     return ranKey
     
 }

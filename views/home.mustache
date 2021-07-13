@@ -20,23 +20,19 @@
 
 	{{!-- Page nav head --}}
 	{{> navHeader}}
-
+	{{#pageRequest}}
+	We have a request to show confirmation for... wip
+	{{/pageRequest}}
 
 	{{^errReason}}
-	<p>Welcome to Subs<br>
-		Your test email is: <br> {{email}}
-		<br>and username is @{{username}}
-	</p>
-
-	<p class="wtxt">Your Subscriptions</p>
+	<p>Your Subscriptions</p>
 	{{#subs}}
 
-
 	<div class="subsHolder">
-		<h class="wtxt">{{currency}}{{cost}}</h><br>
-		<h class="wtxt">in: {{daysRemaining}}</h><br>
+		<h class="subCost">{{currency}}{{cost}}</h><br><br>
+		<h class="subTxt">in: {{daysRemaining}}</h><br><br>
 		<a href="sub/{{ref}}">
-			<h class="wtxt">{{name}}
+			<h class="subName">{{name}}
 		</a><br>
 
 	</div>

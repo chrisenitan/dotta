@@ -100,13 +100,25 @@ select {
 .largeTxt {
   font-size: 15px;
 }
+.subtxt {
+  font-size: 19px;
+}
+.subCost {
+  font-size: 35px;
+  font-weight: bolder;
+}
+.subName {
+  font-size: 20px;
+}
 .subsHolder {
   height: auto;
   width: 37%;
   background-color: white;
-  box-shadow: 0px 0px 3px 1px #a9a9a9;
+  border: 1px solid#a9a9a9;
   padding: 2%;
-  border-radius: 5px;
+  padding-top: 4%;
+  padding-bottom: 4%;
+  border-radius: 3px;
   margin: 10px;
   display: inline-block;
 }
@@ -188,7 +200,7 @@ select {
   text-align: left;
   overflow: hidden;
 }
-.setButton{
+.setButton {
   height: 40px;
   float: left;
   font-family: inherit;
@@ -198,13 +210,13 @@ select {
   border: none;
   background: none;
 }
-.setIcon{
+.setIcon {
   height: 40px;
   float: right;
   background: none;
   border: none;
 }
-#pageContainer{
+#pageContainer {
   width: 90%;
   margin: auto;
   overflow: hidden;

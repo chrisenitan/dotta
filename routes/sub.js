@@ -3,7 +3,6 @@ const mysql = require("mysql")
 const appRouter = express()
 const { check, validationResult, cookie } = require("express-validator")
 const localTools = require("../subModules/localTools")
-const { ResumeToken } = require("mongodb")
 
 //set mysql
 const sqldb = mysql.createConnection({
@@ -44,6 +43,27 @@ appRouter.get("/:ref", (req, res) => {
     })
   } else {
     res.render("sub/subView")
+  }
+})
+
+//delete sub
+appRouter.get("/delete/:ref", (req, res) => {
+  if (req.params.ref) {
+    let deleteSub =
+      `DELETE FROM subs WHERE ref =` + sqldb.escape(req.params.ref) + `LIMIT 1`
+    sqldb.query(deleteSub, (err, resultDeleteSub) => {
+      if (err) {
+        console.log(err)
+        return false
+      }
+      if (Object.keys(resultDeleteSub).length != 0) {
+        res.redirect("/")
+      } else {
+        res.send("did not find any sub with that ref")
+      }
+    })
+  } else {
+    res.redirect("/")
   }
 })
 
