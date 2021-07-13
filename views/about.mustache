@@ -1,0 +1,35 @@
+<html>
+
+<head>
+	{{> heads}}
+	<title>Welcome to Subs</title>
+</head>
+
+<body>
+	{{!-- add new event --}}
+	<div id="addPanel"><br>
+		<form method="post" action="/record">
+			{{> subForm}}
+			<input type="hidden" name="action" value="create">
+			<button class="cta"><span class="material-icons-two-tone md-light">addchart</span> Create</button>
+			<button type='button' class="altcta" id="closeAddPanel"><span class="material-icons-two-tone md-light">cancel</span> Cancel</button>
+		</form>
+	</div>
+
+	{{!-- Page nav head --}}
+	{{> navHeader}}
+	{{> header}}
+	<br><br>
+	<div id="pageContainer">
+<p>Subs</p>
+<h class="smallTxt">Version 1.0(1000)</h><br>
+<h class="smallTxt">By Chris Enitan</h><br>
+<h class="smallTxt">Open source. Fork and contribute on</h><br>
+<a href="https://github.com/chrisenitan/subs"><h class="smallTxt">Github</h></a>
+	
+
+	</div>
+
+</body>
+
+</html>
