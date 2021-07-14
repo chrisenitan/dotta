@@ -118,6 +118,52 @@ appRouter.get("/about", (req, res) => {
   }
 })
 
+//statistics
+appRouter.get("/statistics", (req, res) => {
+  if (req.cookies.user) {
+    //set stat data
+    const statData = {}
+    //get user data
+    let getUser =
+      `SELECT * FROM profiles WHERE cookie = ` +
+      sqldb.escape(req.cookies.user) +
+      `LIMIT 1`
+    sqldb.query(getUser, (err, returnedUser) => {
+      if (err) throw err
+      if (Object.keys(returnedUser).length != 0) {
+        statData.owner = returnedUser[0]
+
+        //get more stat data
+        let countSub = `SELECT COUNT(ref) AS totalCount FROM subs WHERE username = ` + sqldb.escape(returnedUser[0].username)
+        let countSubCost = `SELECT SUM(cost) AS totalCost FROM subs WHERE username = ` + sqldb.escape(returnedUser[0].username)
+        //get totoal subs count
+        sqldb.query(countSub, (err, resultCountSub) => {
+          if (err) {
+            console.log(err)
+          }
+          statData.count = resultCountSub[0].totalCount
+
+          //get total subs cost
+          sqldb.query(countSubCost, (err, resultCountCostSub) => {
+            if (err) {
+              console.log(err)
+            }
+            statData.totalCost = resultCountCostSub[0].totalCost
+            console.log(statData)
+            res.render("statistics", statData)
+          })
+        })
+      } else {
+        //no user found
+        const getUserError = {}
+        getUserError.errReason = { msg: "No user found for logged in data" }
+        getUserError.status = false
+        res.redirect("logout")
+      }
+    })
+  }
+})
+
 //save or update new sub entry
 appRouter.post(
   "/record",

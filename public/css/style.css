@@ -8,7 +8,7 @@ body {
   margin: auto;
 }
 a {
-  color: #1f72f1;
+  text-decoration: none;
 }
 form {
   margin: auto;
@@ -108,7 +108,9 @@ select {
   font-weight: bolder;
 }
 .subName {
-  font-size: 20px;
+  font-size: 18px;
+  color: #2a9bff;
+  font-weight: bold;
 }
 .subsHolder {
   height: auto;
@@ -188,9 +190,9 @@ select {
   -webkit-transition: 0.3s;
 }
 .setBox {
-  width: 90%;
+  width: 93%;
   padding: 5px;
-  padding-left: 3%;
+  padding-left: 0%;
   padding-right: 7%;
   margin: auto;
   margin-top: 1px;
