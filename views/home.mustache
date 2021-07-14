@@ -20,6 +20,7 @@
 
 	{{!-- Page nav head --}}
 	{{> navHeader}}
+
 	{{#pageRequest}}
 	We have a request to show confirmation for... wip
 	{{/pageRequest}}
@@ -36,14 +37,28 @@
 		</a><br>
 
 	</div>
+	{{/subs}}
+	{{^subs}}
+	<div id="pageContainer">
+		<div class="subsHolder">
+			<h class="subCost">$40</h><br><br>
+			<h class="subTxt">in: 28days</h><br><br>
+			<a href="/{{username}}">
+				<h class="subName">Sample
+			</a><br>
+		</div><br><br>
 
+		Looks like you haven't recorded any subscriptions<br>
+		Start by creating one
+	</div>
 	{{/subs}}
 
 
 
 
-	<br>
+	<br><br><br>
 	{{/errReason}}
+
 
 </body>
 

@@ -92,6 +92,8 @@ appRouter.get("/settings", (req, res) => {
         res.redirect("logout")
       }
     })
+  } else {
+    res.redirect("/")
   }
 })
 
@@ -115,6 +117,8 @@ appRouter.get("/about", (req, res) => {
         res.redirect("logout")
       }
     })
+  } else {
+    res.redirect("/")
   }
 })
 
@@ -134,33 +138,61 @@ appRouter.get("/statistics", (req, res) => {
         statData.owner = returnedUser[0]
 
         //get more stat data
-        let countSub = `SELECT COUNT(ref) AS totalCount FROM subs WHERE username = ` + sqldb.escape(returnedUser[0].username)
-        let countSubCost = `SELECT SUM(cost) AS totalCost FROM subs WHERE username = ` + sqldb.escape(returnedUser[0].username)
-        //get totoal subs count
+        let countSub =
+          `SELECT COUNT(ref) AS totalCount FROM subs WHERE username = ` +
+          sqldb.escape(returnedUser[0].username)
+        let countSubCost =
+          `SELECT SUM(cost) AS totalCost FROM subs WHERE username = ` +
+          sqldb.escape(returnedUser[0].username)
+        let highestSub =
+          `SELECT * FROM subs WHERE username = ` +
+          sqldb.escape(returnedUser[0].username) +
+          `ORDER BY CAST(cost AS DECIMAL) DESC LIMIT 1`
+        //get total subs count
         sqldb.query(countSub, (err, resultCountSub) => {
           if (err) {
             console.log(err)
           }
           statData.count = resultCountSub[0].totalCount
 
-          //get total subs cost
-          sqldb.query(countSubCost, (err, resultCountCostSub) => {
-            if (err) {
-              console.log(err)
-            }
-            statData.totalCost = resultCountCostSub[0].totalCost
-            console.log(statData)
+          //only proceed to other metrics if sub exist
+          if (statData.count > 0) {
+            //get total subs cost
+            sqldb.query(countSubCost, (err, resultCountCostSub) => {
+              if (err) {
+                console.log(err)
+              }
+              statData.totalCost = resultCountCostSub[0].totalCost
+
+              //get most expensive sub
+              sqldb.query(highestSub, (err, resultHighestSub) => {
+                if (err) {
+                  console.log(err)
+                }
+                //deefine a topSub object
+                statData.topSub = {}
+                statData.topSub.name = resultHighestSub[0].name
+                statData.topSub.ref = resultHighestSub[0].ref
+
+                console.log(statData)
+                res.render("statistics", statData)
+              })
+            })
+          } else {
+            //just render empty stat page
             res.render("statistics", statData)
-          })
+          }
         })
       } else {
         //no user found
         const getUserError = {}
         getUserError.errReason = { msg: "No user found for logged in data" }
         getUserError.status = false
-        res.redirect("logout")
+        res.redirect("/logout")
       }
     })
+  } else {
+    res.redirect("/")
   }
 })
 
@@ -251,7 +283,9 @@ appRouter.get("/:username", (req, res) => {
         let user = returnedUser[0]
         //get users data from data table
         //...
-        let getUserSubs = `SELECT * FROM subs WHERE username = '${user.username}'`
+        let getUserSubs =
+          `SELECT * FROM subs WHERE username = '${user.username}'` +
+          `ORDER BY date ASC`
         sqldb.query(getUserSubs, (err, returnedSubs) => {
           if (err) throw err
           if (Object.keys(returnedSubs).length != 0) {
@@ -263,6 +297,9 @@ appRouter.get("/:username", (req, res) => {
                 returnedSubs[dateSub].id
               )
             }
+            res.render("home", user)
+          } else {
+            //user has no subs yet
             res.render("home", user)
           }
         })

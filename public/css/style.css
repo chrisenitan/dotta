@@ -1,6 +1,6 @@
 /* styles for sub */
 body {
-  background-color: #f4ffff;
+  background-color: #f3fafa;
   font-family: "Montserrat", sans-serif;
   text-align: center;
   width: 100%;
@@ -184,7 +184,7 @@ select {
   bottom: 5px;
   border-radius: 5px;
   overflow: scroll;
-  box-shadow: 0px 0px 3px 1px #a9a9a9;
+  border: 1px solid#a9a9a9;
   transition: 0.3s;
   -moz-transition: 0.3s;
   -webkit-transition: 0.3s;
@@ -211,6 +211,10 @@ select {
   font-size: 18px;
   border: none;
   background: none;
+}
+.setData {
+  font-size: 15px;
+  color: #265798;
 }
 .setIcon {
   height: 40px;
