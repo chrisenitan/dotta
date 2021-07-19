@@ -29,9 +29,7 @@ var insertNewAccount = function (req) {
 
   //create other needed data
   let ranCookie = localTools.randomValue(8)
-  let ranUsername = localTools.randomValue(6)
   req.cookie = ranCookie
-  req.username = ranUsername
 
   //use those to create account
   let trialSignUp = `INSERT INTO profiles SET ?`
@@ -61,7 +59,7 @@ appRouter.get("/trial", (req, res) => {
   //give rand name and acct values
   var req = {}
   req.password = ranPassword
-  req.email = `${ranUsername}@subs.vrixe.com`
+  req.username = `${ranUsername}`
 
   let createUser = insertNewAccount(req)
   //set client cookie
@@ -96,11 +94,9 @@ appRouter.post(
       res.render("login", loginError)
     } else {
       let loginUser =
-        `SELECT * FROM profiles WHERE email = ` +
-        sqldb.escape(req.body.email) +
-        `OR username = ` +
-        sqldb.escape(req.body.email) +
-        `AND password = ` +
+        `SELECT * FROM profiles WHERE username = ` +
+        sqldb.escape(req.body.username) +
+        ` AND password = ` +
         sqldb.escape(req.body.password) +
         `LIMIT 1`
       sqldb.query(loginUser, (err, returnedUser) => {
@@ -129,7 +125,7 @@ appRouter.post(
   "/signup",
   //do some form sanitisation. need a module
   [
-    check("email", "Email format is invalid").isEmail(),
+    check("username", "Name should not have spaces").isAlpha("en-US"),
     check("action", "Action is not signup").equals("signUp"),
   ],
   (req, res) => {
@@ -149,8 +145,8 @@ appRouter.post(
     } else {
       //check for old emails
       let checkForUniqueMail =
-        `SELECT * FROM profiles WHERE email = ` +
-        sqldb.escape(signUpData.email) +
+        `SELECT * FROM profiles WHERE username = ` +
+        sqldb.escape(signUpData.username) +
         `LIMIT 1`
       sqldb.query(checkForUniqueMail, (err, result) => {
         if (err) throw err
@@ -167,7 +163,7 @@ appRouter.post(
         //found existing user, do not regiater
         else {
           signupError.errStatus = false
-          signupError.errReason = { msg: "Email has already been registered" }
+          signupError.errReason = { msg: "Name has already been registered" }
           res.render("signup", signupError)
         }
       })
@@ -181,6 +177,5 @@ appRouter.get("/recovery", (req, res) => {
     message: "recover account here",
   })
 })
-
 
 module.exports = appRouter
