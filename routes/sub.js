@@ -36,6 +36,8 @@ appRouter.get("/:ref", (req, res) => {
       }
       if (Object.keys(resultSub).length != 0) {
         console.log(resultSub[0])
+        //set goodwill message
+        resultSub[0].goodWill = req.goodWill
         res.render("sub/subView", resultSub[0])
       } else {
         res.send("did not find any sub with that ref")

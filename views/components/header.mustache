@@ -1,5 +1,12 @@
-<p>Track your many Subscriptions</p>
-<a href="/"><img style="width:200px;heigt:200px" src="/images/art.jpg"></a>
-{{#errReason}}
-<p>Please note: {{errReason.msg}}</p>
-{{/errReason}}
+<div id="header">
+    <a href="/"><img id="subImg" src="/images/art.jpg"></a>
+
+    {{^errReason}}
+    <button id="subText">{{goodWill}}</button>
+    {{/errReason}}
+
+    {{#errReason}}
+    <button id="subText">{{errReason.msg}}</button>
+    {{/errReason}}
+
+</div>

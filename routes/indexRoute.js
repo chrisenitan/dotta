@@ -53,7 +53,10 @@ appRouter.get("/login", (req, res) => {
   if (req.cookies.user) {
     res.clearCookie("user")
   }
-  res.render("login")
+  //set goodwill to user
+  let ref = {}
+  ref.goodWill = req.goodWill
+  res.render("login", ref)
 })
 
 //logout
@@ -69,7 +72,10 @@ appRouter.get("/signup", (req, res) => {
   if (req.cookies.user) {
     res.clearCookie("user")
   }
-  res.render("signup")
+  const newUser = {}
+  newUser.ranUserName = localTools.randomValue(8)
+  newUser.goodWill = req.goodWill
+  res.render("signup", newUser)
 })
 
 //settings
@@ -83,6 +89,8 @@ appRouter.get("/settings", (req, res) => {
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
       if (Object.keys(returnedUser).length != 0) {
+        //set goodwill message
+        returnedUser[0].goodWill = req.goodWill
         res.render("settings", returnedUser[0])
       } else {
         //no user found
@@ -108,6 +116,8 @@ appRouter.get("/about", (req, res) => {
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
       if (Object.keys(returnedUser).length != 0) {
+        //set goodwill to user
+        returnedUser[0].goodWill = req.goodWill
         res.render("about", returnedUser[0])
       } else {
         //no user found
@@ -127,6 +137,8 @@ appRouter.get("/statistics", (req, res) => {
   if (req.cookies.user) {
     //set stat data
     const statData = {}
+    //set goodwill message
+    statData.goodWill = req.goodWill
     //get user data
     let getUser =
       `SELECT * FROM profiles WHERE cookie = ` +
@@ -142,7 +154,7 @@ appRouter.get("/statistics", (req, res) => {
           `SELECT COUNT(ref) AS totalCount FROM subs WHERE username = ` +
           sqldb.escape(returnedUser[0].username)
         let countSubCost =
-          `SELECT SUM(cost) AS totalCost FROM subs WHERE username = ` +
+          `SELECT ROUND(SUM(cost), 2) AS totalCost FROM subs WHERE username = ` +
           sqldb.escape(returnedUser[0].username)
         let highestSub =
           `SELECT * FROM subs WHERE username = ` +
@@ -169,11 +181,10 @@ appRouter.get("/statistics", (req, res) => {
                 if (err) {
                   console.log(err)
                 }
-                //deefine a topSub object
+                //define a topSub object
                 statData.topSub = {}
                 statData.topSub.name = resultHighestSub[0].name
                 statData.topSub.ref = resultHighestSub[0].ref
-
                 console.log(statData)
                 res.render("statistics", statData)
               })
@@ -282,7 +293,8 @@ appRouter.get("/:username", (req, res) => {
         //set user objct
         let user = returnedUser[0]
         //get users data from data table
-        //...
+        //set goodwill to user
+        user.goodWill = req.goodWill
         let getUserSubs =
           `SELECT * FROM subs WHERE username = '${user.username}'` +
           `ORDER BY date ASC`

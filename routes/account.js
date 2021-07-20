@@ -75,10 +75,7 @@ appRouter.get("/trial", (req, res) => {
 //login
 appRouter.post(
   "/login",
-  [
-    //check("email", "Email format is invalid").isEmail(),
-    check("action", "Action is not login").equals("logIn"),
-  ],
+  [check("action", "Action is not login").equals("logIn")],
   (req, res) => {
     //clear existing cookie
     res.clearCookie("user")
@@ -111,7 +108,7 @@ appRouter.post(
           res.redirect(`/${returnedUser[0].username}`)
         } else {
           //no user found
-          loginError.errReason = { msg: "No user found for that email" }
+          loginError.errReason = { msg: "No user found for that username" }
           loginError.status = false
           res.render("login", loginError)
         }
@@ -143,12 +140,12 @@ appRouter.post(
       signupError.errStatus = false
       res.render("signup", signupError)
     } else {
-      //check for old emails
-      let checkForUniqueMail =
+      //check for old usernames
+      let checkForUniqueuserName =
         `SELECT * FROM profiles WHERE username = ` +
         sqldb.escape(signUpData.username) +
         `LIMIT 1`
-      sqldb.query(checkForUniqueMail, (err, result) => {
+      sqldb.query(checkForUniqueuserName, (err, result) => {
         if (err) throw err
         if (Object.keys(result).length == 0) {
           //register user
