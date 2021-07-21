@@ -114,12 +114,13 @@ select {
   border-radius: 50%;
 }
 #subText {
-  margin-top: 10px;
+  margin-top: 12px;
   width: 84%;
   border: none;
   outline: none;
   font-family: inherit;
   background-color: transparent;
+  color: #275699;
 }
 .subName {
   font-size: 18px;

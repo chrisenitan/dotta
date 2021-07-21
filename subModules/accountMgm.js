@@ -23,7 +23,7 @@ let cookieOnly = (req, res, next) => {
 let urlLog = (req, res, next) => {
   let url = `${req.protocol}://${req.get("host")}${req.originalUrl}`
   console.log(`Content loaded from page: ${url}`)
-  req.goodWill = "Track your many subscriptions"
+  req.goodWill = "'I always want to know who billed me...'"
   next()
 }
 
