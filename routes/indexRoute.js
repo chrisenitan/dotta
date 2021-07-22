@@ -207,7 +207,7 @@ appRouter.get("/statistics", (req, res) => {
   }
 })
 
-//save or update new sub entry
+//save or update new sub entry: /record
 appRouter.post(
   "/record",
   [
@@ -231,8 +231,10 @@ appRouter.post(
       let insertNewSub = `INSERT INTO subs SET ?`
       if (req.body.action == "create") {
         //generate a reference code
-        req.body.ref = localTools.randomValue(6)
+        req.body.ref = localTools.randomValue(9)
         delete req.body.action
+        var currentDate = new Date()
+        req.body.created = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`
         sqldb.query(insertNewSub, req.body, (err, insertSubResult, fields) => {
           if (err) {
             actionError.errReason = err

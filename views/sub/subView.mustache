@@ -50,10 +50,24 @@
 			</div>
 
 			{{!-- others uneditables --}}
+			<label>Attributes</label><br>
 			<div class="setBox">
-				<button type='button' class="setButton">Last Billed: {{lastBilled}}</button>
+				<button type='button' class="setButton">Created: <span class="setData">{{created}}</span></button>
 				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">analytics</span></button>
 			</div>
+			<div class="setBox">
+				<button type='button' class="setButton">Started: <span class="setData">{{created}}</span></button>
+				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">analytics</span></button>
+			</div>
+			<div class="setBox">
+				<button type='button' class="setButton">Last Billed: <span class="setData">{{lastBilled}}</span></button>
+				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">analytics</span></button>
+			</div>
+			<div class="setBox">
+				<button type='button' class="setButton">Total Billed: <span class="setData">{{created}}</span></button>
+				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">analytics</span></button>
+			</div>
+			
 
 			<br><br>
 			<input type="hidden" name="ref" value="{{ref}}">
