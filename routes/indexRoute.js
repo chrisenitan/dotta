@@ -213,7 +213,7 @@ appRouter.post(
   [
     check("name", "Name is not valid").isAlpha("en-GB", { ignore: " " }),
     check("cost", "Cost needs to be a number").isNumeric(),
-    check("date", "Date should be calendar date").isDate(),
+    check("date", "Date should be calendar date").isInt(),
     //sanitise username...others
     check("action", "Action is not create").isIn(["create", "update"]),
     check("currency", "Currency is not valid").isIn(["$", "€", "₦"]),
@@ -248,14 +248,14 @@ appRouter.post(
       } else if (req.body.action == "update") {
         console.log(req.body)
         sqldb.query(
-          "UPDATE subs SET name = ?, cost = ?, currency = ?, date = ?, frequency = ?, logo = ? WHERE ref = ?",
+          "UPDATE subs SET name = ?, cost = ?, currency = ?, date = ?, frequency = ?, colour = ? WHERE ref = ?",
           [
             `${req.body.name}`,
             `${req.body.cost}`,
             `${req.body.currency}`,
             `${req.body.date}`,
             `${req.body.frequency}`,
-            `${req.body.logo}`,
+            `${req.body.colour}`,
             `${req.body.ref}`,
           ],
           (err, updateSubResult) => {
@@ -307,10 +307,14 @@ appRouter.get("/:username", (req, res) => {
             user.subs = returnedSubs
             //get date to sub countdown and set for all items
             for (let dateSub = 0; dateSub < returnedSubs.length; dateSub++) {
-              returnedSubs[dateSub].daysRemaining = localTools.dateToNextSub(
-                returnedSubs[dateSub].id
-              )
+              //create req object
+              let dateTo = {}
+              dateTo.date = returnedSubs[dateSub].date
+              dateTo.frequency = returnedSubs[dateSub].frequency
+              returnedSubs[dateSub].daysRemaining =
+                localTools.dateToNextSub(dateTo)
             }
+            console.log(user)
             res.render("home", user)
           } else {
             //user has no subs yet

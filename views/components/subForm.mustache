@@ -1,14 +1,18 @@
 <div class="TinputDiv">
     <label for="name">Name</label><br>
-    <input type="text" value="{{name}}" name="name"><br>
+    <input type="text" value="{{name}}" name="name" required><br>
     <h class="inputDis">What are you calling this</h><br><br>
 </div>
 
-<div class="TinputDiv">
+<div class="mTinputDiv">
     <label for="cost">Cost</label><br>
-    <input type="text" value="{{cost}}" name="cost">
+    <input type="number" value="{{cost}}" name="cost" required><br>
     <h class="inputDis">How much is it</h><br><br>
-    <select name="currency">
+</div>
+
+<div class="mTinputDiv">
+    <label for="cost">Currency</label><br>
+    <select name="currency" required>
         <option selected>{{currency}}</option>
         <option>$</option>
         <option>€</option>
@@ -17,10 +21,22 @@
     <h class="inputDis">What currency is it</h><br><br>
 </div>
 
-<div class="TinputDiv">
-    <label for="date">Date</label><br>
-    <input type="date" name="date" value="{{date}}" required><br>
-    <h class="inputDis">Next billing</h><br><br>
+<div class="mTinputDiv">
+    <label for="frequency">Frequency</label><br>
+    <select name="frequency" required>
+        <option selected>{{frequency}}</option>
+        <option>Every Week</option>
+        <option>Every Month</option>
+    </select><br>
+    <h class="inputDis">Every week, month...</h><br><br>
 </div>
+
+<div class="mTinputDiv">
+    <label for="date">Month Day</label><br>
+    <input type="number" value="{{date}}" name="date" required><br>
+    <h class="inputDis">On the 1, 2, 30...</h><br><br>
+</div>
+
+
 
 <input type="hidden" name="username" value="{{username}}">

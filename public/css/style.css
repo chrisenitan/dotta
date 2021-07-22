@@ -73,6 +73,13 @@ select {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+.mTinputDiv {
+  width: 45%;
+  margin: 2%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
 .cta {
   height: 45px;
   width: 45%;
