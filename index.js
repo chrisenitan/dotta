@@ -1,6 +1,10 @@
 //Index. Rewuire and initialize Express server
 const express = require("express")
-const { isActiveCookie, urlLog } = require("./subModules/accountMgm")
+const {
+  isActiveCookie,
+  cookieOnly,
+  urlLog,
+} = require("./subModules/accountMgm")
 const app = express()
 
 //cookie parser
@@ -35,7 +39,7 @@ app.use("/account", [isActiveCookie, urlLog], accountRoute)
 
 //subs route
 const subRoute = require("./routes/sub")
-app.use("/sub", [urlLog], subRoute)
+app.use("/sub", [cookieOnly, urlLog], subRoute)
 
 //start server
 app.listen(process.env.port, () => {

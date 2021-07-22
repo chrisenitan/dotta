@@ -24,29 +24,20 @@
 
 		<br><label>Account</label><br>
 		<div class="setBox">
-			<button class="setButton">Name: <span class="setData">{{username}}</span></button>
-			<button class="setIcon"><span class="material-icons-two-tone md-light">contact_page</span></button>
+			<button class="setButton">Subscriptions: <span class="setData">{{count}}</span></button>
+			<button class="setIcon"><span class="material-icons-two-tone md-light">data_exploration</span></button>
 		</div>
-		<a href="/logout">
+		<div class="setBox">
+			<button class="setButton">Expenses: <span class="setData">#{{totalCost}}</span></button>
+			<button class="setIcon"><span class="material-icons-two-tone md-light">payment</span></button>
+		</div>
+		<a href="/sub/{{topSub.ref}}">
 			<div class="setBox">
-				<button class="setButton">Logout</button>
-				<button class="setIcon"><span class="material-icons-two-tone md-light">logout</span></button>
-			</div>
-		</a>
-		<a href="/statistics">
-			<div class="setBox">
-				<button class="setButton">Statistics</button>
+				<button class="setButton">Highest: <span class="setData">{{topSub.name}}</span></button>
 				<button class="setIcon"><span class="material-icons-two-tone md-light">data_exploration</span></button>
 			</div>
 		</a>
 
-		<br><label>App</label><br>
-		<a href="/about">
-			<div class="setBox">
-				<button class="setButton">About</button>
-				<button class="setIcon"><span class="material-icons-two-tone md-light">info</span></button>
-			</div>
-		</a>
 
 	</div>
 

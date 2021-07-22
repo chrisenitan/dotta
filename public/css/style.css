@@ -1,6 +1,6 @@
 /* styles for sub */
 body {
-  background-color: #f4ffff;
+  background-color: #f3fafa;
   font-family: "Montserrat", sans-serif;
   text-align: center;
   width: 100%;
@@ -8,7 +8,7 @@ body {
   margin: auto;
 }
 a {
-  color: #1f72f1;
+  text-decoration: none;
 }
 form {
   margin: auto;
@@ -16,6 +16,8 @@ form {
 label {
   float: left;
   margin-bottom: 5px;
+  font-weight: bold;
+  color: #275699;
 }
 input {
   height: 45px;
@@ -66,17 +68,24 @@ select {
   -moz-transition: 0.3s;
 }
 .TinputDiv {
-  width: 90%;
+  width: 100%;
   margin: auto;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+.mTinputDiv {
+  width: 45%;
+  margin: 2%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: inline-block;
 }
 .cta {
   height: 45px;
   width: 45%;
   font-size: 20px;
   color: #000000;
-  margin: 10px;
+  margin: 5px;
   background-color: #bdb6ea;
   border: none;
   border-radius: 3px;
@@ -84,10 +93,10 @@ select {
 }
 .altcta {
   height: 45px;
-  width: 40%;
+  width: 45%;
   font-size: 20px;
   color: #000000;
-  margin: 10px;
+  margin: 5px;
   background-color: #f4f4f4;
   border: none;
   border-radius: 3px;
@@ -98,14 +107,50 @@ select {
 .largeTxt {
   font-size: 15px;
 }
+.subtxt {
+  font-size: 19px;
+}
+.subCost {
+  font-size: 35px;
+  font-weight: bolder;
+}
+#subImg {
+  width: 40px;
+  height: 40px;
+  float: left;
+  border-radius: 50%;
+}
+#subText {
+  margin-top: 12px;
+  width: 84%;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  background-color: transparent;
+  color: #275699;
+}
+.subName {
+  font-size: 18px;
+  color: #2a9bff;
+  font-weight: bold;
+}
 .subsHolder {
   height: auto;
   width: 37%;
   background-color: white;
-  box-shadow: 0px 0px 3px 1px #a9a9a9;
+  border: 1px solid#a9a9a9;
   padding: 2%;
-  border-radius: 5px;
+  padding-top: 4%;
+  padding-bottom: 4%;
+  border-radius: 3px;
   margin: 10px;
+  display: inline-block;
+}
+#header {
+  height: auto;
+  width: 96%;
+  background-color: #f4f4f4;
+  padding: 2%;
   display: inline-block;
 }
 #navHeader {
@@ -156,18 +201,60 @@ select {
 }
 #addPanel {
   /* display: none; */
-  width: 90%;
+  width: 84%;
   background-color: #f4f4f4;
-  padding: 2.5%;
+  padding: 5%;
+  padding-top: 2.5%;
+  padding-bottom: 2.5%;
   height: 0;
   z-index: 100;
   position: fixed;
-  margin-left: 2.5%;
+  margin-left: 3%;
   bottom: 5px;
   border-radius: 5px;
   overflow: scroll;
-  box-shadow: 0px 0px 3px 1px #a9a9a9;
+  border: 1px solid#a9a9a9;
   transition: 0.3s;
   -moz-transition: 0.3s;
   -webkit-transition: 0.3s;
+}
+.setBox {
+  width: 93%;
+  padding: 5px;
+  padding-left: 0%;
+  padding-right: 7%;
+  margin: auto;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  border-bottom: 1px solid#626262;
+  border-top: 1px solid#626262;
+  text-align: left;
+  overflow: hidden;
+}
+.setButton {
+  height: 40px;
+  float: left;
+  font-family: inherit;
+  width: 80%;
+  text-align: left;
+  font-size: 18px;
+  border: none;
+  background: none;
+}
+.setData {
+  font-size: 15px;
+  color: #265798;
+}
+.setIcon {
+  height: 40px;
+  float: right;
+  background: none;
+  border: none;
+}
+#pageContainer {
+  width: 90%;
+  margin: auto;
+  overflow: hidden;
+  padding: 3%;
+  border-radius: 5px;
 }

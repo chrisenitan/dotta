@@ -11,7 +11,8 @@
 	{{!-- add new event --}}
 	<div id="addPanel"><br>
 		<form method="post" action="/record">
-			{{> addPanel}}
+			{{> subForm}}
+			<input type="hidden" name="action" value="create">
 			<button class="cta"><span class="material-icons-two-tone md-light">addchart</span> Create</button>
 			<button type='button' class="altcta" id="closeAddPanel"><span class="material-icons-two-tone md-light">cancel</span> Cancel</button>
 		</form>
@@ -19,30 +20,46 @@
 
 	{{!-- Page nav head --}}
 	{{> navHeader}}
-
+	{{> header}}
+	{{#pageRequest}}
+	We have a request to show confirmation for... wip
+	{{/pageRequest}}
 
 	{{^errReason}}
-	<p>Welcome to Subs<br>
-		Your test email is: <br> {{email}}
-		<br>and username is @{{username}}
-	</p>
-
-	<p class="wtxt">Your Subscriptions</p>
+	<p>Your Subscriptions</p>
 	{{#subs}}
-	{{./}}
-	<div class="subsHolder">
-		<h class="wtxt">{{currency}}{{cost}}</h><br>
-		<h class="wtxt">in: </h><br>
-		<h class="wtxt">{{name}}<br>
+	<div class="subsHolder" style="background-color: {{colour}};">
+		<h class="subCost">{{currency}}{{cost}}</h><br><br>
+		<h class="subTxt">in: {{daysRemaining}} days</h><br><br>
+		<a href="sub/{{ref}}">
+			<h class="subName">{{name}}
+		</a><br>
+
+	</div>
+	{{/subs}}
+
+	{{!-- when user has no subs yet --}}
+	{{^subs}}
+	<div id="pageContainer">
+		<div class="subsHolder">
+			<h class="subCost">$40</h><br><br>
+			<h class="subTxt">in: 28 days</h><br><br>
+			<a href="/{{username}}">
+				<h class="subName">Sample
+			</a><br>
+		</div><br><br>
+
+		Looks like you haven't recorded any subscriptions<br>
+		Start by creating one
 	</div>
 	{{/subs}}
 
 
 
 
-	<br>
-	<a href="/logout"><button class="cta"><span class="material-icons-two-tone">logout</span> Logout</button></a>
+	<br><br><br>
 	{{/errReason}}
+
 
 </body>
 

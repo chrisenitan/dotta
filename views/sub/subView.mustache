@@ -10,21 +10,55 @@
 	{{> navHeader}}
 
 	{{> header}}
-
-	{{!-- add new event --}}
+	{{!-- add new sub --}}
 	<div id="addPanel"><br>
 		<form method="post" action="/record">
-			{{> addPanel}}
-			<button class="cta"><span class="material-icons-two-tone md-light">addchart</span> Create</button>
+			{{> subForm}}
+			<button type='button' class="cta"><span class="material-icons-two-tone md-light">addchart</span> Create</button>
 			<button type='button' class="altcta" id="closeAddPanel"><span class="material-icons-two-tone md-light">cancel</span> Cancel</button>
 		</form>
 	</div>
 
+	{{!-- edit current sub --}}
+	<div id="pageContainer">
+		<form method="post" action="/record">
+			{{> subForm}}
 
-	{{> addPanel}}
-	<button class="cta"><span class="material-icons-two-tone md-light">addchart</span> Update</button>
-	<button type='button' class="altcta" id="closeAddPanel"><span class="material-icons-two-tone md-light">delete</span> Delete</button>
+			<div class="TinputDiv">
+				<label for="colour">Colour</label><br>
+				<input type="color" value="{{colour}}" name="colour" required><br>
+				<h class="inputDis">Choose a theme colour. 'lighter colours works best'</h><br><br>
+			</div>
 
+			{{!-- others uneditables --}}
+			<label>Attributes</label><br>
+			<div class="setBox">
+				<button type='button' class="setButton">Created: <span class="setData">{{created}}</span></button>
+				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">calendar_today</span></button>
+			</div>
+			<div class="setBox">
+				<button type='button' class="setButton">Started: <span class="setData">{{created}}</span></button>
+				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">next_week</span></button>
+			</div>
+			<div class="setBox">
+				<button type='button' class="setButton">Last Billed: <span class="setData">{{lastBilled}}</span></button>
+				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">point_of_sale</span></button>
+			</div>
+			<div class="setBox">
+				<button type='button' class="setButton">Total Billed: <span class="setData">{{created}}</span></button>
+				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">analytics</span></button>
+			</div>
+
+
+			<br><br>
+			<input type="hidden" name="ref" value="{{ref}}">
+			<input type="hidden" name="action" value="update">
+			<button class="cta"><span class="material-icons-two-tone md-light">addchart</span> Update</button>
+			<a href="/sub/delete/{{ref}}"><button type='button' class="altcta" id="closeAddPanel"><span
+						class="material-icons-two-tone md-light">delete</span> Delete</button></a>
+		</form>
+	</div>
+	<br><br><br>
 </body>
 
 </html>

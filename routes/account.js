@@ -3,14 +3,14 @@ const mysql = require("mysql")
 const appRouter = express()
 const { check, validationResult, cookie } = require("express-validator")
 const localTools = require("../subModules/localTools")
-const { ResumeToken } = require("mongodb")
 
-//set mysql
+//set mysql data
 const sqldb = mysql.createConnection({
-  host: process.env.gcpserver,
-  user: process.env.gcpuser,
-  password: process.env.gcppass,
-  database: process.env.gcpdb,
+  host: process.env.awsserver,
+  port: process.env.awsport,
+  user: process.env.awsuser,
+  password: process.env.awspass,
+  database: process.env.awsdb,
 })
 
 //connect mysql
@@ -19,35 +19,17 @@ sqldb.connect((err) => {
     throw err
   }
   console.log(
-    `Route = /account: Connected to ${process.env.gcpserver} on thread: ${sqldb.threadId}`
+    `Route = /account: Connected to ${process.env.awsserver} on thread: ${sqldb.threadId}`
   )
 })
 
-/* var cb0 = function (req, res, next) {
-  console.log('CB0')
-  next()
-}
-
-var cb1 = function (req, res, next) {
-  console.log('CB1')
-  next()
-}
-
-var cb2 = function (req, res) {
-  res.send('Hello from C!')
-}
-
-appRouter.get('/ex', [cb0, cb1, cb2]) */
-
-//magic mode
+//magic mode: insert new account reuse
 var insertNewAccount = function (req) {
   const reqUser = req
 
   //create other needed data
   let ranCookie = localTools.randomValue(8)
-  let ranUsername = localTools.randomValue(6)
   req.cookie = ranCookie
-  req.username = ranUsername
 
   //use those to create account
   let trialSignUp = `INSERT INTO profiles SET ?`
@@ -65,19 +47,19 @@ var insertNewAccount = function (req) {
   return req
 }
 
-//trial mode
+//trial sign up
 appRouter.get("/trial", (req, res) => {
   //clear existing cookie
   res.clearCookie("user")
-  //reload of this url should not resignup. app makes sure cookie logeed in is redirected 
-  
+  //reload of this url should not resignup. app makes sure cookie logeed in is redirected
+
   let ranUsername = localTools.randomValue(6)
   let ranPassword = localTools.secureKey(6)
 
   //give rand name and acct values
   var req = {}
   req.password = ranPassword
-  req.email = `${ranUsername}@subs.vrixe.com`
+  req.username = `${ranUsername}`
 
   let createUser = insertNewAccount(req)
   //set client cookie
@@ -93,10 +75,7 @@ appRouter.get("/trial", (req, res) => {
 //login
 appRouter.post(
   "/login",
-  [
-    //check("email", "Email format is invalid").isEmail(),
-    check("action", "Action is not login").equals("logIn"),
-  ],
+  [check("action", "Action is not login").equals("logIn")],
   (req, res) => {
     //clear existing cookie
     res.clearCookie("user")
@@ -112,11 +91,9 @@ appRouter.post(
       res.render("login", loginError)
     } else {
       let loginUser =
-        `SELECT * FROM profiles WHERE email = ` +
-        sqldb.escape(req.body.email) +
-        `OR username = ` +
-        sqldb.escape(req.body.email) +
-        `AND password = ` +
+        `SELECT * FROM profiles WHERE username = ` +
+        sqldb.escape(req.body.username) +
+        ` AND password = ` +
         sqldb.escape(req.body.password) +
         `LIMIT 1`
       sqldb.query(loginUser, (err, returnedUser) => {
@@ -131,7 +108,7 @@ appRouter.post(
           res.redirect(`/${returnedUser[0].username}`)
         } else {
           //no user found
-          loginError.errReason = { msg: "No user found for that email" }
+          loginError.errReason = { msg: "No user found for that username" }
           loginError.status = false
           res.render("login", loginError)
         }
@@ -145,7 +122,7 @@ appRouter.post(
   "/signup",
   //do some form sanitisation. need a module
   [
-    check("email", "Email format is invalid").isEmail(),
+    check("username", "Name should not have spaces").isAlpha("en-US"),
     check("action", "Action is not signup").equals("signUp"),
   ],
   (req, res) => {
@@ -163,12 +140,12 @@ appRouter.post(
       signupError.errStatus = false
       res.render("signup", signupError)
     } else {
-      //check for old emails
-      let checkForUniqueMail =
-        `SELECT * FROM profiles WHERE email = ` +
-        sqldb.escape(signUpData.email) +
+      //check for old usernames
+      let checkForUniqueuserName =
+        `SELECT * FROM profiles WHERE username = ` +
+        sqldb.escape(signUpData.username) +
         `LIMIT 1`
-      sqldb.query(checkForUniqueMail, (err, result) => {
+      sqldb.query(checkForUniqueuserName, (err, result) => {
         if (err) throw err
         if (Object.keys(result).length == 0) {
           //register user
@@ -183,7 +160,7 @@ appRouter.post(
         //found existing user, do not regiater
         else {
           signupError.errStatus = false
-          signupError.errReason = { msg: "Email has already been registered" }
+          signupError.errReason = { msg: "Name has already been registered" }
           res.render("signup", signupError)
         }
       })

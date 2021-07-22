@@ -10,29 +10,31 @@
 	{{> header}}
 	<!--recieve //id title body owner from sqlRoute.js-->
 
+	<div id="pageContainer">
+		{{^errReason}}
+		<p>Sign up for a new account</p>
+		<form method="post" action="account/signup">
+			<div class="TinputDiv">
+				<label for="username">Username</label><br>
+				<input type="text" value="ThinkingBanana" name="username" placeholder="thinkingbanana"><br>
+				<h class="inputDis">Choose a random unreal username</h><br><br>
+			</div>
 
-	{{^errReason}}
-	<p>Sign up for a new account</p>
-	<form method="post" action="account/signup">
-		<div class="TinputDiv">
-			<label for="email">Email</label><br>
-			<input type="email" value="test@test.com" name="email"><br>
-			<h class="inputDis">Private and safe from spam.</h><br><br>
-		</div>
-
-		<div class="TinputDiv">
-			<label for="password">Password</label><br>
-			<input type="password" value="12342" name="password"><br>
-			<h class="inputDis">Your password is always secure</h><br><br>
-		</div>
+			<div class="TinputDiv">
+				<label for="password">Password</label><br>
+				<input type="password" value="12342" name="password"><br>
+				<h class="inputDis">Your password is always secure</h><br><br>
+			</div>
 
 
-		<input type="hidden" name="action" value="signUp">
-		<button class="cta"><span class="material-icons-two-tone md-light">account_box</span> Sign Up</button>
-	</form>
-	<br>
-	<a href="login" class="smallTxt">Already have an account? Login here</a>
-	{{/errReason}}
+			<input type="hidden" name="action" value="signUp">
+			<button class="cta"><span class="material-icons-two-tone md-light">account_box</span> Sign Up</button>
+		</form>
+		<br>
+		<a href="login" class="smallTxt">Already have an account? Login here</a>
+		{{/errReason}}
+
+	</div>
 </body>
 
 </html>

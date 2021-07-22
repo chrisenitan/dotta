@@ -5,21 +5,22 @@ const appRouter = express()
 const localTools = require("../subModules/localTools")
 
 const sqldb = mysql.createConnection({
-  host: process.env.gcpserver,
-  user: process.env.gcpuser,
-  password: process.env.gcppass,
-  database: process.env.gcpdb,
+  host: process.env.awsserver,
+  port: process.env.awsport,
+  user: process.env.awsuser,
+  password: process.env.awspass,
+  database: process.env.awsdb,
 })
 
 sqldb.connect((err) => {
   if (err) {
     console.log(
-      `Error connecting to ${process.env.gcpserver} on thread: ${sqldb.threadId}`
+      `Error connecting to ${process.env.awsserver} on thread: ${sqldb.threadId}`
     )
     console.log(err)
   } else {
     console.log(
-      `Route = /indexRoute: Connected to ${process.env.gcpserver} on thread: ${sqldb.threadId}`
+      `Route = /indexRoute: Connected to ${process.env.awsserver} on thread: ${sqldb.threadId}`
     )
   }
 })
@@ -52,7 +53,10 @@ appRouter.get("/login", (req, res) => {
   if (req.cookies.user) {
     res.clearCookie("user")
   }
-  res.render("login")
+  //set goodwill to user
+  let ref = {}
+  ref.goodWill = req.goodWill
+  res.render("login", ref)
 })
 
 //logout
@@ -68,48 +72,207 @@ appRouter.get("/signup", (req, res) => {
   if (req.cookies.user) {
     res.clearCookie("user")
   }
-  res.render("signup")
+  const newUser = {}
+  newUser.ranUserName = localTools.randomValue(8)
+  newUser.goodWill = req.goodWill
+  res.render("signup", newUser)
 })
 
 //settings
 appRouter.get("/settings", (req, res) => {
-  res.render("settings")
+  if (req.cookies.user) {
+    //get user data
+    let getUser =
+      `SELECT * FROM profiles WHERE cookie = ` +
+      sqldb.escape(req.cookies.user) +
+      `LIMIT 1`
+    sqldb.query(getUser, (err, returnedUser) => {
+      if (err) throw err
+      if (Object.keys(returnedUser).length != 0) {
+        //set goodwill message
+        returnedUser[0].goodWill = req.goodWill
+        res.render("settings", returnedUser[0])
+      } else {
+        //no user found
+        const getUserError = {}
+        getUserError.errReason = { msg: "No user found for logged in data" }
+        getUserError.status = false
+        res.redirect("logout")
+      }
+    })
+  } else {
+    res.redirect("/")
+  }
 })
 
-//save or update new sub entry
+//about
+appRouter.get("/about", (req, res) => {
+  if (req.cookies.user) {
+    //get user data
+    let getUser =
+      `SELECT * FROM profiles WHERE cookie = ` +
+      sqldb.escape(req.cookies.user) +
+      `LIMIT 1`
+    sqldb.query(getUser, (err, returnedUser) => {
+      if (err) throw err
+      if (Object.keys(returnedUser).length != 0) {
+        //set goodwill to user
+        returnedUser[0].goodWill = req.goodWill
+        res.render("about", returnedUser[0])
+      } else {
+        //no user found
+        const getUserError = {}
+        getUserError.errReason = { msg: "No user found for logged in data" }
+        getUserError.status = false
+        res.redirect("logout")
+      }
+    })
+  } else {
+    res.redirect("/")
+  }
+})
+
+//statistics
+appRouter.get("/statistics", (req, res) => {
+  if (req.cookies.user) {
+    //set stat data
+    const statData = {}
+    //set goodwill message
+    statData.goodWill = req.goodWill
+    //get user data
+    let getUser =
+      `SELECT * FROM profiles WHERE cookie = ` +
+      sqldb.escape(req.cookies.user) +
+      `LIMIT 1`
+    sqldb.query(getUser, (err, returnedUser) => {
+      if (err) throw err
+      if (Object.keys(returnedUser).length != 0) {
+        statData.owner = returnedUser[0]
+
+        //get more stat data
+        let countSub =
+          `SELECT COUNT(ref) AS totalCount FROM subs WHERE username = ` +
+          sqldb.escape(returnedUser[0].username)
+        let countSubCost =
+          `SELECT ROUND(SUM(cost), 2) AS totalCost FROM subs WHERE username = ` +
+          sqldb.escape(returnedUser[0].username)
+        let highestSub =
+          `SELECT * FROM subs WHERE username = ` +
+          sqldb.escape(returnedUser[0].username) +
+          `ORDER BY CAST(cost AS DECIMAL) DESC LIMIT 1`
+        //get total subs count
+        sqldb.query(countSub, (err, resultCountSub) => {
+          if (err) {
+            console.log(err)
+          }
+          statData.count = resultCountSub[0].totalCount
+
+          //only proceed to other metrics if sub exist
+          if (statData.count > 0) {
+            //get total subs cost
+            sqldb.query(countSubCost, (err, resultCountCostSub) => {
+              if (err) {
+                console.log(err)
+              }
+              statData.totalCost = resultCountCostSub[0].totalCost
+
+              //get most expensive sub
+              sqldb.query(highestSub, (err, resultHighestSub) => {
+                if (err) {
+                  console.log(err)
+                }
+                //define a topSub object
+                statData.topSub = {}
+                statData.topSub.name = resultHighestSub[0].name
+                statData.topSub.ref = resultHighestSub[0].ref
+                console.log(statData)
+                res.render("statistics", statData)
+              })
+            })
+          } else {
+            //just render empty stat page
+            res.render("statistics", statData)
+          }
+        })
+      } else {
+        //no user found
+        const getUserError = {}
+        getUserError.errReason = { msg: "No user found for logged in data" }
+        getUserError.status = false
+        res.redirect("/logout")
+      }
+    })
+  } else {
+    res.redirect("/")
+  }
+})
+
+//save or update new sub entry: /record
 appRouter.post(
   "/record",
   [
     check("name", "Name is not valid").isAlpha("en-GB", { ignore: " " }),
     check("cost", "Cost needs to be a number").isNumeric(),
-    check("date", "Date should be calendar date").isDate(),
-    //sanitise username and currency
-    check("action", "Action is not login").equals("create"),
+    check("date", "Date should be calendar date").isInt(),
+    //sanitise username...others
+    check("action", "Action is not create").isIn(["create", "update"]),
+    check("currency", "Currency is not valid").isIn(["$", "€", "₦"]),
   ],
   (req, res) => {
     //define login status handler
-    const createError = {}
+    const actionError = {}
     const reqErr = validationResult(req)
     if (!reqErr.isEmpty()) {
-      createError.errReason = reqErr.array()[0]
-      createError.errStatus = false
-      res.send(createError.errReason.msg)
+      actionError.errReason = reqErr.array()[0]
+      actionError.errStatus = false
+      res.send(actionError.errReason.msg)
       //redirect to sub individual view
     } else {
-      //sanitise request, generate a reference code
-      delete req.body.action
-      req.body.ref = localTools.randomValue(6)
       let insertNewSub = `INSERT INTO subs SET ?`
-      sqldb.query(insertNewSub, req.body, (err, insertSubResult, fields) => {
-        if (err) {
-          createError.errReason = err
-          createError.errStatus = false
-          res.send(createError.errReason)
-        }
-        if (insertSubResult.insertId != undefined) {
-          res.redirect(`/sub/${req.body.ref}`)
-        }
-      })
+      if (req.body.action == "create") {
+        //generate a reference code
+        req.body.ref = localTools.randomValue(9)
+        delete req.body.action
+        var currentDate = new Date()
+        req.body.created = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`
+        sqldb.query(insertNewSub, req.body, (err, insertSubResult, fields) => {
+          if (err) {
+            actionError.errReason = err
+            actionError.errStatus = false
+            res.send(actionError.errReason)
+          }
+          if (insertSubResult.insertId != undefined) {
+            res.redirect(`/sub/${req.body.ref}`)
+          }
+        })
+      } else if (req.body.action == "update") {
+        console.log(req.body)
+        sqldb.query(
+          "UPDATE subs SET name = ?, cost = ?, currency = ?, date = ?, frequency = ?, colour = ? WHERE ref = ?",
+          [
+            `${req.body.name}`,
+            `${req.body.cost}`,
+            `${req.body.currency}`,
+            `${req.body.date}`,
+            `${req.body.frequency}`,
+            `${req.body.colour}`,
+            `${req.body.ref}`,
+          ],
+          (err, updateSubResult) => {
+            if (err) {
+              actionError.errReason = err
+              actionError.errStatus = false
+              res.send(actionError.errReason)
+              console.log(err)
+            }
+            console.log(req.body.ref)
+            console.log(updateSubResult)
+            res.redirect(`/sub/${req.body.ref}`)
+          }
+        )
+      } else {
+        //do nothing catch errorr
+      }
     }
   }
 )
@@ -132,16 +295,31 @@ appRouter.get("/:username", (req, res) => {
         //set user objct
         let user = returnedUser[0]
         //get users data from data table
-        //...
-        let getUserSubs = `SELECT * FROM subs WHERE username = '${user.username}'`
+        //set goodwill to user
+        user.goodWill = req.goodWill
+        let getUserSubs =
+          `SELECT * FROM subs WHERE username = '${user.username}'` +
+          `ORDER BY date ASC`
         sqldb.query(getUserSubs, (err, returnedSubs) => {
           if (err) throw err
           if (Object.keys(returnedSubs).length != 0) {
             //set subs to user obj
             user.subs = returnedSubs
+            //get date to sub countdown and set for all items
+            for (let dateSub = 0; dateSub < returnedSubs.length; dateSub++) {
+              //create req object
+              let dateTo = {}
+              dateTo.date = returnedSubs[dateSub].date
+              dateTo.frequency = returnedSubs[dateSub].frequency
+              returnedSubs[dateSub].daysRemaining =
+                localTools.dateToNextSub(dateTo)
+            }
+            console.log(user)
+            res.render("home", user)
+          } else {
+            //user has no subs yet
+            res.render("home", user)
           }
-          console.log(user)
-          res.render("home", user)
         })
       } else {
         //no user found for provided username
