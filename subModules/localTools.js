@@ -9,6 +9,15 @@ let randomValue = (req) => {
   return ranId
 }
 
+let randomInt = () => {
+  var ranInt = ""
+  var numbers = "0123456789"
+  for (var i = 0; i < 1; i++) {
+    ranInt += numbers.charAt(Math.floor(Math.random() * numbers.length))
+  }
+  return ranInt
+}
+
 let secureKey = (req) => {
   var ranKey = ""
   var characters =
@@ -59,3 +68,4 @@ let dateToNextSub = (req) => {
 exports.dateToNextSub = dateToNextSub
 exports.secureKey = secureKey
 exports.randomValue = randomValue
+exports.randomInt = randomInt

@@ -44,7 +44,9 @@ appRouter.get("/", (req, res) => {
       }
     })
   } else {
-    res.render("index")
+    let nullUser = {}
+    nullUser.goodWill = req.goodWill
+    res.render("index", nullUser)
   }
 })
 
@@ -72,8 +74,21 @@ appRouter.get("/signup", (req, res) => {
   if (req.cookies.user) {
     res.clearCookie("user")
   }
+  let ranUsername = localTools.randomInt()
+  let possibleNames = [
+    "ThinkingBanana",
+    "Shombololation",
+    "InspiredLaziness",
+    "AngelicBurger",
+    "Gossipcation",
+    "IamCookingButter",
+    "ProductiveMantis",
+    "CompressedDodo",
+    "BreadPrinting",
+    "ThorsDadJokes",
+  ]
   const newUser = {}
-  newUser.ranUserName = localTools.randomValue(8)
+  newUser.ranUserName = possibleNames[ranUsername]
   newUser.goodWill = req.goodWill
   res.render("signup", newUser)
 })
@@ -230,8 +245,9 @@ appRouter.post(
     } else {
       let insertNewSub = `INSERT INTO subs SET ?`
       if (req.body.action == "create") {
-        //generate a reference code
+        //generate a reference code and define other req values
         req.body.ref = localTools.randomValue(9)
+        req.body.colour = "#ffffff"
         delete req.body.action
         var currentDate = new Date()
         req.body.created = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`

@@ -155,6 +155,7 @@ appRouter.post(
             maxAge: 2592000000,
             httpOnly: false,
           })
+          createUser.goodWill = req.goodWill
           res.render("profile", createUser)
         }
         //found existing user, do not regiater

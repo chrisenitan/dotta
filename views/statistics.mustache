@@ -28,12 +28,16 @@
 			<button class="setIcon"><span class="material-icons-two-tone md-light">data_exploration</span></button>
 		</div>
 		<div class="setBox">
-			<button class="setButton">Expenses: <span class="setData">#{{totalCost}}</span></button>
+			<button class="setButton">Running Cost: <span class="setData">#{{totalCost}}</span></button>
 			<button class="setIcon"><span class="material-icons-two-tone md-light">payment</span></button>
+		</div>
+		<div class="setBox">
+			<button type='button' class="setButton">Cumulative Cost: <span class="setData">x13 = ##</span></button>
+			<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">analytics</span></button>
 		</div>
 		<a href="/sub/{{topSub.ref}}">
 			<div class="setBox">
-				<button class="setButton">Highest: <span class="setData">{{topSub.name}}</span></button>
+				<button class="setButton">Top expense: <span class="setData">{{topSub.name}}</span></button>
 				<button class="setIcon"><span class="material-icons-two-tone md-light">data_exploration</span></button>
 			</div>
 		</a>
