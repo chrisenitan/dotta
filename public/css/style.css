@@ -202,6 +202,7 @@ select {
 #addPanel {
   /* display: none; */
   width: 84%;
+  max-width: 500px;
   background-color: #f4f4f4;
   padding: 5%;
   padding-top: 2.5%;
