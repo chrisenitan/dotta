@@ -7,14 +7,7 @@
 
 <body>
 	{{!-- add new event --}}
-	<div id="addPanel"><br>
-		<form method="post" action="/record">
-			{{> subForm}}
-			<input type="hidden" name="action" value="create">
-			<button class="cta"><span class="material-icons-two-tone md-light">addchart</span> Create</button>
-			<button type='button' class="altcta" id="closeAddPanel"><span class="material-icons-two-tone md-light">cancel</span> Cancel</button>
-		</form>
-	</div>
+	{{> addPanel}}
 
 	{{!-- Page nav head --}}
 	{{> navHeader}}
@@ -25,18 +18,36 @@
 		<br><label>Account</label><br>
 		<div class="setBox">
 			<button class="setButton">Subscriptions: <span class="setData">{{count}}</span></button>
-			<button class="setIcon"><span class="material-icons-two-tone md-light">data_exploration</span></button>
+			<button class="setIcon"><span class="material-icons-two-tone md-light">receipt</span></button>
 		</div>
+
+		<br><label>Expenses</label><br>
 		<div class="setBox">
-			<button class="setButton">Expenses: <span class="setData">#{{totalCost}}</span></button>
+			<button class="setButton">Running: <span class="setData">#{{totalCost}}</span></button>
 			<button class="setIcon"><span class="material-icons-two-tone md-light">payment</span></button>
 		</div>
 		<a href="/sub/{{topSub.ref}}">
 			<div class="setBox">
-				<button class="setButton">Highest: <span class="setData">{{topSub.name}}</span></button>
-				<button class="setIcon"><span class="material-icons-two-tone md-light">data_exploration</span></button>
+				<button class="setButton">Highest: <span class="setData">{{topSub.name}} ({{topSub.currency}}{{topSub.cost}})</span></button>
+				<button class="setIcon"><span class="material-icons-two-tone md-light">vertical_align_top</span></button>
 			</div>
 		</a>
+		<a href="/sub/{{bottomSub.ref}}">
+			<div class="setBox">
+				<button class="setButton">Lowest: <span class="setData">{{bottomSub.name}} ({{bottomSub.currency}}{{bottomSub.cost}})</span></button>
+				<button class="setIcon"><span class="material-icons-two-tone md-light">vertical_align_bottom</span></button>
+			</div>
+		</a>
+		
+		<br><label>Ledger</label><br>
+		<div class="setBox">
+			<button class="setButton">Investment: <span class="setData">#{{billings.costSum}}</span></button>
+			<button class="setIcon"><span class="material-icons-two-tone md-light">credit_score</span></button>
+		</div>
+		<div class="setBox">
+			<button class="setButton">Entries: <span class="setData">{{billings.costCount}}</span></button>
+			<button class="setIcon"><span class="material-icons-two-tone md-light">account_tree</span></button>
+		</div>
 
 
 	</div>

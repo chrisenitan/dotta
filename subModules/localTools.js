@@ -9,6 +9,15 @@ let randomValue = (req) => {
   return ranId
 }
 
+let randomInt = () => {
+  var ranInt = ""
+  var numbers = "0123456789"
+  for (var i = 0; i < 1; i++) {
+    ranInt += numbers.charAt(Math.floor(Math.random() * numbers.length))
+  }
+  return ranInt
+}
+
 let secureKey = (req) => {
   var ranKey = ""
   var characters =
@@ -56,6 +65,20 @@ let dateToNextSub = (req) => {
   return result
 }
 
+let getArraySum = (req) => {
+  let costSum = 0
+  for (let nulAmount = 0; nulAmount < req.length; nulAmount++) {
+    costSum = costSum + parseInt(req[nulAmount].cost)
+    console.log(req[nulAmount].cost + " id here ")
+  }
+  let response = {}
+  response.costSum = costSum
+  response.costCount = req.length
+  return response
+}
+
 exports.dateToNextSub = dateToNextSub
 exports.secureKey = secureKey
 exports.randomValue = randomValue
+exports.randomInt = randomInt
+exports.getArraySum = getArraySum

@@ -44,7 +44,9 @@ appRouter.get("/", (req, res) => {
       }
     })
   } else {
-    res.render("index")
+    let nullUser = {}
+    nullUser.goodWill = req.goodWill
+    res.render("index", nullUser)
   }
 })
 
@@ -72,8 +74,21 @@ appRouter.get("/signup", (req, res) => {
   if (req.cookies.user) {
     res.clearCookie("user")
   }
+  let ranUsername = localTools.randomInt()
+  let possibleNames = [
+    "ThinkingBanana",
+    "Shombololation",
+    "InspiredLaziness",
+    "AngelicBurger",
+    "Gossipcation",
+    "IamCookingButter",
+    "ProductiveMantis",
+    "CompressedDodo",
+    "BreadPrinting",
+    "ThorsDadJokes",
+  ]
   const newUser = {}
-  newUser.ranUserName = localTools.randomValue(8)
+  newUser.ranUserName = possibleNames[ranUsername]
   newUser.goodWill = req.goodWill
   res.render("signup", newUser)
 })
@@ -160,6 +175,13 @@ appRouter.get("/statistics", (req, res) => {
           `SELECT * FROM subs WHERE username = ` +
           sqldb.escape(returnedUser[0].username) +
           `ORDER BY CAST(cost AS DECIMAL) DESC LIMIT 1`
+        let lowestSub =
+          `SELECT * FROM subs WHERE username = ` +
+          sqldb.escape(returnedUser[0].username) +
+          `ORDER BY CAST(cost AS DECIMAL) ASC LIMIT 1`
+        let getSubLedger =
+          `SELECT * FROM ledger WHERE username = ` +
+          sqldb.escape(returnedUser[0].username)
         //get total subs count
         sqldb.query(countSub, (err, resultCountSub) => {
           if (err) {
@@ -169,7 +191,7 @@ appRouter.get("/statistics", (req, res) => {
 
           //only proceed to other metrics if sub exist
           if (statData.count > 0) {
-            //get total subs cost
+            //get total cost of all active subs
             sqldb.query(countSubCost, (err, resultCountCostSub) => {
               if (err) {
                 console.log(err)
@@ -181,12 +203,34 @@ appRouter.get("/statistics", (req, res) => {
                 if (err) {
                   console.log(err)
                 }
-                //define a topSub object
-                statData.topSub = {}
-                statData.topSub.name = resultHighestSub[0].name
-                statData.topSub.ref = resultHighestSub[0].ref
-                console.log(statData)
-                res.render("statistics", statData)
+                //get lowest sub
+                sqldb.query(lowestSub, (err, resultLowestSub) => {
+                  if (err) {
+                    console.log(err)
+                  }
+
+                  //get all subs logged iinto the ledger history
+                  sqldb.query(getSubLedger, (err, resultSubLegder) => {
+                    if (err) throw err
+
+                    if (Object.keys(resultSubLegder).length != 0) {
+                      const billings = localTools.getArraySum(resultSubLegder)
+                      statData.billings = billings
+                    } else {
+                      //set default values
+                      const billing = {
+                        costSum: 0,
+                        costCount: 0,
+                      }
+                      statData.billings = billing
+                    }
+                    //define other obj and send
+                    statData.bottomSub = resultLowestSub[0]
+                    statData.topSub = resultHighestSub[0]
+                    console.log(statData)
+                    res.render("statistics", statData)
+                  })
+                })
               })
             })
           } else {
@@ -230,8 +274,9 @@ appRouter.post(
     } else {
       let insertNewSub = `INSERT INTO subs SET ?`
       if (req.body.action == "create") {
-        //generate a reference code
+        //generate a reference code and define other req values
         req.body.ref = localTools.randomValue(9)
+        req.body.colour = "#ffffff"
         delete req.body.action
         var currentDate = new Date()
         req.body.created = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`
@@ -276,6 +321,33 @@ appRouter.post(
     }
   }
 )
+
+//edit account
+appRouter.get("/account", (req, res)=>{
+  if (req.cookies.user) {
+    //get user data
+    let getUser =
+      `SELECT * FROM profiles WHERE cookie = ` +
+      sqldb.escape(req.cookies.user) +
+      `LIMIT 1`
+    sqldb.query(getUser, (err, returnedUser) => {
+      if (err) throw err
+      if (Object.keys(returnedUser).length != 0) {
+        //set goodwill message
+        returnedUser[0].goodWill = req.goodWill
+        res.render("profile", returnedUser[0])
+      } else {
+        //no user found
+        const getUserError = {}
+        getUserError.errReason = { msg: "No user found for logged in data" }
+        getUserError.status = false
+        res.redirect("logout")
+      }
+    })
+  } else {
+    res.redirect("/")
+  }
+})
 
 //profile
 appRouter.get("/:username", (req, res) => {
@@ -333,5 +405,7 @@ appRouter.get("/:username", (req, res) => {
     res.redirect("/")
   }
 })
+
+
 
 module.exports = appRouter
