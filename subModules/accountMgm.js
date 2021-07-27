@@ -32,12 +32,12 @@ let urlLog = (req, res, next) => {
     "Constantly recurring outdoor lunch qualifies",
     "They want a piece of me, let me know it",
     "Money, service, control your spending",
-    "Yeah! You! You didn't need to sign up for that",
+    "You didn't need to sign up for that",
     "That's how they get high on your supply",
     "It's one step closer to fixing addictions",
-    ".99 is a lot of money if you think about it",
-    "This list should be getting smaller!",
-    "I give up, what do you want from me",
+    ".99 is a lot if you think about it",
+    "List of commitments should be getting shorter",
+    "Baby gels, shaving cream and nail polish",
   ]
 
   req.goodWill = gW[ranVal]

@@ -36,9 +36,29 @@ appRouter.get("/:ref", (req, res) => {
       }
       if (Object.keys(resultSub).length != 0) {
         console.log(resultSub[0])
-        //set goodwill message
-        resultSub[0].goodWill = req.goodWill
-        res.render("sub/subView", resultSub[0])
+        const subData = resultSub[0]
+        //get sub ledge information
+        let getSubLedger = `SELECT * FROM ledger WHERE ref = '${subData.ref}'`
+        sqldb.query(getSubLedger, (err, resultSubLegder) => {
+          if (err) throw err
+
+          if (Object.keys(resultSubLegder).length != 0) {
+            const billings = localTools.getArraySum(resultSubLegder)
+            subData.billings = billings
+          }
+          else {
+            //set default values
+            const billing = {
+              costSum: 0,
+              costCount: 0,
+            }
+            subData.billings = billing
+          }
+           //set goodwill message
+           subData.goodWill = req.goodWill
+           console.log(subData)
+           res.render("sub/subView", subData)
+        })
       } else {
         res.send("did not find any sub with that ref")
       }

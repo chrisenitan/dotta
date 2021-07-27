@@ -65,7 +65,20 @@ let dateToNextSub = (req) => {
   return result
 }
 
+let getArraySum = (req) => {
+  let costSum = 0
+  for (let nulAmount = 0; nulAmount < req.length; nulAmount++) {
+    costSum = costSum + parseInt(req[nulAmount].cost)
+    console.log(req[nulAmount].cost + " id here ")
+  }
+  let response = {}
+  response.costSum = costSum
+  response.costCount = req.length
+  return response
+}
+
 exports.dateToNextSub = dateToNextSub
 exports.secureKey = secureKey
 exports.randomValue = randomValue
 exports.randomInt = randomInt
+exports.getArraySum = getArraySum

@@ -7,14 +7,7 @@
 
 <body>
 	{{!-- add new event --}}
-	<div id="addPanel"><br>
-		<form method="post" action="/record">
-			{{> subForm}}
-			<input type="hidden" name="action" value="create">
-			<button class="cta"><span class="material-icons-two-tone md-light">addchart</span> Create</button>
-			<button type='button' class="altcta" id="closeAddPanel"><span class="material-icons-two-tone md-light">cancel</span> Cancel</button>
-		</form>
-	</div>
+	{{> addPanel}}
 
 	{{!-- Page nav head --}}
 	{{> navHeader}}
@@ -27,10 +20,16 @@
 			<button class="setButton">Name: <span class="setData">{{username}}</span></button>
 			<button class="setIcon"><span class="material-icons-two-tone md-light">contact_page</span></button>
 		</div>
+		<a href="/account">
+		<div class="setBox">
+			<button class="setButton">Your data <span class="setData">{{username}}</span></button>
+			<button class="setIcon"><span class="material-icons-two-tone md-light">navigate_next</span></button>
+		</div>
+		</a>
 		<a href="/statistics">
 			<div class="setBox">
 				<button class="setButton">Statistics</button>
-				<button class="setIcon"><span class="material-icons-two-tone md-light">data_exploration</span></button>
+				<button class="setIcon"><span class="material-icons-two-tone md-light">stacked_bar_chart</span></button>
 			</div>
 		</a><br>
 		<a href="/logout">

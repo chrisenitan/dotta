@@ -7,14 +7,7 @@
 
 <body>
 	{{!-- add new event --}}
-	<div id="addPanel"><br>
-		<form method="post" action="/record">
-			{{> subForm}}
-			<input type="hidden" name="action" value="create">
-			<button class="cta"><span class="material-icons-two-tone md-light">addchart</span> Create</button>
-			<button type='button' class="altcta" id="closeAddPanel"><span class="material-icons-two-tone md-light">cancel</span> Cancel</button>
-		</form>
-	</div>
+		{{> addPanel}}
 
 	{{!-- Page nav head --}}
 	{{> navHeader}}
@@ -23,8 +16,19 @@
 	<div id="pageContainer">
 		<p>Subs</p>
 		<h class="smallTxt">Version 1.0<br>
+			Mobile<br>
+			Last updated: 14 July 2021
+		</h>
+
+		<p>Contributing</p>
+		<h class="smallTxt">Code:<br>
 			This project is open source.<br>
 			Repository on <a target="_blank" href="https://github.com/chrisenitan/subs">Github</a>
+		</h><br><br>
+
+		<h class="smallTxt">Feature ideas:<br>
+			Want, have or need a feature?<br>
+			Feedback on <a target="_blank" href="https://github.com/chrisenitan/subs">Google Form</a>
 		</h>
 
 

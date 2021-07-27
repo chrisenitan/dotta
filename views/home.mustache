@@ -9,14 +9,7 @@
 	<!--recieve //id title body owner from sqlRoute.js-->
 
 	{{!-- add new event --}}
-	<div id="addPanel"><br>
-		<form method="post" action="/record">
-			{{> subForm}}
-			<input type="hidden" name="action" value="create">
-			<button class="cta"><span class="material-icons-two-tone md-light">addchart</span> Create</button>
-			<button type='button' class="altcta" id="closeAddPanel"><span class="material-icons-two-tone md-light">cancel</span> Cancel</button>
-		</form>
-	</div>
+	{{> addPanel}}
 
 	{{!-- Page nav head --}}
 	{{> navHeader}}
@@ -51,7 +44,8 @@
 
 		Your account seems brand new<br><br>
 		Looks like you haven't recorded any subscriptions<br><br>
-		Start by creating one
+		Start by creating one with the<br>
+		<b>"+ New Subscription"</b> button up there
 	</div>
 	{{/subs}}
 
