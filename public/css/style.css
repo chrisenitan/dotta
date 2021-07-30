@@ -146,7 +146,7 @@ select {
   margin: 10px;
   display: inline-block;
 }
-#pageTitle{
+.pageTitle{
   background-color: #bdd4f0;
   width: 60%;
   padding: 2px;
