@@ -53,7 +53,7 @@ appRouter.get("/trial", (req, res) => {
   res.clearCookie("user")
   //reload of this url should not resignup. app makes sure cookie logeed in is redirected
 
-  let ranUsername = localTools.randomValue(6)
+  let ranUsername = localTools.randomString(6)
   let ranPassword = localTools.secureKey(6)
 
   //give rand name and acct values
@@ -147,7 +147,7 @@ appRouter.post(
         sqldb.escape(signUpData.username) +
         `LIMIT 1`
       //register user if registration is reqested and remove defaul action
-      if ((req.body.action == "signUp")) {
+      if (req.body.action == "signUp") {
         delete req.body.action
         sqldb.query(checkForUniqueuserName, (err, result) => {
           if (err) throw err
@@ -191,6 +191,53 @@ appRouter.post(
         )
       }
     }
+  }
+)
+
+//delete an account
+appRouter.post(
+  "/delete",
+  [check("action", "Action is not a deletion").equals("delete")],
+  (req, res) => {
+    //clear existing cookie
+    res.clearCookie("user")
+    let actionUser = req.body
+    let deleteUser =
+      `DELETE FROM profiles WHERE username = ` +
+      sqldb.escape(actionUser.username) +
+      `LIMIT 1`
+
+    let deleteUserSub =
+      `DELETE FROM subs WHERE username = ` +
+      sqldb.escape(actionUser.username) +
+      `LIMIT 1`
+
+    let deleteUserLedger =
+      `DELETE FROM ledger WHERE username = ` +
+      sqldb.escape(actionUser.username) +
+      `LIMIT 1`
+
+    //start deletion
+    //user
+    sqldb.query(deleteUser, (err, resDeleteUser) => {
+      if (err) {
+        console.log(err)
+        return false
+      }
+      if (Object.keys(resDeleteUser).length != 0) {
+        //if user deleted, do deletion: user subs
+        sqldb.query(deleteUserSub, (err, resDeleteUserSub) => {
+          if (err) throw err
+        })
+        //if user deleted, do deletion: user ledger
+        sqldb.query(deleteUserLedger, (err, resDeleteUserLedger) => {
+          if (err) throw err
+        })
+        res.redirect("/")
+      } else {
+        res.send("There was an error deleting the user")
+      }
+    })
   }
 )
 

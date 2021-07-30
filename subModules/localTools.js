@@ -9,6 +9,15 @@ let randomValue = (req) => {
   return ranId
 }
 
+let randomString = (req) => {
+  var ranSt = ""
+  var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+  for (var i = 0; i < req; i++) {
+    ranSt += characters.charAt(Math.floor(Math.random() * characters.length))
+  }
+  return ranSt
+}
+
 let randomInt = () => {
   var ranInt = ""
   var numbers = "0123456789"
@@ -82,3 +91,4 @@ exports.secureKey = secureKey
 exports.randomValue = randomValue
 exports.randomInt = randomInt
 exports.getArraySum = getArraySum
+exports.randomString = randomString
