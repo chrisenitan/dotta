@@ -18,6 +18,36 @@
 		<p>Welcome to Subs @{{username}}<br>
 			Your account is active.</p><br>
 
+
+		<form method="post" action="/record">
+			<label>Account Settings</label><br>
+			<div class="TinputDiv">
+				<label for="cost">Email</label><br>
+				<input type="number" value="{{email}}" name="cost" required><br>
+				<h class="inputDis">Not required</h><br>
+			</div>
+
+			<div class="mTinputDiv">
+				<label for="cost">Username</label><br>
+				<input disabled type="text" value="{{username}}" name="cost" required><br>
+				<h class="inputDis">How much is it</h><br><br>
+			</div>
+
+			<div class="mTinputDiv">
+				<label for="cost">Currency</label><br>
+				<select name="currency" required>
+					<option selected>{{currency}}</option>
+					<option>$</option>
+					<option>€</option>
+					<option>₦</option>
+				</select><br>
+				<h class="inputDis">Set a default currency</h><br><br>
+			</div>
+
+		</form>
+
+
+
 		<label>The basics</label><br>
 
 		<a href="/settings">
@@ -43,14 +73,16 @@
 			</div>
 			<h class="inputDis">Here you can create, view and manage your subscriptions</h><br><br>
 		</a>
+
 		<label>Others</label><br><br>
 		<h class="inputDis">To go home anytime, tap the app logo on the top left corner</h><br>
 		<h class="inputDis">This webapp uses cookies technology to recognise your login</h><br>
 		<h class="inputDis">You can delete your account on this page via the settings page</h><br>
 		<h class="inputDis">Maths in some cases may be inaccurate to the decimals points</h><br>
 		<h class="inputDis">Maths in some cases may be inaccurate to the decimals points</h><br>
-
 		<br><br>
+
+
 		<form method="post" action="">
 			<label>Delete your account</label><br>
 			<div class="setBox">
@@ -62,7 +94,7 @@
 			<input type="hidden" name="action" value="signUp">
 		</form>
 
-<br><br>
+		<br><br>
 	</div>
 </body>
 

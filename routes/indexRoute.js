@@ -1,5 +1,5 @@
 const express = require("express")
-const { check, validationResult, cookie } = require("express-validator")
+const { body, check, validationResult, cookie } = require("express-validator")
 const mysql = require("mysql")
 const appRouter = express()
 const localTools = require("../subModules/localTools")
@@ -254,13 +254,12 @@ appRouter.get("/statistics", (req, res) => {
 //save or update new sub entry: /record
 appRouter.post(
   "/record",
+  //body("name", "Name is not valid").isAlphanumeric(body.name, "en-GB", { ignore: " " }),
   [
-    check("name", "Name is not valid").isAlpha("en-GB", { ignore: " " }),
     check("cost", "Cost needs to be a number").isNumeric(),
     check("date", "Date should be calendar date").isInt(),
     //sanitise username...others
     check("action", "Action is not create").isIn(["create", "update"]),
-    check("currency", "Currency is not valid").isIn(["$", "€", "₦"]),
   ],
   (req, res) => {
     //define login status handler
@@ -293,11 +292,10 @@ appRouter.post(
       } else if (req.body.action == "update") {
         console.log(req.body)
         sqldb.query(
-          "UPDATE subs SET name = ?, cost = ?, currency = ?, date = ?, frequency = ?, colour = ? WHERE ref = ?",
+          "UPDATE subs SET name = ?, cost = ?, date = ?, frequency = ?, colour = ? WHERE ref = ?",
           [
             `${req.body.name}`,
             `${req.body.cost}`,
-            `${req.body.currency}`,
             `${req.body.date}`,
             `${req.body.frequency}`,
             `${req.body.colour}`,
@@ -335,6 +333,7 @@ appRouter.get("/account", (req, res)=>{
       if (Object.keys(returnedUser).length != 0) {
         //set goodwill message
         returnedUser[0].goodWill = req.goodWill
+        console.log(returnedUser[0])
         res.render("profile", returnedUser[0])
       } else {
         //no user found
