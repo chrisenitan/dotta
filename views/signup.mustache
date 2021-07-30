@@ -12,19 +12,37 @@
 
 	<div id="pageContainer">
 		{{^errReason}}
-		<p>Sign up for a new account</p>
+		<p>Create a new account</p><br>
+
 		<form method="post" action="account/signup">
+
+			<div class="TinputDiv">
+				<label for="frequency">Account Currency</label><br>
+				<select name="currency" required>
+					<option selected>$</option>
+					<option>€</option>
+					<option>₦</option>
+					<option>¥</option>
+					<option>₹</option>
+					<option>£</option>
+				</select><br>
+				<h class="inputDis">Default currency for all transactions</h><br><br>
+			</div>
+
+
 			<div class="TinputDiv">
 				<label for="username">Username</label><br>
-				<input type="text" value="{{ranUserName}}" name="username" placeholder="thinkingbanana"><br>
+				<input type="text" value="{{ranUserName}}" name="username" placeholder="thinkingbanana" required><br>
 				<h class="inputDis">Choose a random unreal username</h><br><br>
 			</div>
 
 			<div class="TinputDiv">
 				<label for="password">Password</label><br>
-				<input type="password" value="12342" name="password"><br>
+				<input type="password" name="password" required><br>
 				<h class="inputDis">Tip: Let your device suggest one.</h><br><br>
 			</div>
+
+
 
 
 			<input type="hidden" name="action" value="signUp">

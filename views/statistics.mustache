@@ -23,25 +23,25 @@
 
 		<br><label>Expenses</label><br>
 		<div class="setBox">
-			<button class="setButton">Running: <span class="setData">#{{totalCost}}</span></button>
+			<button class="setButton">Running: <span class="setData">{{owner.currency}}{{totalCost}}</span></button>
 			<button class="setIcon"><span class="material-icons-two-tone md-light">payment</span></button>
 		</div>
 		<a href="/sub/{{topSub.ref}}">
 			<div class="setBox">
-				<button class="setButton">Highest: <span class="setData">{{topSub.name}} ({{topSub.currency}}{{topSub.cost}})</span></button>
+				<button class="setButton">Highest: <span class="setData">{{topSub.name}} ({{owner.currency}}{{topSub.cost}})</span></button>
 				<button class="setIcon"><span class="material-icons-two-tone md-light">vertical_align_top</span></button>
 			</div>
 		</a>
 		<a href="/sub/{{bottomSub.ref}}">
 			<div class="setBox">
-				<button class="setButton">Lowest: <span class="setData">{{bottomSub.name}} ({{bottomSub.currency}}{{bottomSub.cost}})</span></button>
+				<button class="setButton">Lowest: <span class="setData">{{bottomSub.name}} ({{owner.currency}}{{bottomSub.cost}})</span></button>
 				<button class="setIcon"><span class="material-icons-two-tone md-light">vertical_align_bottom</span></button>
 			</div>
 		</a>
 		
 		<br><label>Ledger</label><br>
 		<div class="setBox">
-			<button class="setButton">Investment: <span class="setData">#{{billings.costSum}}</span></button>
+			<button class="setButton">Investment: <span class="setData">{{owner.currency}}{{billings.costSum}}</span></button>
 			<button class="setIcon"><span class="material-icons-two-tone md-light">credit_score</span></button>
 		</div>
 		<div class="setBox">

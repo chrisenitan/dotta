@@ -18,12 +18,6 @@
 		<form method="post" action="/record">
 			{{> subForm}}
 
-			<div class="TinputDiv">
-				<label for="colour">Theme Colour</label><br>
-				<input type="color" value="{{colour}}" name="colour" required><br>
-				<h class="inputDis">Choose a theme colour. 'lighter colours works best'</h><br><br>
-			</div>
-
 			{{!-- others uneditables --}}
 			<label>Attributes</label><br>
 			<div class="setBox">
@@ -39,7 +33,7 @@
 				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">point_of_sale</span></button>
 			</div>
 			<div class="setBox">
-				<button class="setButton">Investment: <span class="setData">{{currency}}{{billings.costSum}}</span></button>
+				<button class="setButton">Investment: <span class="setData">{{user.currency}}{{billings.costSum}}</span></button>
 				<button class="setIcon"><span class="material-icons-two-tone md-light">credit_score</span></button>
 			</div>
 			<div class="setBox">

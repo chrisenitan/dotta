@@ -5,23 +5,6 @@
 </div>
 
 <div class="mTinputDiv">
-    <label for="cost">Cost</label><br>
-    <input type="number" value="{{cost}}" name="cost" required><br>
-    <h class="inputDis">How much is it</h><br><br>
-</div>
-
-<div class="mTinputDiv">
-    <label for="cost">Currency</label><br>
-    <select name="currency" required>
-        <option selected>{{currency}}</option>
-        <option>$</option>
-        <option>€</option>
-        <option>₦</option>
-    </select><br>
-    <h class="inputDis">What currency is it</h><br><br>
-</div>
-
-<div class="mTinputDiv">
     <label for="frequency">Frequency</label><br>
     <select name="frequency" required>
         <option selected>{{frequency}}</option>
@@ -37,6 +20,16 @@
     <h class="inputDis">Bill date between 1 to 31</h><br><br>
 </div>
 
+<div class="mTinputDiv">
+    <label for="cost">Cost</label><br>
+    <input type="number" value="{{cost}}" name="cost" required><br>
+    <h class="inputDis">How much is it</h><br><br>
+</div>
 
+<div class="mTinputDiv">
+    <label for="colour">Theme Colour</label><br>
+    <input type="color" value="{{colour}}" name="colour" required><br>
+    <h class="inputDis">Lighter colours work best</h><br><br>
+</div>
 
 <input type="hidden" name="username" value="{{username}}">
