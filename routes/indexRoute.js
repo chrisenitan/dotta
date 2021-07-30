@@ -275,7 +275,6 @@ appRouter.post(
       if (req.body.action == "create") {
         //generate a reference code and define other req values
         req.body.ref = localTools.randomValue(9)
-        req.body.colour = "#ffffff"
         delete req.body.action
         var currentDate = new Date()
         req.body.created = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`
