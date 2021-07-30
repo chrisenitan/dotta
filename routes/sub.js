@@ -37,27 +37,42 @@ appRouter.get("/:ref", (req, res) => {
       if (Object.keys(resultSub).length != 0) {
         console.log(resultSub[0])
         const subData = resultSub[0]
-        //get sub ledge information
-        let getSubLedger = `SELECT * FROM ledger WHERE ref = '${subData.ref}'`
-        sqldb.query(getSubLedger, (err, resultSubLegder) => {
+        //get owning user
+        let getUser =
+          `SELECT * FROM profiles WHERE username = ` +
+          sqldb.escape(subData.username) +
+          `LIMIT 1`
+        sqldb.query(getUser, (err, returnedUser) => {
           if (err) throw err
+          if (Object.keys(returnedUser).length != 0) {
+            //set user objct
+            let user = returnedUser[0]
+            //get sub ledge information if username is found
+            let getSubLedger = `SELECT * FROM ledger WHERE ref = '${subData.ref}'`
+            sqldb.query(getSubLedger, (err, resultSubLegder) => {
+              if (err) throw err
 
-          if (Object.keys(resultSubLegder).length != 0) {
-            const billings = localTools.getArraySum(resultSubLegder)
-            subData.billings = billings
+              if (Object.keys(resultSubLegder).length != 0) {
+                const billings = localTools.getArraySum(resultSubLegder)
+                subData.billings = billings
+              } else {
+                //set default values
+                const billing = {
+                  costSum: 0,
+                  costCount: 0,
+                }
+                subData.billings = billing
+              }
+              //set goodwill message
+              subData.user = user
+              subData.goodWill = req.goodWill
+              console.log(subData)
+              res.render("sub/subView", subData)
+            })
+          } else {
+            //sub found but has no user, not safe to display information
+            res.send("This data might be protected")
           }
-          else {
-            //set default values
-            const billing = {
-              costSum: 0,
-              costCount: 0,
-            }
-            subData.billings = billing
-          }
-           //set goodwill message
-           subData.goodWill = req.goodWill
-           console.log(subData)
-           res.render("sub/subView", subData)
         })
       } else {
         res.send("did not find any sub with that ref")
