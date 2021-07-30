@@ -35,10 +35,10 @@ var insertNewAccount = function (req) {
   let trialSignUp = `INSERT INTO profiles SET ?`
   sqldb.query(trialSignUp, reqUser, (err, signupResult, fields) => {
     if (err) {
-      console.log("sorry again")
+      console.log("Errorr inserting new user")
     }
     if (signupResult.insertId != undefined) {
-      console.log("testing done succ")
+      console.log("New user created")
     }
   })
 
@@ -57,17 +57,20 @@ appRouter.get("/trial", (req, res) => {
   let ranPassword = localTools.secureKey(6)
 
   //give rand name and acct values
-  var req = {}
-  req.password = ranPassword
-  req.username = `${ranUsername}`
+  var userData = {}
+  userData.password = ranPassword
+  userData.username = `${ranUsername}`
+  userData.currency = "$"
 
-  let createUser = insertNewAccount(req)
+  let createUser = insertNewAccount(userData)
   //set client cookie
   res.cookie("user", createUser.cookie, {
     maxAge: 2592000000,
     httpOnly: false,
   })
 
+  //create goodwill message
+  createUser.goodWill = req.goodWill
   //render onboarding or something
   res.render("profile", createUser)
 })
