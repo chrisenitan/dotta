@@ -1,5 +1,4 @@
 //Index. Rewuire and initialize Express server
-var PORT = process.env.PORT || process.env.port
 const express = require("express")
 const {
   isActiveCookie,
@@ -43,7 +42,8 @@ const subRoute = require("./routes/sub")
 app.use("/sub", [cookieOnly, urlLog], subRoute)
 
 //start server
-app.listen(process.env.port, () => {
+const port = process.env.Port || 4000;
+app.listen(port, () => {
   console.log(
     `\x1b[32m...Subs ready on port ${process.env.port}... \x1b[0m  \n`
   )
