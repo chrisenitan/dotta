@@ -1,4 +1,5 @@
 //Index. Rewuire and initialize Express server
+var PORT = process.env.PORT || process.env.port
 const express = require("express")
 const {
   isActiveCookie,
