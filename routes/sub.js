@@ -36,6 +36,8 @@ appRouter.get("/:ref", (req, res) => {
       }
       if (Object.keys(resultSub).length != 0) {
         console.log(resultSub[0])
+        //set default null for started date
+        if(resultSub[0].started == null){resultSub[0].started = "Upcoming"}
         const subData = resultSub[0]
         //get owning user
         let getUser =
