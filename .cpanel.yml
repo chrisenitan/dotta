@@ -4,4 +4,4 @@ deployment:
     - export DEPLOYPATH=/home/vrixqmrn/dotta
     - export SOURCEPATH=/home/vrixqmrn/dotta_repo
     - /bin/cp -RT $SOURCEPATH $DEPLOYPATH
-    - /bin/nodemon server.js
+    - /bin/nodemon index.js
