@@ -83,16 +83,23 @@
 
 		<div class="pageTitle">Danger Zone</div><br>
 		<form method="post" action="account/delete">
-			<label>Delete your account</label><br>
 			<div class="setBox">
 				<button class="setButton"><span class="setData">@{{username}}</span></button>
 				<button class="setIcon"><span class="material-icons-two-tone md-light">delete</span></button><br>
 			</div>
-			<h class="inputDis">Careful here, deletion starts immediately you tap the button</h><br>
-			<h class="inputDis">In coming updates, you'll be able to export your data</h><br><br>
+			<h class="inputDis">Careful here, deletion starts immediately you tap the button</h><br><br>
 			<input type="hidden" name="action" value="delete">
 			<input type="hidden" value="{{username}}" name="username" required>
 		</form>
+
+			<a href="account/takeout">
+				<div class="setBox">
+					<button class="setButton">Download your data</button>
+					<button class="setIcon"><span class="material-icons-two-tone md-light">assignment_returned</span></button><br>
+				</div>
+				<h class="inputDis">Takeout is still work in progress</h><br><br>
+			</a>
+
 
 		<br><br>
 	</div>

@@ -3,6 +3,7 @@ const mysql = require("mysql")
 const appRouter = express()
 const { check, validationResult, cookie } = require("express-validator")
 const localTools = require("../subModules/localTools")
+const fs = require("fs")
 
 //set mysql data
 const sqldb = mysql.createConnection({
@@ -188,6 +189,61 @@ appRouter.post(
     }
   }
 )
+
+//take out
+appRouter.get("/takeout", (req, res) => {
+  //only if user is logged in
+  const cookie = req.cookies
+  if (cookie.user) {
+    //res.clearCookie("user")//for now
+    let getUser =
+      `SELECT * FROM profiles WHERE cookie = ` +
+      sqldb.escape(cookie.user) +
+      `LIMIT 1`
+    sqldb.query(getUser, (err, resultUser) => {
+      if (err) {
+        console.log("User not fetchs via cookie")
+        return false
+      }
+      if (Object.keys(resultUser).length != 0) {
+        const takeoutUser = resultUser[0]
+        const stTakeoutUser = JSON.stringify(takeoutUser)
+        //create a new takeout file
+        fs.appendFile(
+          `assets/tmp_takeout/${takeoutUser.username}.json`,
+          `${stTakeoutUser}`,
+          function (err) {
+            if (err) throw err
+            //read file created
+            fs.readFile(
+              `assets/tmp_takeout/${takeoutUser.username}.json`,
+              { encoding: "utf-8" },
+              function (err, file) {
+                if (err) throw err
+                res.writeHead(200, {
+                  "Content-Type": "text/json",
+                  "Content-Disposition": `attachment;filename=${takeoutUser.username}.json`,
+                })
+                res.write(file)
+                //delete file when done: maybe wait?
+                fs.unlink(
+                  `assets/tmp_takeout/${takeoutUser.username}.json`,
+                  function (err) {
+                    if (err) throw err
+                  }
+                )
+                res.end()
+              }
+            )
+          }
+        )
+      } else {
+        resultUser[0].goodWill = "Could not generate, please contact Dotta"
+        res.render("profile", resultUser[0])
+      }
+    })
+  }
+})
 
 //delete an account
 appRouter.post(
