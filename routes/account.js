@@ -68,11 +68,7 @@ appRouter.get("/trial", (req, res) => {
     maxAge: 2592000000,
     httpOnly: false,
   })
-
-  //create goodwill message
-  createUser.goodWill = req.goodWill
-  //render onboarding or something
-  res.render("profile", createUser)
+  res.redirect("/account")
 })
 
 //login
@@ -160,8 +156,7 @@ appRouter.post(
               maxAge: 2592000000,
               httpOnly: false,
             })
-            createUser.goodWill = req.goodWill
-            res.render("profile", createUser)
+            res.redirect("/account")
           }
           //found existing user, do not register
           else {
