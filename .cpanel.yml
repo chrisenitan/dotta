@@ -3,4 +3,4 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home/vrixqmrn/dotta/
     - export SOURCEPATH=/home/vrixqmrn/dotta_repo/
-    - /bin/cp -R $SOURCEPATH $DEPLOYPATH
+    - /bin/cp -RT $SOURCEPATH $DEPLOYPATH
