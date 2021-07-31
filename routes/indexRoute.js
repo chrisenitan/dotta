@@ -57,8 +57,7 @@ appRouter.get("/login", (req, res) => {
   }
   //set goodwill to user
   let ref = {}
-  //ref.goodWill = req.goodWill
-  ref.goodWill = "it deployed auto"
+  ref.goodWill = req.goodWill
   res.render("login", ref)
 })
 
