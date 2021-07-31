@@ -42,7 +42,7 @@ const subRoute = require("./routes/sub")
 app.use("/sub", [cookieOnly, urlLog], subRoute)
 
 //start server
-const port = process.env.Port || 4000;
+const port = process.env.port || 4000;
 app.listen(port, () => {
   console.log(
     `\x1b[32m...Subs ready on port ${process.env.port}... \x1b[0m  \n`
