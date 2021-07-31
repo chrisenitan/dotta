@@ -82,25 +82,25 @@
 
 
 		<div class="pageTitle">Danger Zone</div><br>
-		<form method="post" action="account/delete">
-			<div class="setBox">
-				<button class="setButton"><span class="setData">@{{username}}</span></button>
-				<button class="setIcon"><span class="material-icons-two-tone md-light">delete</span></button><br>
-			</div>
-			<h class="inputDis">Careful here, deletion starts immediately you tap the button</h><br><br>
-			<input type="hidden" name="action" value="delete">
-			<input type="hidden" value="{{username}}" name="username" required>
-		</form>
-
-			<a href="account/takeout">
+		
+		{{!-- account/takeout --}}
+			<a href="/">
 				<div class="setBox">
 					<button class="setButton">Download your data</button>
 					<button class="setIcon"><span class="material-icons-two-tone md-light">assignment_returned</span></button><br>
 				</div>
-				<h class="inputDis">Takeout is still work in progress</h><br><br>
+				<h class="inputDis">Takeout feature is still work in progress</h><br><br>
 			</a>
 
-
+		<form method="post" action="account/delete">
+			<div class="setBox">
+				<button type="button" class="setButton"><span class="setData">@{{username}}</span></button>
+				<button class="setIcon"><span class="material-icons-two-tone md-light">delete</span></button><br>
+			</div>
+			<h class="inputDis">Careful here, deletion starts immediately you tap the trash icon</h><br><br>
+			<input type="hidden" name="action" value="delete">
+			<input type="hidden" value="{{username}}" name="username" required>
+		</form>
 		<br><br>
 	</div>
 </body>

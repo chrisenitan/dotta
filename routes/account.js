@@ -259,14 +259,10 @@ appRouter.post(
       `LIMIT 1`
 
     let deleteUserSub =
-      `DELETE FROM subs WHERE username = ` +
-      sqldb.escape(actionUser.username) +
-      `LIMIT 1`
+      `DELETE FROM subs WHERE username = ` + sqldb.escape(actionUser.username)
 
     let deleteUserLedger =
-      `DELETE FROM ledger WHERE username = ` +
-      sqldb.escape(actionUser.username) +
-      `LIMIT 1`
+      `DELETE FROM ledger WHERE username = ` + sqldb.escape(actionUser.username)
 
     //start deletion
     //user
