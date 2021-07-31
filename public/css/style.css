@@ -148,7 +148,8 @@ select {
 }
 .pageTitle{
   background-color: #bdd4f0;
-  width: 60%;
+  width: 70%;
+  overflow: scroll;
   padding: 2px;
   margin: auto;
   margin-top: 10px;

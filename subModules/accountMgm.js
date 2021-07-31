@@ -28,8 +28,8 @@ let urlLog = (req, res, next) => {
   let gW = [
     "'I always want to know who billed me...'",
     "Constantly recurring outdoor lunch qualifies",
-    "They want a piece of me, let me know it",
-    "Money, service, control your spending",
+    "Annual income minus 9, minus 9, minus 9...",
+    "This app is a calendar for services",
     "You didn't need to sign up for that",
     "That's how they get high on your supply",
     "It's one step closer to fixing addictions",

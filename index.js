@@ -37,14 +37,14 @@ app.use("/", urlLog, indexRoute)
 const accountRoute = require("./routes/account")
 app.use("/account", [isActiveCookie, urlLog], accountRoute)
 
-//subs route
+//Dotta route
 const subRoute = require("./routes/sub")
 app.use("/sub", [cookieOnly, urlLog], subRoute)
 
 //start server
-const port = process.env.port || 3000;
+const port = process.env.port || 3000
 app.listen(port, () => {
   console.log(
-    `\x1b[32m...Subs ready on port ${process.env.port}... \x1b[0m  \n`
+    `\x1b[32m...Dottta ready on port ${process.env.port}... \x1b[0m  \n`
   )
 })

@@ -2,7 +2,7 @@
 
 <head>
 	{{> heads}}
-	<title>Welcome to Subs</title>
+	<title>Welcome to Dotta</title>
 </head>
 
 <body>
@@ -13,7 +13,7 @@
 	{{> navHeader}}
 	{{> header}}
 	<div id="pageContainer">
-		<div class="pageTitle">Account Setup</div><br>
+		<div class="pageTitle">Your Account</div><br>
 
 		<form method="post" action="account/signup">
 			<div class="TinputDiv">
@@ -48,7 +48,7 @@
 		</form><br>
 
 
-		<div class="pageTitle">How to use Subs</div><br>
+		<div class="pageTitle">How to use Dotta</div><br>
 		<a href="/settings">
 			<div class="setBox">
 				<button type='button' class="setButton">App Settings</button>
@@ -77,23 +77,30 @@
 		<h class="inputDis">This webapp uses cookies technology to recognise your login</h><br>
 		<h class="inputDis">You can delete your account on this page via the settings page</h><br>
 		<h class="inputDis">Maths in some cases may be inaccurate to the decimals points</h><br>
-		<h class="inputDis">Maths in some cases may be inaccurate to the decimals points</h><br>
+		<h class="inputDis">App works best on mobile devices</h><br>
 		<br><br>
 
 
 		<div class="pageTitle">Danger Zone</div><br>
+		
+		{{!-- account/takeout --}}
+			<a href="/">
+				<div class="setBox">
+					<button class="setButton">Download your data</button>
+					<button class="setIcon"><span class="material-icons-two-tone md-light">assignment_returned</span></button><br>
+				</div>
+				<h class="inputDis">Takeout feature is still work in progress</h><br><br>
+			</a>
+
 		<form method="post" action="account/delete">
-			<label>Delete your account</label><br>
 			<div class="setBox">
-				<button class="setButton"><span class="setData">@{{username}}</span></button>
+				<button type="button" class="setButton"><span class="setData">@{{username}}</span></button>
 				<button class="setIcon"><span class="material-icons-two-tone md-light">delete</span></button><br>
 			</div>
-			<h class="inputDis">Careful here, deletion starts immediately you tap the button</h><br>
-			<h class="inputDis">In coming updates, you'll be able to export your data</h><br><br>
+			<h class="inputDis">Careful here, deletion starts immediately you tap the trash icon</h><br><br>
 			<input type="hidden" name="action" value="delete">
 			<input type="hidden" value="{{username}}" name="username" required>
 		</form>
-
 		<br><br>
 	</div>
 </body>
