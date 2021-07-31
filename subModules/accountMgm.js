@@ -4,9 +4,7 @@ let isActiveCookie = (req, res, next) => {
   const cookie = req.cookies
   console.log(cookie._ga)
   if (cookie.user != undefined) {
-    console.log(`cookie user is ${cookie.user}`)
-    res.redirect("/")
-    return false
+    console.log(`isActiveCookie Triggered: cookie user is ${cookie.user}`)
   }
   next()
 }

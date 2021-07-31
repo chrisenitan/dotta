@@ -13,31 +13,26 @@
 	{{> navHeader}}
 	{{> header}}
 	<div id="pageContainer">
+		<div class="pageTitle">Account Setup</div><br>
 
-		<!--recieve //id title body owner from sqlRoute.js-->
-		<p>Welcome to Subs @{{username}}<br>
-			Your account is active.</p><br>
-
-
-		<form method="post" action="/record">
-			<label>Account Settings</label><br>
+		<form method="post" action="account/signup">
 			<div class="TinputDiv">
 				<label for="cost">Email</label><br>
-				<input type="number" value="{{email}}" name="cost" required><br>
-				<h class="inputDis">Not required</h><br>
+				<input type="email" value="{{email}}" name="email"><br>
+				<h class="inputDis">Email is never required</h><br>
 			</div>
 
 			<div class="mTinputDiv">
 				<label for="cost">Username</label><br>
-				<input disabled type="text" value="{{username}}" name="cost" required><br>
-				<h class="inputDis">How much is it</h><br><br>
+				<input disabled type="text" value="{{username}}"><br>
+				<h class="inputDis">You cannot change this</h><br><br>
 			</div>
 
 			<div class="mTinputDiv">
 				<label for="cost">Currency</label><br>
 				<select name="currency" required>
 					<option selected>{{currency}}</option>
-					<option selected>$</option>
+					<option>$</option>
 					<option>€</option>
 					<option>₦</option>
 					<option>¥</option>
@@ -47,12 +42,13 @@
 				<h class="inputDis">Set a default currency</h><br><br>
 			</div>
 
-		</form>
+			<input type="hidden" value="{{username}}" name="username" required>
+			<input type="hidden" name="action" value="update" required>
+			<button class="cta"><span class="material-icons-two-tone md-light">account_box</span> Update</button>
+		</form><br>
 
 
-
-		<label>The basics</label><br>
-
+		<div class="pageTitle">How to use Subs</div><br>
 		<a href="/settings">
 			<div class="setBox">
 				<button type='button' class="setButton">App Settings</button>
@@ -77,7 +73,6 @@
 			<h class="inputDis">Here you can create, view and manage your subscriptions</h><br><br>
 		</a>
 
-		<label>Others</label><br><br>
 		<h class="inputDis">To go home anytime, tap the app logo on the top left corner</h><br>
 		<h class="inputDis">This webapp uses cookies technology to recognise your login</h><br>
 		<h class="inputDis">You can delete your account on this page via the settings page</h><br>
@@ -86,15 +81,17 @@
 		<br><br>
 
 
-		<form method="post" action="">
+		<div class="pageTitle">Danger Zone</div><br>
+		<form method="post" action="account/delete">
 			<label>Delete your account</label><br>
 			<div class="setBox">
-				<button type='button' class="setButton">Delete <span class="setData">@{{username}}</span></button>
-				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">delete</span></button><br>
+				<button class="setButton"><span class="setData">@{{username}}</span></button>
+				<button class="setIcon"><span class="material-icons-two-tone md-light">delete</span></button><br>
 			</div>
 			<h class="inputDis">Careful here, deletion starts immediately you tap the button</h><br>
 			<h class="inputDis">In coming updates, you'll be able to export your data</h><br><br>
-			<input type="hidden" name="action" value="signUp">
+			<input type="hidden" name="action" value="delete">
+			<input type="hidden" value="{{username}}" name="username" required>
 		</form>
 
 		<br><br>

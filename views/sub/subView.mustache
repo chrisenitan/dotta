@@ -15,6 +15,9 @@
 
 	{{!-- edit current sub --}}
 	<div id="pageContainer">
+		<div class="pageTitle">View and Edit a Sub</div>
+
+
 		<form method="post" action="/record">
 			{{> subForm}}
 
@@ -33,12 +36,12 @@
 				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">point_of_sale</span></button>
 			</div>
 			<div class="setBox">
-				<button class="setButton">Investment: <span class="setData">{{user.currency}}{{billings.costSum}}</span></button>
-				<button class="setIcon"><span class="material-icons-two-tone md-light">credit_score</span></button>
+				<button type='button' class="setButton">Investment: <span class="setData">{{user.currency}}{{billings.costSum}}</span></button>
+				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">credit_score</span></button>
 			</div>
 			<div class="setBox">
-				<button class="setButton">Entries: <span class="setData">{{billings.costCount}}</span></button>
-				<button class="setIcon"><span class="material-icons-two-tone md-light">account_tree</span></button>
+				<button type='button' class="setButton">Entries: <span class="setData">{{billings.costCount}}</span></button>
+				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">account_tree</span></button>
 			</div>
 
 

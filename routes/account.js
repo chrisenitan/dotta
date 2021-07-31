@@ -53,7 +53,7 @@ appRouter.get("/trial", (req, res) => {
   res.clearCookie("user")
   //reload of this url should not resignup. app makes sure cookie logeed in is redirected
 
-  let ranUsername = localTools.randomValue(6)
+  let ranUsername = localTools.randomString(6)
   let ranPassword = localTools.secureKey(6)
 
   //give rand name and acct values
@@ -120,17 +120,16 @@ appRouter.post(
   }
 )
 
-//sign up
+//sign up or update account
 appRouter.post(
   "/signup",
   //do some form sanitisation. need a module
   [
     check("username", "Name should not have spaces").isAlpha("en-US"),
-    check("action", "Action is not signup").equals("signUp"),
+    check("action", "Action is not create").isIn(["signUp", "update"]),
   ],
   (req, res) => {
-    //get request body and remove defaul action
-    delete req.body.action
+    //get request body
     let signUpData = req.body
     //define account creation status object
     const signupError = {}
@@ -138,7 +137,6 @@ appRouter.post(
     //check for express validations
     const reqErr = validationResult(req)
     if (!reqErr.isEmpty()) {
-      //return res.status(400).json({ errors: reqErr.array() })
       signupError.errReason = reqErr.array()[0]
       signupError.errStatus = false
       res.render("signup", signupError)
@@ -148,27 +146,98 @@ appRouter.post(
         `SELECT * FROM profiles WHERE username = ` +
         sqldb.escape(signUpData.username) +
         `LIMIT 1`
-      sqldb.query(checkForUniqueuserName, (err, result) => {
-        if (err) throw err
-        if (Object.keys(result).length == 0) {
-          //register user
-          let createUser = insertNewAccount(signUpData)
-          //set client cookie
-          res.cookie("user", createUser.cookie, {
-            maxAge: 2592000000,
-            httpOnly: false,
-          })
-          createUser.goodWill = req.goodWill
-          res.render("profile", createUser)
-        }
-        //found existing user, do not regiater
-        else {
-          signupError.errStatus = false
-          signupError.errReason = { msg: "Name has already been registered" }
-          res.render("signup", signupError)
-        }
-      })
+      //register user if registration is reqested and remove defaul action
+      if (req.body.action == "signUp") {
+        delete req.body.action
+        sqldb.query(checkForUniqueuserName, (err, result) => {
+          if (err) throw err
+          if (Object.keys(result).length == 0) {
+            var createUser = {}
+            //user never existed so safe to insert
+            createUser = insertNewAccount(signUpData)
+            //set client cookie
+            res.cookie("user", createUser.cookie, {
+              maxAge: 2592000000,
+              httpOnly: false,
+            })
+            createUser.goodWill = req.goodWill
+            res.render("profile", createUser)
+          }
+          //found existing user, do not register
+          else {
+            signupError.errStatus = false
+            signupError.errReason = { msg: "Name has already been registered" }
+            res.render("signup", signupError)
+          }
+        })
+      }
+      //update user if update is reqested and remove default action
+      else {
+        delete req.body.action
+        sqldb.query(
+          "UPDATE profiles SET currency = ?, email = ? WHERE username = ?",
+          [`${req.body.currency}`, `${req.body.email}`, `${req.body.username}`],
+          (err, updateSubResult) => {
+            if (err) {
+              console.log("error updating user")
+              console.log(req.body)
+              //res.redirect("/")//bad
+              res.send("error updating")
+            }
+            console.log("Hit endpoint step")
+            console.log(req.body)
+            res.redirect("../account")
+          }
+        )
+      }
     }
+  }
+)
+
+//delete an account
+appRouter.post(
+  "/delete",
+  [check("action", "Action is not a deletion").equals("delete")],
+  (req, res) => {
+    //clear existing cookie
+    res.clearCookie("user")
+    let actionUser = req.body
+    let deleteUser =
+      `DELETE FROM profiles WHERE username = ` +
+      sqldb.escape(actionUser.username) +
+      `LIMIT 1`
+
+    let deleteUserSub =
+      `DELETE FROM subs WHERE username = ` +
+      sqldb.escape(actionUser.username) +
+      `LIMIT 1`
+
+    let deleteUserLedger =
+      `DELETE FROM ledger WHERE username = ` +
+      sqldb.escape(actionUser.username) +
+      `LIMIT 1`
+
+    //start deletion
+    //user
+    sqldb.query(deleteUser, (err, resDeleteUser) => {
+      if (err) {
+        console.log(err)
+        return false
+      }
+      if (Object.keys(resDeleteUser).length != 0) {
+        //if user deleted, do deletion: user subs
+        sqldb.query(deleteUserSub, (err, resDeleteUserSub) => {
+          if (err) throw err
+        })
+        //if user deleted, do deletion: user ledger
+        sqldb.query(deleteUserLedger, (err, resDeleteUserLedger) => {
+          if (err) throw err
+        })
+        res.redirect("/")
+      } else {
+        res.send("There was an error deleting the user")
+      }
+    })
   }
 )
 

@@ -146,6 +146,15 @@ select {
   margin: 10px;
   display: inline-block;
 }
+.pageTitle{
+  background-color: #bdd4f0;
+  width: 60%;
+  padding: 2px;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
 #header {
   height: auto;
   width: 96%;
@@ -241,6 +250,9 @@ select {
   font-size: 18px;
   border: none;
   background: none;
+}
+.setBox:hover{
+  background-color: #f4f4f4;
 }
 .setData {
   font-size: 15px;
