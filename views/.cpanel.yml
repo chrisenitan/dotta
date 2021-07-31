@@ -1,0 +1,4 @@
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/vrixqmrn/dotta/
+    - /bin/cp -R images $DEPLOYPATH
