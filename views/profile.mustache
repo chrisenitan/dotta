@@ -13,8 +13,40 @@
 	{{> navHeader}}
 	{{> header}}
 	<div id="pageContainer">
-		<div class="pageTitle">Your Account</div><br>
 
+		<div class="pageTitle">How to use Dotta</div><br>
+		<a href="/settings">
+			<div class="setBox">
+				<button type='button' class="setButton">App Settings</button>
+				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">tune</span></button><br>
+			</div>
+			<h class="inputDis">View and customise your app and account preferences</h><br><br>
+		</a>
+
+		<a href="/statistics">
+			<div class="setBox">
+				<button type='button' class="setButton">Account Statistics</button>
+				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">stacked_bar_chart</span></button><br>
+			</div>
+			<h class="inputDis">Here you get a summary of all your subscriptions</h><br><br>
+		</a>
+
+		<a href="/{{username}}">
+			<div class="setBox">
+				<button type='button' class="setButton">App Home</button>
+				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">door_front</span></button><br>
+			</div>
+			<h class="inputDis">Here you can create, view and manage your subscriptions</h><br><br>
+		</a>
+
+		<h class="inputDis">To go home anytime, tap the app logo on the top left corner</h><br>
+		<h class="inputDis">This webapp uses cookies technology to recognise your login</h><br>
+		<h class="inputDis">You can delete your account on this page via the settings page</h><br>
+		<h class="inputDis">Maths in some cases may be inaccurate to the decimals points</h><br>
+		<h class="inputDis">App works best on mobile devices</h>
+		<br><br>
+
+		<div class="pageTitle">Your Account Details</div><br>
 		<form method="post" action="account/signup">
 			<div class="TinputDiv">
 				<label for="cost">Email</label><br>
@@ -46,39 +78,6 @@
 			<input type="hidden" name="action" value="update" required>
 			<button class="cta"><span class="material-icons-two-tone md-light">account_box</span> Update</button>
 		</form><br>
-
-
-		<div class="pageTitle">How to use Dotta</div><br>
-		<a href="/settings">
-			<div class="setBox">
-				<button type='button' class="setButton">App Settings</button>
-				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">tune</span></button><br>
-			</div>
-			<h class="inputDis">View and customise your app and account preferences</h><br><br>
-		</a>
-
-		<a href="/statistics">
-			<div class="setBox">
-				<button type='button' class="setButton">Account Statistics</button>
-				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">stacked_bar_chart</span></button><br>
-			</div>
-			<h class="inputDis">Here you get a summary of all your subscriptions</h><br><br>
-		</a>
-
-		<a href="/{{username}}">
-			<div class="setBox">
-				<button type='button' class="setButton">App Home</button>
-				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">door_front</span></button><br>
-			</div>
-			<h class="inputDis">Here you can create, view and manage your subscriptions</h><br><br>
-		</a>
-
-		<h class="inputDis">To go home anytime, tap the app logo on the top left corner</h><br>
-		<h class="inputDis">This webapp uses cookies technology to recognise your login</h><br>
-		<h class="inputDis">You can delete your account on this page via the settings page</h><br>
-		<h class="inputDis">Maths in some cases may be inaccurate to the decimals points</h><br>
-		<h class="inputDis">App works best on mobile devices</h><br>
-		<br><br>
 
 
 		<div class="pageTitle">Danger Zone</div><br>
