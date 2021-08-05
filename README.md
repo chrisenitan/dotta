@@ -2,14 +2,14 @@
 <img  width="100" height="100" src="/public/images/logo_b.png">
 <br>
 Website:
-<a href="https://subs.vrixe.com">dotta.vrixe.com</a>
+<a href="https://dotta.vrixe.com">dotta.vrixe.com</a>
 <br>
 <b>A webapp to track subscriptions</b>
 </p>
 
 ## About Dotta
 
-Dotta is a simple `nodeJs` app that helps you keep a simple visual presentation and log of all your recurring subcriptions.
+Dotta is a `nodeJs` app that give you a visual presentation and log of all your recurring subcriptions.
 
 - Dotta is a [Vrixe](https://github.com/chrisenitan/vrixe) project
 
@@ -23,7 +23,7 @@ Dotta is a simple `nodeJs` app that helps you keep a simple visual presentation 
 
 ## Code Setup
 
-**This document assumes you have some knowledge of npm and javascript**
+**This document assumes you have some knowledge of npm and javascript**<br>
 **Databse setup is a limitation, will publish sample sql file here**
 
 - Clone repo
@@ -31,7 +31,7 @@ Dotta is a simple `nodeJs` app that helps you keep a simple visual presentation 
 - Setup env file to connect to database
 - Start the app with the script `npm start`
 
-## Cron for ledger? script or cronjob
+## Cron for ledger
 
 **Monthly**
 - Get all month frequency subs
