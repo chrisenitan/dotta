@@ -23,7 +23,9 @@
 	{{#subs}}
 	<div class="subsHolder" style="background-color: {{colour}};">
 		<h class="subCost">{{currency}}{{cost}}</h><br><br>
-		<h class="subTxt">in: {{daysRemaining}} days</h><br><br>
+		<h class="subTxt">in {{subFuture.daysRemaining}} days</h><br>
+		<h class="smallTxt">on {{subFuture.nextDate}}</h><br><br>
+
 		<a href="sub/{{ref}}">
 			<h class="subName">{{name}}
 		</a><br>

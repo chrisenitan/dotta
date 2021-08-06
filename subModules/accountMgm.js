@@ -29,12 +29,12 @@ let urlLog = (req, res, next) => {
     "'I always want to know who billed me...'",
     "Constantly recurring outdoor lunch qualifies",
     "Annual income minus 9, minus 9, minus 9...",
-    "This app is a calendar for services",
-    "You didn't need to sign up for that",
+    "Let's call it a calendar for subscriptions",
+    "Rotate subscriptions as you need them",
     "That's how they get high on your supply",
     "It's one step closer to fixing addictions",
-    ".99 is a lot if you think about it",
-    "List of commitments should be getting shorter",
+    "Pay less with family or broader plans",
+    "Long list? Kill what you don't need",
     "Baby gels, shaving cream and nail polish",
   ]
 
