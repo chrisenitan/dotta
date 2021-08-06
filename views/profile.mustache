@@ -39,12 +39,13 @@
 			<h class="inputDis">Here you can create, view and manage your subscriptions</h><br><br>
 		</a>
 
-		<h class="inputDis">To go home anytime, tap the app logo on the top left corner</h><br>
-		<h class="inputDis">For easy access: bookmark or add app to your homescreen</h><br>
-		<h class="inputDis">This webapp uses minimal cookies technology</h><br>
-		<h class="inputDis">Numbers are rounded to the second decimals point</h><br>
-		<h class="inputDis">App currently works best on mobile devices</h><br>
-		<h class="inputDis">You may delete your account below this page</h>
+		<h class="inputDis"> - To go home anytime, tap the app logo on the top left corner</h><br>
+		<h class="inputDis"> - For easy access: bookmark or add Dotta to your homescreen</h><br>
+		<h style="margin-left:10px" class="inputDis"> - Find out how to here: <a target="_blank" href="https://mobilesyrup.com/2020/05/24/how-install-progressive-web-app-pwa-android-ios-pc-mac/">mobilesyrup: how to install a pwa</a></h><br>
+		<h class="inputDis"> - This webapp uses minimal cookies technology</h><br>
+		<h class="inputDis"> - Numbers are rounded to the second decimal point</h><br>
+		<h class="inputDis"> - App currently works best on mobile devices</h><br>
+		<h class="inputDis"> - You may delete your account below this page</h>
 		<br><br>
 
 		<div class="pageTitle">Your Account Details</div><br>
@@ -82,22 +83,29 @@
 
 
 		<div class="pageTitle">Danger Zone</div><br>
-
+		<label>Download your data</label>
 		{{!-- account/takeout --}}
 		<a href="/">
 			<div class="setBox">
-				<button class="setButton">Download your data</button>
+				<button class="setButton">In JSON Format</button>
 				<button class="setIcon"><span class="material-icons-two-tone md-light">assignment_returned</span></button><br>
 			</div>
-			<h class="inputDis">Takeout feature is still work a in progress</h><br><br>
 		</a>
+
+		<a href="/">
+			<div class="setBox">
+				<button class="setButton">In CSV Format</button>
+				<button class="setIcon"><span class="material-icons-two-tone md-light on600">assignment_returned</span></button><br>
+			</div>
+		</a>
+		<h class="inputDis">This feature is a still work a in progress</h><br><br>
 
 		<form method="post" action="account/delete">
 			<div class="setBox">
 				<button type="button" class="setButton"><span class="setData">@{{username}}</span></button>
 				<button class="setIcon"><span class="material-icons-two-tone md-light">delete</span></button><br>
 			</div>
-			<h class="inputDis">Careful here, deletion starts immediately you tap the trash icon</h><br><br>
+			<h class="inputDis">Careful, deletion starts immediately you tap the trash icon</h><br><br>
 			<input type="hidden" name="action" value="delete">
 			<input type="hidden" value="{{username}}" name="username" required>
 		</form>

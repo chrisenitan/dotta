@@ -383,7 +383,7 @@ appRouter.get("/:username", (req, res) => {
               dateTo.frequency = returnedSubs[dateSub].frequency
               returnedSubs[dateSub].subFuture = localTools.dateToNextSub(dateTo)
             }
-            console.log(user)
+            console.log(JSON.stringify(user, null, 2))
             res.render("home", user)
           } else {
             //user has no subs yet

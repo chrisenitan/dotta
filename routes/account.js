@@ -195,14 +195,13 @@ appRouter.get("/takeout", (req, res) => {
   //only if user is logged in
   const cookie = req.cookies
   if (cookie.user) {
-    //res.clearCookie("user")//for now
     let getUser =
       `SELECT * FROM profiles WHERE cookie = ` +
       sqldb.escape(cookie.user) +
       `LIMIT 1`
     sqldb.query(getUser, (err, resultUser) => {
       if (err) {
-        console.log("User not fetchs via cookie")
+        console.log("User not fetched via cookie")
         return false
       }
       if (Object.keys(resultUser).length != 0) {
