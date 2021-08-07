@@ -31,18 +31,5 @@ Dotta is a `nodeJs` app that give you a visual presentation and log of all your 
 - Setup env file to connect to database
 - Start the app with the script `npm start`
 
-## Cron for ledger
-
-**Monthly**
-- Get all month frequency subs
-- For all that date matches (today date)
-  - If date is 31 or 30 and (today date) is 30 also
-- Action: Get sub data and log into ledger.
-  - Update last billed in subs table
-
-**Weekly**
-
-- Get all week frequency subs
-- Add 7 to each and for all date matches (today date)
-- Action: Get sub data and log into ledger.
-  - Update last billed in subs table
+## Feedbacks and feature requests
+- Please use this <a target="_blank" href="https://forms.gle/nNLY7e6ET1GQBwyN6">Google Form</a>
