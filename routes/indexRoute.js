@@ -375,6 +375,8 @@ appRouter.get("/:username", (req, res) => {
           if (Object.keys(returnedSubs).length != 0) {
             //set subs to user obj
             user.subs = returnedSubs
+            //create total
+            user.subsTotalled = 0
             //get date to sub countdown and set for all items
             for (let dateSub = 0; dateSub < returnedSubs.length; dateSub++) {
               //create req object
@@ -382,6 +384,10 @@ appRouter.get("/:username", (req, res) => {
               dateTo.date = returnedSubs[dateSub].date
               dateTo.frequency = returnedSubs[dateSub].frequency
               returnedSubs[dateSub].subFuture = localTools.dateToNextSub(dateTo)
+              //add subs each time
+              user.subsTotalled =
+                parseFloat(user.subsTotalled) +
+                parseFloat(returnedSubs[dateSub].cost)
             }
             console.log(JSON.stringify(user, null, 2))
             res.render("home", user)

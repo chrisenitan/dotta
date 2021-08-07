@@ -31,7 +31,7 @@ let urlLog = (req, res, next) => {
     "The annual income -9, -9, -9...",
     "Call it a calendar for subscriptions",
     "Penny jar can pay the next Netflix",
-    "Share your feedbacks in app settings",
+    "Share your feedbacks via app settings",
     "One step closer to fixing addictions",
     "Pay less, use family or broader plans",
     "Long list? Kill what you don't need",
