@@ -2,7 +2,7 @@
 
 <head>
 	{{> heads}}
-	<title>Welcome to Dotta</title>
+	<title>Dotta - @{{username}}</title>
 </head>
 
 <body>
@@ -13,8 +13,17 @@
 	{{> navHeader}}
 	{{> header}}
 	<div id="pageContainer">
+		<p class="smallTxt">Welcome @{{username}}</p>
 
 		<div class="pageTitle">How to use Dotta</div><br>
+		<a href="/{{username}}">
+			<div class="setBox">
+				<button type='button' class="setButton">App Home</button>
+				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">door_front</span></button><br>
+			</div>
+			<h class="inputDis">Here you can create, view and manage your subscriptions</h><br><br>
+		</a>
+
 		<a href="/settings">
 			<div class="setBox">
 				<button type='button' class="setButton">App Settings</button>
@@ -31,20 +40,13 @@
 			<h class="inputDis">Here you get a summary of all your subscriptions</h><br><br>
 		</a>
 
-		<a href="/{{username}}">
-			<div class="setBox">
-				<button type='button' class="setButton">App Home</button>
-				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">door_front</span></button><br>
-			</div>
-			<h class="inputDis">Here you can create, view and manage your subscriptions</h><br><br>
-		</a>
-
 		<h class="inputDis"> - To go home anytime, tap the app logo on the top left corner</h><br>
 		<h class="inputDis"> - For easy access: bookmark or add Dotta to your homescreen</h><br>
-		<h style="margin-left:10px" class="inputDis"> - Find out how to here: <a target="_blank" href="https://mobilesyrup.com/2020/05/24/how-install-progressive-web-app-pwa-android-ios-pc-mac/">mobilesyrup: how to install a pwa</a></h><br>
+		<h style="margin-left:10px" class="inputDis"> - Find out how to here: <a target="_blank"
+				href="https://mobilesyrup.com/2020/05/24/how-install-progressive-web-app-pwa-android-ios-pc-mac/">mobilesyrup: how to install a
+				pwa</a></h><br>
 		<h class="inputDis"> - This webapp uses minimal cookies technology</h><br>
 		<h class="inputDis"> - Numbers are rounded to the second decimal point</h><br>
-		<h class="inputDis"> - App currently works best on mobile devices</h><br>
 		<h class="inputDis"> - You may delete your account below this page</h>
 		<br><br>
 
