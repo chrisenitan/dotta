@@ -60,7 +60,7 @@ appRouter.get("/trial", (req, res) => {
   //give rand name and acct values
   var userData = {}
   userData.password = ranPassword
-  userData.username = `${ranUsername}`
+  userData.username = `test${ranUsername}`
   userData.currency = "$"
 
   let createUser = insertNewAccount(userData)
