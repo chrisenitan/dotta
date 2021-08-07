@@ -1,0 +1,44 @@
+{
+  "name": "Dotta",
+  "description": "Subscription management software",
+  "background_color": "#acb1b9",
+  "short_name": "Dotta",
+  "theme_color": "#f1fafa",
+  "lang": "en_US",
+  "icons": [
+    {
+      "src": "/images/dotta_960.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "density": 5.0,
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/dotta_200.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "density": 4.0,
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/dotta_200.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "density": 3.0,
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/dotta_200.png",
+      "sizes": "58x57",
+      "type": "image/png",
+      "density": 1.0,
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "gcm_sender_id": "482941778795",
+  "gcm_sender_id_comment": "Do not change the GCM Sender ID"
+}

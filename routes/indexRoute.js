@@ -320,7 +320,7 @@ appRouter.post(
 )
 
 //edit account
-appRouter.get("/account", (req, res)=>{
+appRouter.get("/account", (req, res) => {
   if (req.cookies.user) {
     //get user data
     let getUser =
@@ -381,10 +381,9 @@ appRouter.get("/:username", (req, res) => {
               let dateTo = {}
               dateTo.date = returnedSubs[dateSub].date
               dateTo.frequency = returnedSubs[dateSub].frequency
-              returnedSubs[dateSub].daysRemaining =
-                localTools.dateToNextSub(dateTo)
+              returnedSubs[dateSub].subFuture = localTools.dateToNextSub(dateTo)
             }
-            console.log(user)
+            console.log(JSON.stringify(user, null, 2))
             res.render("home", user)
           } else {
             //user has no subs yet
@@ -403,7 +402,5 @@ appRouter.get("/:username", (req, res) => {
     res.redirect("/")
   }
 })
-
-
 
 module.exports = appRouter

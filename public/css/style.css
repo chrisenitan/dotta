@@ -10,6 +10,9 @@ body {
 a {
   text-decoration: none;
 }
+button {
+  cursor: pointer;
+}
 form {
   margin: auto;
 }
@@ -57,6 +60,7 @@ select {
   border-radius: 0px;
   color: #28549a;
   outline: none;
+  cursor: pointer;
   padding: 10px;
   padding-left: 5%;
   padding-right: 5%;
@@ -146,7 +150,7 @@ select {
   margin: 10px;
   display: inline-block;
 }
-.pageTitle{
+.pageTitle {
   background-color: #bdd4f0;
   width: 70%;
   overflow: scroll;
@@ -210,7 +214,6 @@ select {
   font-size: 48px;
 }
 #addPanel {
-  /* display: none; */
   width: 84%;
   max-width: 500px;
   background-color: #f4f4f4;
@@ -221,13 +224,26 @@ select {
   z-index: 100;
   position: fixed;
   margin-left: 3%;
-  bottom: 5px;
+  bottom: 5%;
   border-radius: 5px;
   overflow: scroll;
   border: 1px solid#a9a9a9;
   transition: 0.3s;
   -moz-transition: 0.3s;
   -webkit-transition: 0.3s;
+}
+@media screen and (min-width: 980px) {
+  #addPanel {
+    width: 100%;
+    margin: 0px;
+    max-width: 450px;
+    padding: 1%;
+    max-height: 600px;
+    overflow: hidden;
+  }
+}
+#addPanelForm {
+  display: none;
 }
 .setBox {
   width: 93%;
@@ -252,7 +268,7 @@ select {
   border: none;
   background: none;
 }
-.setBox:hover{
+.setBox:hover {
   background-color: #f4f4f4;
 }
 .setData {
@@ -271,4 +287,5 @@ select {
   overflow: hidden;
   padding: 3%;
   border-radius: 5px;
+  margin-bottom: 120px;
 }

@@ -1,8 +1,8 @@
-<html>
+<!DOCTYPE html lang="en">
 
 <head>
 	{{> heads}}
-	<title>Welcome to Dotta</title>
+	<title>Statistics</title>
 </head>
 
 <body>
@@ -29,13 +29,15 @@
 		</div>
 		<a href="/sub/{{topSub.ref}}">
 			<div class="setBox">
-				<button class="setButton">Highest: <span class="setData">{{topSub.name}} ({{owner.currency}}{{topSub.cost}})</span></button>
+				<button class="setButton">Highest: <span class="setData">{{topSub.name}}: <span
+							class="smallTxt">{{owner.currency}}{{topSub.cost}}</span></span></button>
 				<button class="setIcon"><span class="material-icons-two-tone md-light">vertical_align_top</span></button>
 			</div>
 		</a>
 		<a href="/sub/{{bottomSub.ref}}">
 			<div class="setBox">
-				<button class="setButton">Lowest: <span class="setData">{{bottomSub.name}} ({{owner.currency}}{{bottomSub.cost}})</span></button>
+				<button class="setButton">Lowest: <span class="setData">{{bottomSub.name}}: <span
+							class="smallTxt">{{owner.currency}}{{bottomSub.cost}}</span></span></button>
 				<button class="setIcon"><span class="material-icons-two-tone md-light">vertical_align_bottom</span></button>
 			</div>
 		</a>

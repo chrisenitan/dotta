@@ -26,15 +26,15 @@ let urlLog = (req, res, next) => {
 
   let ranVal = localTools.randomInt()
   let gW = [
-    "'I always want to know who billed me...'",
-    "Constantly recurring outdoor lunch qualifies",
-    "Annual income minus 9, minus 9, minus 9...",
-    "This app is a calendar for services",
-    "You didn't need to sign up for that",
-    "That's how they get high on your supply",
-    "It's one step closer to fixing addictions",
-    ".99 is a lot if you think about it",
-    "List of commitments should be getting shorter",
+    "I always want to know who billed me",
+    "Recurring outdoor lunch qualifies",
+    "The annual income -9, -9, -9...",
+    "Call it a calendar for subscriptions",
+    "Penny jar can pay the next Netflix",
+    "Share your feedbacks in app settings",
+    "One step closer to fixing addictions",
+    "Pay less, use family or broader plans",
+    "Long list? Kill what you don't need",
     "Baby gels, shaving cream and nail polish",
   ]
 

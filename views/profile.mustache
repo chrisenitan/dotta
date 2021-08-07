@@ -1,8 +1,8 @@
-<html>
+<!DOCTYPE html lang="en">
 
 <head>
 	{{> heads}}
-	<title>Welcome to Dotta</title>
+	<title>Dotta - @{{username}}</title>
 </head>
 
 <body>
@@ -13,13 +13,49 @@
 	{{> navHeader}}
 	{{> header}}
 	<div id="pageContainer">
-		<div class="pageTitle">Your Account</div><br>
+		<p class="smallTxt">Welcome @{{username}}</p>
 
+		<div class="pageTitle">How to use Dotta</div><br>
+		<a href="/{{username}}">
+			<div class="setBox">
+				<button type='button' class="setButton">App Home</button>
+				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">door_front</span></button><br>
+			</div>
+			<h class="inputDis">Here you can create, view and manage your subscriptions</h><br><br>
+		</a>
+
+		<a href="/settings">
+			<div class="setBox">
+				<button type='button' class="setButton">App Settings</button>
+				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">tune</span></button><br>
+			</div>
+			<h class="inputDis">View and customise your app and account preferences</h><br><br>
+		</a>
+
+		<a href="/statistics">
+			<div class="setBox">
+				<button type='button' class="setButton">Account Statistics</button>
+				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">stacked_bar_chart</span></button><br>
+			</div>
+			<h class="inputDis">Here you get a summary of all your subscriptions</h><br><br>
+		</a>
+		<label for="cost">Useful App Tips</label><br><br>
+		<h class="inputDis"> - To go home anytime, tap the app logo on the top left corner</h><br>
+		<h class="inputDis"> - For easy access: bookmark or add Dotta to your homescreen</h><br>
+		<h style="margin-left:10px" class="inputDis"> - read how to: <a target="_blank"
+				href="https://mobilesyrup.com/2020/05/24/how-install-progressive-web-app-pwa-android-ios-pc-mac/">mobilesyrup.com: how to install a
+				pwa</a></h><br>
+		<h class="inputDis"> - Dotta uses minimal cookies technology</h><br>
+		<h class="inputDis"> - Numbers are rounded to the second decimal point</h><br>
+		<h class="inputDis"> - You can delete your account below this page</h>
+		<br><br>
+
+		<div class="pageTitle">Your Account Details</div><br>
 		<form method="post" action="account/signup">
 			<div class="TinputDiv">
 				<label for="cost">Email</label><br>
 				<input type="email" value="{{email}}" name="email"><br>
-				<h class="inputDis">Email is never required</h><br>
+				<h class="inputDis">Email is optional. (useful for upcomiing notification feature)</h><br>
 			</div>
 
 			<div class="mTinputDiv">
@@ -39,7 +75,7 @@
 					<option>₹</option>
 					<option>£</option>
 				</select><br>
-				<h class="inputDis">Set a default currency</h><br><br>
+				<h class="inputDis">Choose a default currency</h><br><br>
 			</div>
 
 			<input type="hidden" value="{{username}}" name="username" required>
@@ -48,56 +84,30 @@
 		</form><br>
 
 
-		<div class="pageTitle">How to use Dotta</div><br>
-		<a href="/settings">
-			<div class="setBox">
-				<button type='button' class="setButton">App Settings</button>
-				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">tune</span></button><br>
-			</div>
-			<h class="inputDis">View and customise your app and account preferences</h><br><br>
-		</a>
-
-		<a href="/statistics">
-			<div class="setBox">
-				<button type='button' class="setButton">Account Statistics</button>
-				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">stacked_bar_chart</span></button><br>
-			</div>
-			<h class="inputDis">Here you get a summary of all your subscriptions</h><br><br>
-		</a>
-
-		<a href="/{{username}}">
-			<div class="setBox">
-				<button type='button' class="setButton">App Home</button>
-				<button type='button' class="setIcon"><span class="material-icons-two-tone md-light">door_front</span></button><br>
-			</div>
-			<h class="inputDis">Here you can create, view and manage your subscriptions</h><br><br>
-		</a>
-
-		<h class="inputDis">To go home anytime, tap the app logo on the top left corner</h><br>
-		<h class="inputDis">This webapp uses cookies technology to recognise your login</h><br>
-		<h class="inputDis">You can delete your account on this page via the settings page</h><br>
-		<h class="inputDis">Maths in some cases may be inaccurate to the decimals points</h><br>
-		<h class="inputDis">App works best on mobile devices</h><br>
-		<br><br>
-
-
 		<div class="pageTitle">Danger Zone</div><br>
-		
+		<label>Download your data</label>
 		{{!-- account/takeout --}}
-			<a href="/">
-				<div class="setBox">
-					<button class="setButton">Download your data</button>
-					<button class="setIcon"><span class="material-icons-two-tone md-light">assignment_returned</span></button><br>
-				</div>
-				<h class="inputDis">Takeout feature is still work in progress</h><br><br>
-			</a>
+		<a href="/">
+			<div class="setBox">
+				<button class="setButton">In JSON Format</button>
+				<button class="setIcon"><span class="material-icons-two-tone md-light">assignment_returned</span></button><br>
+			</div>
+		</a>
+
+		<a href="/">
+			<div class="setBox">
+				<button class="setButton">In CSV Format</button>
+				<button class="setIcon"><span class="material-icons-two-tone md-light on600">assignment_returned</span></button><br>
+			</div>
+		</a>
+		<h class="inputDis">This feature is still a work in progress</h><br><br>
 
 		<form method="post" action="account/delete">
 			<div class="setBox">
 				<button type="button" class="setButton"><span class="setData">@{{username}}</span></button>
 				<button class="setIcon"><span class="material-icons-two-tone md-light">delete</span></button><br>
 			</div>
-			<h class="inputDis">Careful here, deletion starts immediately you tap the trash icon</h><br><br>
+			<h class="inputDis">Careful, deletion starts immediately you tap the trash icon</h><br><br>
 			<input type="hidden" name="action" value="delete">
 			<input type="hidden" value="{{username}}" name="username" required>
 		</form>

@@ -1,8 +1,8 @@
-<html lang="en">
+<!DOCTYPE html lang="en">
 
 <head>
 	{{> heads}}
-	<title>Welcome to Dotta</title>
+	<title>Dotta</title>
 </head>
 
 <body>
@@ -23,9 +23,11 @@
 	{{#subs}}
 	<div class="subsHolder" style="background-color: {{colour}};">
 		<h class="subCost">{{currency}}{{cost}}</h><br><br>
-		<h class="subTxt">in: {{daysRemaining}} days</h><br><br>
+		<h class="subTxt">in {{subFuture.daysRemaining}} days</h><br>
+		<h class="smallTxt">on {{subFuture.nextDate}}</h><br><br>
+
 		<a href="sub/{{ref}}">
-			<h class="subName">{{name}}
+			<h class="subName">{{name}}</h>
 		</a><br>
 
 	</div>
@@ -34,12 +36,15 @@
 	{{!-- when user has no subs yet --}}
 	{{^subs}}
 	<div id="pageContainer">
-		<div class="subsHolder">
-			<h class="subCost">$40</h><br><br>
-			<h class="subTxt">in: 28 days</h><br><br>
-			<a href="/{{username}}">
-				<h class="subName">Sample
+		<div class="subsHolder" style="background-color: #e3ffd4">
+			<h class="subCost">{{currency}}40</h><br><br>
+			<h class="subTxt">in 19 days</h><br>
+			<h class="smallTxt">on 1-9-2021</h><br><br>
+
+			<a href="sub/{{ref}}">
+				<h class="subName">Demo</h>
 			</a><br>
+
 		</div><br><br>
 
 		Your account seems brand new<br><br>

@@ -63,14 +63,21 @@ let dateToNextSub = (req) => {
       date.date = dateObj.getDate()
   }
 
+  const eventDateNorm = `${date.date}-${date.month}-${date.year}`
   const todayYear = dateObj.getFullYear()
   const todayMonth = dateObj.getMonth()
   const todayDate = dateObj.getDate()
   const eventUTC = Date.UTC(date.year, date.month - 1, date.date)
   const todayUTC = Date.UTC(todayYear, todayMonth, todayDate)
   const eventDay = (eventUTC - todayUTC) / 1000 / 60 / 60 / 24
-  if (eventDay < 0) result = 0
-  else result = eventDay
+  const result = {}
+  if (eventDay < 0) {
+    result.daysRemaining = 0
+    result.nextDate = 0
+  } else {
+    result.daysRemaining = eventDay
+    result.nextDate = eventDateNorm
+  }
   return result
 }
 
