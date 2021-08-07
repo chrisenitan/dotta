@@ -1,6 +1,6 @@
 var Vone = 'dotta1.10';
 var urlts = [
-'logo_m.png'
+'dotta_200.png'
 ];
 
 self.addEventListener('install', function(event) {
