@@ -87,7 +87,6 @@ let getArraySum = (req) => {
   let costSum = 0
   for (let nulAmount = 0; nulAmount < req.length; nulAmount++) {
     costSum = costSum + parseFloat(req[nulAmount].cost)
-    console.log(req[nulAmount].cost + " id here ")
   }
   let response = {}
   response.costSum = costSum.toFixed(2)

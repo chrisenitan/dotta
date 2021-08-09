@@ -55,7 +55,6 @@ appRouter.get("/:ref", (req, res) => {
               if (Object.keys(resultSubLegder).length != 0) {
                 //define when subs was first logged
                 subData.started = resultSubLegder[0].dateEntered
-                console.log(`We have ${resultSubLegder[0].dateEntered}`)
                 const billings = localTools.getArraySum(resultSubLegder)
                 subData.billings = billings
               } else {
