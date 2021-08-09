@@ -22,13 +22,13 @@
 	<div class="pageTitle">Subscriptions: <a href="/statistics" class="smallTxt">{{currency}}{{subsTotalled}}</a></div>
 	{{#subs}}
 	<div class="subsHolder" style="background-color: {{colour}};">
-		<h class="subCost">{{currency}}{{cost}}</h><br><br>
-		<h class="subTxt">in {{subFuture.daysRemaining}} days</h><br>
-		<h class="smallTxt">on {{subFuture.nextDate}}</h><br><br>
-
 		<a href="sub/{{ref}}">
 			<h class="subName">{{name}}</h>
-		</a><br>
+		</a><br><br>
+		<h class="subTxt">in {{subFuture.daysRemaining}} days</h><br>
+		<h class="smallTxt">on {{subFuture.nextDate}}</h><br><br>
+		<h class="subCost">{{currency}}{{cost}}</h>
+		<br>
 
 	</div>
 	{{/subs}}
@@ -37,13 +37,13 @@
 	{{^subs}}
 	<div id="pageContainer">
 		<div class="subsHolder" style="background-color: #e3ffd4">
-			<h class="subCost">{{currency}}40</h><br><br>
+			<a href="/">
+				<h class="subName">Demo Sub</h>
+			</a><br><br>
 			<h class="subTxt">in 19 days</h><br>
 			<h class="smallTxt">on 1-9-2021</h><br><br>
-
-			<a href="sub/{{ref}}">
-				<h class="subName">Demo</h>
-			</a><br>
+			<h class="subCost">{{currency}}40</h>
+			<br>
 
 		</div><br><br>
 
@@ -60,7 +60,7 @@
 	<br><br><br>
 	{{/errReason}}
 
-
+<br><br><br>
 </body>
 
 </html>

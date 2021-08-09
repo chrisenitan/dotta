@@ -45,6 +45,6 @@ app.use("/sub", [cookieOnly, urlLog], subRoute)
 const port = process.env.port || 3000
 app.listen(port, () => {
   console.log(
-    `\x1b[32m...Dottta ready on port ${process.env.port}... \x1b[0m  \n`
+    `\x1b[32m...Dotta ready on port ${process.env.port}... \x1b[0m  \n`
   )
 })

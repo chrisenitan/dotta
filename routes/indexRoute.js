@@ -373,23 +373,23 @@ appRouter.get("/:username", (req, res) => {
         sqldb.query(getUserSubs, (err, returnedSubs) => {
           if (err) throw err
           if (Object.keys(returnedSubs).length != 0) {
-            //set subs to user obj
-            user.subs = returnedSubs
-            //create total
+            //create a default total cost
             user.subsTotalled = 0
-            //get date to sub countdown and set for all items
+            //get date to sub countdown and set for each sub
             for (let dateSub = 0; dateSub < returnedSubs.length; dateSub++) {
+              //add subs each time
+              user.subsTotalled =
+                parseFloat(user.subsTotalled) +
+                parseFloat(returnedSubs[dateSub].cost)
               //create req object
               let dateTo = {}
               dateTo.date = returnedSubs[dateSub].date
               dateTo.frequency = returnedSubs[dateSub].frequency
               returnedSubs[dateSub].subFuture = localTools.dateToNextSub(dateTo)
-              //add subs each time
-              user.subsTotalled =
-                parseFloat(user.subsTotalled) +
-                parseFloat(returnedSubs[dateSub].cost)
             }
-            console.log(JSON.stringify(user, null, 2))
+            //set final subs collection to user obj
+            user.subs = returnedSubs
+            console.dir(user, { depth: null })
             res.render("home", user)
           } else {
             //user has no subs yet
