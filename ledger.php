@@ -8,97 +8,73 @@ $dateMonth = date("m");
 $dateDay = date("d");
 
 
-
 //make case for 31sts
-//defiine 31 month array  
-$oddMonths = array("0", "1", "2", "4", "6", "7", "8", "10")
-if($dateDay = "31" and in_array($dateMonth, $oddMonths)){
+//define 31 day months array  
+$oddMonths = array("0", "1", "2", "4", "6", "7", "8", "10");
 
-  $holder31 = mysqli_query($conne,"SELECT * FROM subs WHERE `date` = '31' AND  frequency = 'Every Month' OR frequency = 'Every Week'"); 
-$gotSub31 = false;
-while($row3 = mysqli_fetch_array($holder31))
+$holderMonths = mysqli_query($conne,"SELECT * FROM subs WHERE frequency != '' "); 
+$gotSubMonths = false;
+while($rowMonths = mysqli_fetch_array($holderMonths))
 {
-$gotSub31 = true;
-$name = $row3['name'];
-$username = $row3['username'];
-$ref = $row3['ref'];
-$cost = $row3['cost'];
-$dateEntered = $row3['dateEntered'];
-//$gotSuRef = $row2['gotSuRef'];
+$gotSubMonths = true;
+$name = $rowMonths['name'];
+$username = $rowMonths['username'];
+$ref = $rowMonths['ref'];
+$cost = $rowMonths['cost'];
+$date = $rowMonths['date'];
+$nextlog = $rowMonths['nextlog'];
+$frequency = $rowMonths['frequency'];
+$dateEntered = $rowMonths['dateEntered'];
 
-$logLedger = "INSERT INTO ledger (username, ref, cost, dateEntered) VALUES ('$username', '$ref', '$cost', '$todayDate')";
+//monthly
+//if date is today or month is oddmonth and date is 28(all februaries) or month is oddmonth and date is more than 30(31: oddies)
+if($frequency == "Every Month" and ($dateDay == $date or (in_array($dateMonth, $oddMonths) and $date == 28) or (in_array($dateMonth, $oddMonths) and $date > 30))){
 
-if (!mysqli_query($conne,$logLedger))
-  {
-  die('Error: ' . mysqli_error($conne));
+  $logLedgerMonth = "INSERT INTO ledger (username, ref, cost, dateEntered) VALUES ('$username', '$ref', '$cost', '$todayDate')";
+
+    echo"Logged Month for: $name <br><br>";
+
+    if (!mysqli_query($conne,$logLedgerMonth)) { #after doing all that then close connection
+      die('Error: ' . mysqli_error($conne));
+    }
+
+}
+
+//weekly
+if($frequency == "Every Week" and ($dateDay == $nextlog)){
+  $logLedgerWeek = "INSERT INTO ledger (username, ref, cost, dateEntered) VALUES ('$username', '$ref', '$cost', '$todayDate')";
+
+  echo"Logged Week for: $name <br><br>";
+
+  //define next log within month scope
+  if($nextlog <= 28){
+    $newNextLog = $nextlog + 7;
+    echo"Next log is plus six: $ref : $newNextLog <br>";
+  }
+  else{
+    //reset to normal date
+    $newNextLog = $date;
+    echo"Next log reset to sub date for: $ref : $newNextLog <br>";
   }
   
-  
-echo"welcome $name <br>";
+  $updateWeekLog = "UPDATE subs SET nextlog='$newNextLog' WHERE ref = '$ref'";
 
-} 
-if($gotSub31 == false){
-    echo "user not found";
-}
-}
-else{
-//log monthlys
-$holder = mysqli_query($conne,"SELECT * FROM subs WHERE `date` = '12' AND  frequency = 'Every Month'"); 
-$gotSub = false;
-while($row2 = mysqli_fetch_array($holder))
-{
-$gotSub = true;
-$name = $row2['name'];
-$username = $row2['username'];
-$ref = $row2['ref'];
-$cost = $row2['cost'];
-$dateEntered = $row2['dateEntered'];
-//$gotSuRef = $row2['gotSuRef'];
-
-$logLedger = "INSERT INTO ledger (username, ref, cost, dateEntered) VALUES ('$username', '$ref', '$cost', '$todayDate')";
-
-if (!mysqli_query($conne,$logLedger))
-  {
-  die('Error: ' . mysqli_error($conne));
+  if (!mysqli_query($conne,$updateWeekLog) or !mysqli_query($conne,$logLedgerWeek)){ 
+    die('Error: ' . mysqli_error($conne));
   }
-  
-  
-echo"welcome $name <br>";
 
-} 
-if($gotSub == false){
-    echo "user not found";
-}
 }
 
 
+echo"Completed log review on: $name <br><br>";
 
-//weekly case
-$holderWeek = mysqli_query($conne,"SELECT * FROM subs WHERE `date` = '12' AND  frequency = 'Every Week'"); 
-$gotWeeklySub = false;
-while($row4 = mysqli_fetch_array($holderWeek))
-{
-$gotWeeklySub = true;
-$wname = $row4['name'];
-$wusername = $row4['username'];
-$wref = $row4['ref'];
-$wcost = $row4['cost'];
-$wdateEntered = $row4['dateEntered'];
-//$gotSuRef = $row2['gotSuRef'];
-
-$logWeeklyLedger = "INSERT INTO ledger (username, ref, cost, dateEntered) VALUES ('$wusername', '$wref', '$wcost', '$wtodayDate')";
-
-if (!mysqli_query($conne,$logWeeklyLedger))
-  {
-  die('Error: ' . mysqli_error($conne));
-  }
-  
-  
-echo"welcome $wname <br>";
-
-} 
-if($gotWeeklySub == false){
-    echo "No weekly found";
 }
+
+if($gotSubMonths == false){
+    echo "error logging sub in ledger";
+}
+
+//close
+mysqli_close($conne);
 
 ?>

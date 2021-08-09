@@ -276,6 +276,10 @@ appRouter.post(
         //generate a reference code and define other req values
         req.body.ref = localTools.randomValue(9)
         delete req.body.action
+        //default nextlog for legder processes
+        if (req.body.frequency == "Every Week") {
+          req.body.nextlog = req.body.date
+        }
         var currentDate = new Date()
         req.body.created = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`
         sqldb.query(insertNewSub, req.body, (err, insertSubResult, fields) => {

@@ -33,3 +33,13 @@ Dotta is a `nodeJs` app that give you a visual presentation and log of all your 
 
 ## Feedbacks and feature requests
 - Please use this <a target="_blank" href="https://forms.gle/nNLY7e6ET1GQBwyN6">Google Form</a>
+
+## Deployment
+- Hosting and DNS is via Namecheap 
+- Cpanel handles both Node App engine and Git version control
+- Git account is connected to the Git version control in the cpanel account which pulls latest changes from main branch into a seperate folder
+- Deploy `.panel.yml` used in Node App Setup contains script to copy latest files from pulled repo folder into hosting root dir
+- After which you need to restart the node app via the cpanel Node App Engine. 
+
+**Cron Jobs**
+-  `ledger.php` handles logging all subscription according to their frequeicny and is ran once per day
