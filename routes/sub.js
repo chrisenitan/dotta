@@ -36,8 +36,6 @@ appRouter.get("/:ref", (req, res) => {
       }
       if (Object.keys(resultSub).length != 0) {
         console.log(resultSub[0])
-        //set default null for started date
-        if(resultSub[0].started == null){resultSub[0].started = "Upcoming"}
         const subData = resultSub[0]
         //get owning user
         let getUser =
@@ -50,14 +48,20 @@ appRouter.get("/:ref", (req, res) => {
             //set user objct
             let user = returnedUser[0]
             //get sub ledge information if username is found
-            let getSubLedger = `SELECT * FROM ledger WHERE ref = '${subData.ref}'`
+            let getSubLedger = `SELECT * FROM ledger WHERE ref = '${subData.ref}' ORDER BY dateEntered ASC`
             sqldb.query(getSubLedger, (err, resultSubLegder) => {
               if (err) throw err
 
               if (Object.keys(resultSubLegder).length != 0) {
+                //define when subs was first logged
+                subData.started = resultSubLegder[0].dateEntered
+                console.log(`We have ${resultSubLegder[0].dateEntered}`)
                 const billings = localTools.getArraySum(resultSubLegder)
                 subData.billings = billings
               } else {
+                //define when subs was first logged and billed
+                subData.lastBilled = "Upcoming"
+                subData.started = "Upcoming"
                 //set default values
                 const billing = {
                   costSum: 0,

@@ -86,11 +86,11 @@ let dateToNextSub = (req) => {
 let getArraySum = (req) => {
   let costSum = 0
   for (let nulAmount = 0; nulAmount < req.length; nulAmount++) {
-    costSum = costSum + parseInt(req[nulAmount].cost)
+    costSum = costSum + parseFloat(req[nulAmount].cost)
     console.log(req[nulAmount].cost + " id here ")
   }
   let response = {}
-  response.costSum = costSum
+  response.costSum = costSum.toFixed(2)
   response.costCount = req.length
   return response
 }

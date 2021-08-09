@@ -168,6 +168,7 @@ appRouter.get("/statistics", (req, res) => {
         let countSub =
           `SELECT COUNT(ref) AS totalCount FROM subs WHERE username = ` +
           sqldb.escape(returnedUser[0].username)
+        //get total sub cost and round up to 2 decimal points
         let countSubCost =
           `SELECT ROUND(SUM(cost), 2) AS totalCost FROM subs WHERE username = ` +
           sqldb.escape(returnedUser[0].username)
