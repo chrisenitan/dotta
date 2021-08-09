@@ -206,38 +206,49 @@ appRouter.get("/takeout", (req, res) => {
       }
       if (Object.keys(resultUser).length != 0) {
         const takeoutUser = resultUser[0]
-        const stTakeoutUser = JSON.stringify(takeoutUser)
-        //create a new takeout file
-        fs.appendFile(
-          `assets/tmp_takeout/${takeoutUser.username}.json`,
-          `${stTakeoutUser}`,
-          function (err) {
-            if (err) throw err
-            //read file created
-            fs.readFile(
-              `assets/tmp_takeout/${takeoutUser.username}.json`,
-              { encoding: "utf-8" },
-              function (err, file) {
-                if (err) throw err
-                res.writeHead(200, {
-                  "Content-Type": "text/json",
-                  "Content-Disposition": `attachment;filename=${takeoutUser.username}.json`,
-                })
-                res.write(file)
-                //delete file when done: maybe wait?
-                fs.unlink(
-                  `assets/tmp_takeout/${takeoutUser.username}.json`,
-                  function (err) {
-                    if (err) throw err
-                  }
-                )
-                res.end()
-              }
-            )
+        //get user subs
+        let getUserSubs = `SELECT * FROM subs WHERE username = '${takeoutUser.username}'`
+        sqldb.query(getUserSubs, (err, resultUserSubs) => {
+          if (err) throw err
+          if (Object.keys(resultUserSubs).length != 0) {
+            takeoutUser.subscriptions = resultUserSubs
+            console.log(takeoutUser)
           }
-        )
-      } else {
-        resultUser[0].goodWill = "Could not generate, please contact Dotta"
+          const stTakeoutUser = JSON.stringify(takeoutUser)
+          //create a new takeout file
+          fs.appendFile(
+            `assets/tmp_takeout/${takeoutUser.username}.json`,
+            `${stTakeoutUser}`,
+            function (err) {
+              if (err) throw err
+              //read file created
+              fs.readFile(
+                `assets/tmp_takeout/${takeoutUser.username}.json`,
+                { encoding: "utf-8" },
+                function (err, file) {
+                  if (err) throw err
+                  res.writeHead(200, {
+                    "Content-Type": "text/json",
+                    "Content-Disposition": `attachment;filename=${takeoutUser.username}.json`,
+                  })
+                  res.write(file)
+                  //delete file when done: maybe wait?
+                  fs.unlink(
+                    `assets/tmp_takeout/${takeoutUser.username}.json`,
+                    function (err) {
+                      if (err) throw err
+                    }
+                  )
+                  res.end()
+                }
+              )
+            }
+          )
+        })
+      }
+      //did not find user
+      else {
+        resultUser[0].goodWill = "Could not generate, please contact team"
         res.render("profile", resultUser[0])
       }
     })

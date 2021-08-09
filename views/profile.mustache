@@ -86,21 +86,13 @@
 
 		<div class="pageTitle">Danger Zone</div><br>
 		<label>Download your data</label>
-		{{!-- account/takeout --}}
-		<a href="/">
+		<a href="/account/takeout">
 			<div class="setBox">
 				<button class="setButton">In JSON Format</button>
 				<button class="setIcon"><span class="material-icons-two-tone md-light">assignment_returned</span></button><br>
 			</div>
 		</a>
-
-		<a href="/">
-			<div class="setBox">
-				<button class="setButton">In CSV Format</button>
-				<button class="setIcon"><span class="material-icons-two-tone md-light on600">assignment_returned</span></button><br>
-			</div>
-		</a>
-		<h class="inputDis">This feature is still a work in progress</h><br><br>
+		<h class="inputDis">Export your data in <a target="_blank" href="https://en.wikipedia.org/wiki/JSON">{JSON}</a> format</h><br><br>
 
 		<form method="post" action="account/delete">
 			<div class="setBox">

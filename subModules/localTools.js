@@ -1,3 +1,5 @@
+const fs = require("fs")
+
 //generate a random char: recieves int param for lenght
 let randomValue = (req) => {
   var ranId = ""
@@ -92,6 +94,7 @@ let getArraySum = (req) => {
   response.costCount = req.length
   return response
 }
+
 
 exports.dateToNextSub = dateToNextSub
 exports.secureKey = secureKey
