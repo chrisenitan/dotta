@@ -35,7 +35,6 @@ appRouter.get("/:ref", (req, res) => {
         console.log(err)
       }
       if (Object.keys(resultSub).length != 0) {
-        console.log(resultSub[0])
         const subData = resultSub[0]
         //get owning user
         let getUser =
@@ -71,7 +70,6 @@ appRouter.get("/:ref", (req, res) => {
               //set goodwill message
               subData.user = user
               subData.goodWill = req.goodWill
-              console.log(subData)
               res.render("sub/subView", subData)
             })
           } else {

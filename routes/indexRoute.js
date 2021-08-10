@@ -28,7 +28,7 @@ sqldb.connect((err) => {
 appRouter.get("/", (req, res) => {
   const cookie = req.cookies
   if (cookie.c_auth != undefined) {
-    console.log(`home dir: found cookie: ${cookie.c_auth}`)
+    console.log(`home dir: found cookie`)
     let getUser =
       `SELECT * FROM profiles WHERE cookie = ` +
       sqldb.escape(cookie.c_auth) +
@@ -235,7 +235,6 @@ appRouter.get("/statistics", (req, res) => {
                     //define other obj and send
                     statData.bottomSub = resultLowestSub[0]
                     statData.topSub = resultHighestSub[0]
-                    console.log(statData)
                     res.render("statistics", statData)
                   })
                 })
@@ -301,7 +300,6 @@ appRouter.post(
           }
         })
       } else if (req.body.action == "update") {
-        console.log(req.body)
         sqldb.query(
           "UPDATE subs SET name = ?, cost = ?, date = ?, frequency = ?, colour = ? WHERE ref = ?",
           [
@@ -319,8 +317,6 @@ appRouter.post(
               res.send(actionError.errReason)
               console.log(err)
             }
-            console.log(req.body.ref)
-            console.log(updateSubResult)
             res.redirect(`/sub/${req.body.ref}`)
           }
         )
@@ -344,7 +340,6 @@ appRouter.get("/account", (req, res) => {
       if (Object.keys(returnedUser).length != 0) {
         //set goodwill message
         returnedUser[0].goodWill = req.goodWill
-        console.log(returnedUser[0])
         res.render("profile", returnedUser[0])
       } else {
         //no user found

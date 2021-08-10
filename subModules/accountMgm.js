@@ -4,7 +4,7 @@ let isActiveCookie = (req, res, next) => {
   const cookie = req.cookies
   console.log(cookie._ga)
   if (cookie.c_auth != undefined) {
-    console.log(`isActiveCookie Triggered: cookie c_auth is ${cookie.c_auth}`)
+    console.log(`isActiveCookie Triggered`)
   }
   next()
 }
@@ -13,7 +13,7 @@ let cookieOnly = (req, res, next) => {
   const cookie = req.cookies
   console.log(cookie._ga)
   if (cookie.c_auth != undefined) {
-    console.log(`cookie c_auth is ${cookie.c_auth}`)
+    console.log(`page access granted on cookie c_auth`)
   } else {
     console.log(`page access denied: auth is not set`)
     res.redirect("/")

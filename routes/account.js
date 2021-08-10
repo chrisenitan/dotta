@@ -36,7 +36,7 @@ var insertNewAccount = function (req) {
   let trialSignUp = `INSERT INTO profiles SET ?`
   sqldb.query(trialSignUp, reqUser, (err, signupResult, fields) => {
     if (err) {
-      console.log("Errorr inserting new user")
+      console.log("Error inserting new user")
     }
     if (signupResult.insertId != undefined) {
       console.log("New user created")
@@ -104,7 +104,6 @@ appRouter.post(
             maxAge: 2592000000,
             httpOnly: false,
           })
-          console.log(returnedUser[0])
           res.redirect(`/${returnedUser[0].username}`)
         } else {
           //no user found
@@ -216,7 +215,6 @@ appRouter.get("/takeout", (req, res) => {
           if (err) throw err
           if (Object.keys(resultUserSubs).length != 0) {
             takeoutUser.subscriptions = resultUserSubs
-            console.log(takeoutUser)
           }
           //get user ledger
           let getUserLegder = `SELECT * FROM ledger WHERE username = '${takeoutUser.username}'`
@@ -224,7 +222,6 @@ appRouter.get("/takeout", (req, res) => {
             if (err) throw err
             if (Object.keys(resultUserLegder).length != 0) {
               takeoutUser.ledger = resultUserLegder
-              console.log(takeoutUser)
             }
 
             //file management
