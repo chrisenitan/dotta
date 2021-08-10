@@ -316,9 +316,12 @@ appRouter.post(
 
 //all recovery of account
 appRouter.get("/recovery", (req, res) => {
-  res.json({
-    message: "recover account here",
-  })
+  res.clearCookie("c_auth")
+
+  //set goodwill to user
+  let ref = {}
+  ref.goodWill = req.goodWill
+  res.render("account/recovery", ref)
 })
 
 module.exports = appRouter

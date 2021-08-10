@@ -24,22 +24,25 @@ Dotta is a `NodeJS` app that give you a visual presentation and log of all your 
 ## Code Setup
 
 **This document assumes you have some knowledge of npm and javascript**<br>
-**Databse setup is a limitation, will publish sample schema here**
 
 - Clone repo
 - Install dependencies via npm `npm install`
 - Setup env file to connect to database
+  - Env and database schema is limited to contributors
 - Start the app with the script `npm start`
 
 ## Feedbacks and feature requests
+
 - Please use this <a target="_blank" href="https://forms.gle/nNLY7e6ET1GQBwyN6">Google Form</a>
 
 ## Deployment
-- Hosting and DNS is via Namecheap 
+
+- Hosting and DNS is via Namecheap
 - Cpanel handles both Node App engine and Git version control
 - Git account is connected to the Git version control in the Cpanel account which pulls latest changes from `main` branch into a seperate folder
 - Deploy `.panel.yml` used in Node App Setup contains script to copy latest files from pulled repo folder into hosting root dir
 - After which you need to restart the node app via the Cpanel
 
 **Cron Jobs**
--  `ledger.php` handles logging all subscription according to their frequeicny and is ran once per day
+
+- `ledger.php` handles logging all subscription according to their frequeicny and is ran once per day
