@@ -1,9 +1,10 @@
 if (document.getElementById("navAdd")) {
   document.getElementById("navAdd").addEventListener("click", function () {
     document.getElementById("addPanelForm").style.display = "block"
-    document.getElementById("addPanel").style.height = "65vh"
-    document.getElementById("addPanel").style.paddingTop = "2.5%"
-    document.getElementById("addPanel").style.paddingBottom = "2.5%"
+    const addPanel = document.getElementById("addPanel")
+    addPanel.style.height = "65vh"
+    addPanel.style.paddingTop = "2.5%"
+    addPanel.style.paddingBottom = "2.5%"
   })
 }
 if (document.getElementById("closeAddPanel")) {
@@ -11,9 +12,10 @@ if (document.getElementById("closeAddPanel")) {
     .getElementById("closeAddPanel")
     .addEventListener("click", function () {
       document.getElementById("addPanelForm").style.display = "none"
-      document.getElementById("addPanel").style.height = "0vh"
-      document.getElementById("addPanel").style.paddingTop = "0.5%"
-      document.getElementById("addPanel").style.paddingBottom = "0.5%"
+      const addPanel = document.getElementById("addPanel")
+      addPanel.style.height = "0vh"
+      addPanel.style.paddingTop = "0.5%"
+      addPanel.style.paddingBottom = "0.5%"
     })
 }
 

@@ -137,6 +137,7 @@ select {
   font-size: 18px;
   color: #2a9bff;
   font-weight: bold;
+  text-shadow: 0px 0px #000000;
 }
 .subsHolder {
   height: auto;
