@@ -171,17 +171,19 @@ appRouter.post(
       else {
         delete req.body.action
         sqldb.query(
-          "UPDATE profiles SET currency = ?, email = ? WHERE username = ?",
-          [`${req.body.currency}`, `${req.body.email}`, `${req.body.username}`],
+          "UPDATE profiles SET currency = ?, email = ?, password = ? WHERE username = ?",
+          [
+            `${req.body.currency}`,
+            `${req.body.email}`,
+            `${req.body.password}`,
+            `${req.body.username}`,
+          ],
           (err, updateSubResult) => {
             if (err) {
               console.log("error updating user")
-              console.log(req.body)
-              //res.redirect("/")//bad
               res.send("error updating")
             }
             console.log("Hit endpoint step")
-            console.log(req.body)
             res.redirect("../account")
           }
         )
@@ -195,6 +197,7 @@ appRouter.get("/takeout", (req, res) => {
   //only if user is logged in
   const cookie = req.cookies
   if (cookie.user) {
+    //get user data
     let getUser =
       `SELECT * FROM profiles WHERE cookie = ` +
       sqldb.escape(cookie.user) +
@@ -206,6 +209,7 @@ appRouter.get("/takeout", (req, res) => {
       }
       if (Object.keys(resultUser).length != 0) {
         const takeoutUser = resultUser[0]
+
         //get user subs
         let getUserSubs = `SELECT * FROM subs WHERE username = '${takeoutUser.username}'`
         sqldb.query(getUserSubs, (err, resultUserSubs) => {
@@ -214,7 +218,7 @@ appRouter.get("/takeout", (req, res) => {
             takeoutUser.subscriptions = resultUserSubs
             console.log(takeoutUser)
           }
-          //get user ledger record
+          //get user ledger
           let getUserLegder = `SELECT * FROM ledger WHERE username = '${takeoutUser.username}'`
           sqldb.query(getUserLegder, (err, resultUserLegder) => {
             if (err) throw err
@@ -263,6 +267,10 @@ appRouter.get("/takeout", (req, res) => {
         res.render("profile", resultUser[0])
       }
     })
+  }
+  //no cookie, this should not happen
+  else {
+    res.redirect("/")
   }
 })
 

@@ -52,20 +52,27 @@
 
 		<div class="pageTitle">Your Account Details</div><br>
 		<form method="post" action="account/signup">
-			<div class="TinputDiv">
-				<label for="cost">Email</label><br>
-				<input type="email" value="{{email}}" name="email"><br>
-				<h class="inputDis">Email is optional. (useful for upcomiing notification feature)</h><br>
+
+			<div class="mTinputDiv">
+				<label for="email">Email</label><br>
+				<input type="text" value="{{email}}" name="email"><br>
+				<h class="inputDis">Email is optional</h><br><br>
 			</div>
 
 			<div class="mTinputDiv">
-				<label for="cost">Username</label><br>
+				<label for="password">Password</label><br>
+				<input type="text" value="{{password}}" name="password"><br>
+				<h class="inputDis">Kepp it strong</h><br><br>
+			</div>
+
+			<div class="mTinputDiv">
+				<label for="username">Username</label><br>
 				<input disabled type="text" value="{{username}}"><br>
 				<h class="inputDis">You cannot change this</h><br><br>
 			</div>
 
 			<div class="mTinputDiv">
-				<label for="cost">Currency</label><br>
+				<label for="currency">Currency</label><br>
 				<select name="currency" required>
 					<option selected>{{currency}}</option>
 					<option>$</option>
