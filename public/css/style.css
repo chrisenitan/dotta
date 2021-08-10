@@ -218,13 +218,13 @@ select {
   max-width: 500px;
   background-color: #f4f4f4;
   padding: 5%;
-  padding-top: 2.5%;
-  padding-bottom: 2.5%;
+  padding-top: 0.5%;
+  padding-bottom: 0.5%;
   height: 0;
   z-index: 100;
   position: fixed;
   margin-left: 3%;
-  bottom: 5%;
+  bottom: 10px;
   border-radius: 5px;
   overflow: scroll;
   border: 1px solid#a9a9a9;

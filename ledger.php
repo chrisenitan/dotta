@@ -7,12 +7,13 @@ $todayDate = date("Y-m-d");
 $dateMonth = date("m");
 $dateDay = date("d");
 
-
 //make case for 31sts
 //define 31 day months array  
 $oddMonths = array("0", "1", "2", "4", "6", "7", "8", "10");
 
-$holderMonths = mysqli_query($conne, "SELECT * FROM subs WHERE frequency != '' ");
+echo 'My username is ' .$_ENV["USER"] . '!';
+
+/* $holderMonths = mysqli_query($conne, "SELECT * FROM subs WHERE frequency != '' ");
 $gotSubMonths = false;
 while ($rowMonths = mysqli_fetch_array($holderMonths)) {
   $gotSubMonths = true;
@@ -67,7 +68,7 @@ while ($rowMonths = mysqli_fetch_array($holderMonths)) {
 
 if ($gotSubMonths == false) {
   echo "error logging sub in ledger";
-}
+} */
 
 //close
 mysqli_close($conne);
