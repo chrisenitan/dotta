@@ -53,25 +53,13 @@
 		<div class="pageTitle">Your Account Details</div><br>
 		<form method="post" action="account/signup">
 
-			<div class="mTinputDiv">
+			<div class="mTinputDiv" style="width:65%">
 				<label for="email">Email</label><br>
 				<input type="text" value="{{email}}" name="email"><br>
 				<h class="inputDis">Email is optional</h><br><br>
 			</div>
 
-			<div class="mTinputDiv">
-				<label for="password">Password</label><br>
-				<input type="text" value="{{password}}" name="password"><br>
-				<h class="inputDis">Kepp it strong</h><br><br>
-			</div>
-
-			<div class="mTinputDiv">
-				<label for="username">Username</label><br>
-				<input disabled type="text" value="{{username}}"><br>
-				<h class="inputDis">You cannot change this</h><br><br>
-			</div>
-
-			<div class="mTinputDiv">
+			<div class="mTinputDiv" style="width:25%">
 				<label for="currency">Currency</label><br>
 				<select name="currency" required>
 					<option selected>{{currency}}</option>
@@ -82,7 +70,19 @@
 					<option>₹</option>
 					<option>£</option>
 				</select><br>
-				<h class="inputDis">Choose a default currency</h><br><br>
+				<h class="inputDis">Main currency</h><br><br>
+			</div>
+
+			<div class="mTinputDiv">
+				<label for="password">Password</label><br>
+				<input type="text" value="{{password}}" name="password"><br>
+				<h class="inputDis">Try a strong combination</h><br><br>
+			</div>
+
+			<div class="mTinputDiv">
+				<label for="username">Username</label><br>
+				<input disabled type="text" value="{{username}}"><br>
+				<h class="inputDis">You cannot change this</h><br><br>
 			</div>
 
 			<input type="hidden" value="{{username}}" name="username" required>
