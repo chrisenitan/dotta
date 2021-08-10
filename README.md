@@ -1,17 +1,17 @@
-<p style="text-align:center;">
-<img  width="100" height="100" src="/public/images/dotta_960.png">
+<p align="center">
+<img width="200" src="/public/images/dotta_960.png">
 <br>
 Website:
 <a href="https://dotta.vrixe.com">dotta.vrixe.com</a>
 <br>
-<b>A webapp to track subscriptions</b>
+<b>A subscription management and tracking webapp</b>
 </p>
 
 ## About Dotta
 
 Dotta is a `nodeJs` app that give you a visual presentation and log of all your recurring subcriptions.
 
-- Dotta is a [Vrixe](https://github.com/chrisenitan/vrixe) project
+- Dotta is a [Vrixe](https://github.com/chrisenitan/vrixe) tool
 
 ## What it does in details
 
