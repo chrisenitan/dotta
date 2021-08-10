@@ -29,7 +29,7 @@ var insertNewAccount = function (req) {
   const reqUser = req
 
   //create other needed data
-  let ranCookie = localTools.randomValue(8)
+  let ranCookie = localTools.secureKey(28)
   req.cookie = ranCookie
 
   //use those to create account
@@ -51,7 +51,7 @@ var insertNewAccount = function (req) {
 //trial sign up
 appRouter.get("/trial", (req, res) => {
   //clear existing cookie
-  res.clearCookie("user")
+  res.clearCookie("c_auth")
   //reload of this url should not resignup. app makes sure cookie logeed in is redirected
 
   let ranUsername = localTools.randomString(6)
@@ -65,7 +65,7 @@ appRouter.get("/trial", (req, res) => {
 
   let createUser = insertNewAccount(userData)
   //set client cookie
-  res.cookie("user", createUser.cookie, {
+  res.cookie("c_auth", createUser.cookie, {
     maxAge: 2592000000,
     httpOnly: false,
   })
@@ -78,7 +78,7 @@ appRouter.post(
   [check("action", "Action is not login").equals("logIn")],
   (req, res) => {
     //clear existing cookie
-    res.clearCookie("user")
+    res.clearCookie("c_auth")
 
     //define login status handler
     const loginError = {}
@@ -100,7 +100,7 @@ appRouter.post(
         if (err) throw err
         if (Object.keys(returnedUser).length != 0) {
           //user found, set new cookie
-          res.cookie("user", returnedUser[0].cookie, {
+          res.cookie("c_auth", returnedUser[0].cookie, {
             maxAge: 2592000000,
             httpOnly: false,
           })
@@ -153,7 +153,7 @@ appRouter.post(
             //user never existed so safe to insert
             createUser = insertNewAccount(signUpData)
             //set client cookie
-            res.cookie("user", createUser.cookie, {
+            res.cookie("c_auth", createUser.cookie, {
               maxAge: 2592000000,
               httpOnly: false,
             })
@@ -196,11 +196,11 @@ appRouter.post(
 appRouter.get("/takeout", (req, res) => {
   //only if user is logged in
   const cookie = req.cookies
-  if (cookie.user) {
+  if (cookie.c_auth) {
     //get user data
     let getUser =
       `SELECT * FROM profiles WHERE cookie = ` +
-      sqldb.escape(cookie.user) +
+      sqldb.escape(cookie.c_auth) +
       `LIMIT 1`
     sqldb.query(getUser, (err, resultUser) => {
       if (err) {
@@ -280,7 +280,7 @@ appRouter.post(
   [check("action", "Action is not a deletion").equals("delete")],
   (req, res) => {
     //clear existing cookie
-    res.clearCookie("user")
+    res.clearCookie("c_auth")
     let actionUser = req.body
     let deleteUser =
       `DELETE FROM profiles WHERE username = ` +

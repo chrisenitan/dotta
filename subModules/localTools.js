@@ -32,7 +32,7 @@ let randomInt = () => {
 let secureKey = (req) => {
   var ranKey = ""
   var characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*"
+    "ABCTU$%VWXYZabcdewxyz012345fghijklmnopqrDEFGHIJMNOPQRSstuv67KL89!@#&*"
   for (var i = 0; i < req; i++) {
     ranKey += characters.charAt(Math.floor(Math.random() * characters.length))
   }
@@ -51,6 +51,7 @@ let dateToNextSub = (req) => {
       if (req.date <= dateObj.getDate()) {
         date.month = dateObj.getMonth() + 2
       } else {
+        //same month but in a few days
         date.month = dateObj.getMonth() + 1
       }
       date.date = parseInt(req.date)
@@ -93,7 +94,6 @@ let getArraySum = (req) => {
   response.costCount = req.length
   return response
 }
-
 
 exports.dateToNextSub = dateToNextSub
 exports.secureKey = secureKey

@@ -3,8 +3,8 @@ const localTools = require("../subModules/localTools")
 let isActiveCookie = (req, res, next) => {
   const cookie = req.cookies
   console.log(cookie._ga)
-  if (cookie.user != undefined) {
-    console.log(`isActiveCookie Triggered: cookie user is ${cookie.user}`)
+  if (cookie.c_auth != undefined) {
+    console.log(`isActiveCookie Triggered: cookie c_auth is ${cookie.c_auth}`)
   }
   next()
 }
@@ -12,9 +12,10 @@ let isActiveCookie = (req, res, next) => {
 let cookieOnly = (req, res, next) => {
   const cookie = req.cookies
   console.log(cookie._ga)
-  if (cookie.user != undefined) {
-    console.log(`cookie user is ${cookie.user}`)
+  if (cookie.c_auth != undefined) {
+    console.log(`cookie c_auth is ${cookie.c_auth}`)
   } else {
+    console.log(`page access denied: auth is not set`)
     res.redirect("/")
   }
   next()

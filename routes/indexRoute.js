@@ -27,12 +27,11 @@ sqldb.connect((err) => {
 
 appRouter.get("/", (req, res) => {
   const cookie = req.cookies
-  if (cookie.user != undefined) {
-    console.log(`home dir: found cookie: ${cookie.user}`)
-    //res.clearCookie("user")//for now
+  if (cookie.c_auth != undefined) {
+    console.log(`home dir: found cookie: ${cookie.c_auth}`)
     let getUser =
       `SELECT * FROM profiles WHERE cookie = ` +
-      sqldb.escape(cookie.user) +
+      sqldb.escape(cookie.c_auth) +
       `LIMIT 1`
     sqldb.query(getUser, (err, result) => {
       if (err) {
@@ -41,9 +40,17 @@ appRouter.get("/", (req, res) => {
       }
       if (Object.keys(result).length != 0) {
         res.redirect(`/${result[0].username}`)
+      } else {
+        res.clearCookie("user") //fallback for old cookie
+        res.clearCookie("c_auth")
+        let nullUser = {}
+        nullUser.goodWill = req.goodWill
+        res.render("index", nullUser)
       }
     })
   } else {
+    res.clearCookie("user") //fallback for old cookie
+    res.clearCookie("c_auth")
     let nullUser = {}
     nullUser.goodWill = req.goodWill
     res.render("index", nullUser)
@@ -52,8 +59,8 @@ appRouter.get("/", (req, res) => {
 
 //login
 appRouter.get("/login", (req, res) => {
-  if (req.cookies.user) {
-    res.clearCookie("user")
+  if (req.cookies.c_auth) {
+    res.clearCookie("c_auth")
   }
   //set goodwill to user
   let ref = {}
@@ -63,16 +70,16 @@ appRouter.get("/login", (req, res) => {
 
 //logout
 appRouter.get("/logout", (req, res) => {
-  if (req.cookies.user) {
-    res.clearCookie("user")
+  if (req.cookies.c_auth) {
+    res.clearCookie("c_auth")
   }
   res.redirect("/")
 })
 
 //signup
 appRouter.get("/signup", (req, res) => {
-  if (req.cookies.user) {
-    res.clearCookie("user")
+  if (req.cookies.c_auth) {
+    res.clearCookie("c_auth")
   }
   let ranUsername = localTools.randomInt()
   let possibleNames = [
@@ -95,11 +102,11 @@ appRouter.get("/signup", (req, res) => {
 
 //settings
 appRouter.get("/settings", (req, res) => {
-  if (req.cookies.user) {
+  if (req.cookies.c_auth) {
     //get user data
     let getUser =
       `SELECT * FROM profiles WHERE cookie = ` +
-      sqldb.escape(req.cookies.user) +
+      sqldb.escape(req.cookies.c_auth) +
       `LIMIT 1`
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
@@ -122,11 +129,11 @@ appRouter.get("/settings", (req, res) => {
 
 //about
 appRouter.get("/about", (req, res) => {
-  if (req.cookies.user) {
+  if (req.cookies.c_auth) {
     //get user data
     let getUser =
       `SELECT * FROM profiles WHERE cookie = ` +
-      sqldb.escape(req.cookies.user) +
+      sqldb.escape(req.cookies.c_auth) +
       `LIMIT 1`
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
@@ -149,7 +156,7 @@ appRouter.get("/about", (req, res) => {
 
 //statistics
 appRouter.get("/statistics", (req, res) => {
-  if (req.cookies.user) {
+  if (req.cookies.c_auth) {
     //set stat data
     const statData = {}
     //set goodwill message
@@ -157,7 +164,7 @@ appRouter.get("/statistics", (req, res) => {
     //get user data
     let getUser =
       `SELECT * FROM profiles WHERE cookie = ` +
-      sqldb.escape(req.cookies.user) +
+      sqldb.escape(req.cookies.c_auth) +
       `LIMIT 1`
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
@@ -326,11 +333,11 @@ appRouter.post(
 
 //edit account
 appRouter.get("/account", (req, res) => {
-  if (req.cookies.user) {
+  if (req.cookies.c_auth) {
     //get user data
     let getUser =
       `SELECT * FROM profiles WHERE cookie = ` +
-      sqldb.escape(req.cookies.user) +
+      sqldb.escape(req.cookies.c_auth) +
       `LIMIT 1`
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
@@ -359,7 +366,7 @@ appRouter.get("/:username", (req, res) => {
   const paramUser = req.params.username
 
   //only show if user is logged in and sessioned
-  if (paramUser && cookie.user) {
+  if (paramUser && cookie.c_auth) {
     let getUser =
       `SELECT * FROM profiles WHERE username = ` +
       sqldb.escape(paramUser) +
