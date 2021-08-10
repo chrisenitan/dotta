@@ -396,7 +396,7 @@ appRouter.get("/:username", (req, res) => {
             }
             //set final subs collection to user obj
             user.subs = returnedSubs
-            console.dir(user, { depth: null })
+            //console.dir(user, { depth: null })
             res.render("home", user)
           } else {
             //user has no subs yet
