@@ -214,36 +214,47 @@ appRouter.get("/takeout", (req, res) => {
             takeoutUser.subscriptions = resultUserSubs
             console.log(takeoutUser)
           }
-          const stTakeoutUser = JSON.stringify(takeoutUser)
-          //create a new takeout file
-          fs.appendFile(
-            `assets/tmp_takeout/${takeoutUser.username}.json`,
-            `${stTakeoutUser}`,
-            function (err) {
-              if (err) throw err
-              //read file created
-              fs.readFile(
-                `assets/tmp_takeout/${takeoutUser.username}.json`,
-                { encoding: "utf-8" },
-                function (err, file) {
-                  if (err) throw err
-                  res.writeHead(200, {
-                    "Content-Type": "text/json",
-                    "Content-Disposition": `attachment;filename=${takeoutUser.username}.json`,
-                  })
-                  res.write(file)
-                  //delete file when done: maybe wait?
-                  fs.unlink(
-                    `assets/tmp_takeout/${takeoutUser.username}.json`,
-                    function (err) {
-                      if (err) throw err
-                    }
-                  )
-                  res.end()
-                }
-              )
+          //get user ledger record
+          let getUserLegder = `SELECT * FROM ledger WHERE username = '${takeoutUser.username}'`
+          sqldb.query(getUserLegder, (err, resultUserLegder) => {
+            if (err) throw err
+            if (Object.keys(resultUserLegder).length != 0) {
+              takeoutUser.ledger = resultUserLegder
+              console.log(takeoutUser)
             }
-          )
+
+            //file management
+            const stTakeoutUser = JSON.stringify(takeoutUser)
+            //create a new takeout file
+            fs.appendFile(
+              `assets/tmp_takeout/${takeoutUser.username}.json`,
+              `${stTakeoutUser}`,
+              function (err) {
+                if (err) throw err
+                //read file created
+                fs.readFile(
+                  `assets/tmp_takeout/${takeoutUser.username}.json`,
+                  { encoding: "utf-8" },
+                  function (err, file) {
+                    if (err) throw err
+                    res.writeHead(200, {
+                      "Content-Type": "text/json",
+                      "Content-Disposition": `attachment;filename=${takeoutUser.username}.json`,
+                    })
+                    res.write(file)
+                    //delete file when done: maybe wait?
+                    fs.unlink(
+                      `assets/tmp_takeout/${takeoutUser.username}.json`,
+                      function (err) {
+                        if (err) throw err
+                      }
+                    )
+                    res.end()
+                  }
+                )
+              }
+            )
+          })
         })
       }
       //did not find user
