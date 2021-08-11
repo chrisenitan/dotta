@@ -32,7 +32,9 @@ var insertNewAccount = function (req) {
   let ranCookie = localTools.secureKey(28)
   req.cookie = ranCookie
   const today = new Date()
-  req.created = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`
+  req.created = `${today.getFullYear()}-${
+    today.getMonth() + 1
+  }-${today.getDate()}`
 
   //use those to create account
   let trialSignUp = `INSERT INTO profiles SET ?`
@@ -44,9 +46,6 @@ var insertNewAccount = function (req) {
       console.log("New user created")
     }
   })
-
-  //strip secure dtat here first... wip
-
   return req
 }
 

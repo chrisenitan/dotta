@@ -90,10 +90,14 @@ select {
   font-size: 20px;
   color: #000000;
   margin: 5px;
-  background-color: #bdb6ea;
-  border: none;
-  border-radius: 3px;
+  background-color: #dcdff4;
+  border: 3px solid#bdb6ea;
+  border-radius: 6px;
   cursor: pointer;
+}
+.cta:hover {
+  background-color: #bdb6ea;
+  border: 3px solid#9888fa;
 }
 .altcta {
   height: 45px;
@@ -194,10 +198,14 @@ select {
   font-size: 19px;
   color: #000000;
   margin: 5px;
-  background-color: #bdb6ea;
-  border: none;
-  border-radius: 2px;
+  background-color: #dcdff4;
+  border: 3px solid#bdb6ea;
+  border-radius: 6px;
   cursor: pointer;
+}
+#navAdd:hover {
+  background-color: #bdb6ea;
+  border: 3px solid#9888fa;
 }
 .material-icons-two-tone {
   vertical-align: text-bottom;

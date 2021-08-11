@@ -36,8 +36,15 @@
 		<div id="recoverFormDiv">
 			<div class="pageTitle">Recover account details</div><br>
 			<form id="recoverForm" method="post" action="account/recover">
-				<div class="TinputDiv">
-					<label for="frequency">Your Account Currency</label><br>
+
+			<div class="mTinputDiv" style="width:65%">
+					<label for="username">Your Account Email</label><br>
+					<input type="email" name="email" required><br>
+					<h class="inputDis">Last used account email</h><br><br>
+				</div>
+
+				<div class="mTinputDiv" style="width:25%">
+					<label for="frequency">Currency</label><br>
 					<select name="currency" required>
 						<option selected>$</option>
 						<option>€</option>
@@ -46,30 +53,23 @@
 						<option>₹</option>
 						<option>£</option>
 					</select><br>
-					<h class="inputDis">Please select your accounts currency</h><br><br>
-				</div>
-
-
-				<div class="TinputDiv">
-					<label for="username">Your Account Email</label><br>
-					<input type="email" name="email" required><br>
-					<h class="inputDis">Please provide your accounts email</h><br><br>
+					<h class="inputDis">Last currency</h><br><br>
 				</div>
 
 				<div class="mTinputDiv">
 					<label for="password">Password</label><br>
 					<input type="password" name="password" required><br>
-					<h class="inputDis">Your last used password</h><br><br>
+					<h class="inputDis">Last remembered password</h><br><br>
 				</div>
 
 				<div class="mTinputDiv">
 					<label for="username">Username</label><br>
 					<input type="text" required><br>
-					<h class="inputDis">Your last used username</h><br><br>
+					<h class="inputDis">Last used username</h><br><br>
 				</div>
 
 				<input type="hidden" name="action" value="signUp">
-				<button class="cta"><span class="material-icons-two-tone md-light">account_box</span> Recover</button>
+				<button class="cta"><span class="material-icons-two-tone md-light">manage_accounts</span> Recover</button>
 				<br>
 				<h href="login" class="smallTxt">We'll review your request and send you an email</h>
 			</form>
