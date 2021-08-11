@@ -31,6 +31,8 @@ var insertNewAccount = function (req) {
   //create other needed data
   let ranCookie = localTools.secureKey(28)
   req.cookie = ranCookie
+  const today = new Date()
+  req.created = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`
 
   //use those to create account
   let trialSignUp = `INSERT INTO profiles SET ?`
