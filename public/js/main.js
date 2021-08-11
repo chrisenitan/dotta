@@ -19,6 +19,18 @@ if (document.getElementById("closeAddPanel")) {
     })
 }
 
+if (document.getElementById("showRecoverForm")) {
+  document
+    .getElementById("showRecoverForm")
+    .addEventListener("click", function () {
+      const loginForm = document.getElementById("loginForm")
+      const recoverForm = document.getElementById("recoverFormDiv")
+      loginForm.style.height = "0px"
+      recoverForm.style.height = "100vh"
+      document.getElementById("recoverForm").reset()
+    })
+}
+
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function () {
     navigator.serviceWorker.register("../dottasw.js").then(

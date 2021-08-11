@@ -290,3 +290,16 @@ select {
   border-radius: 5px;
   margin-bottom: 120px;
 }
+#loginForm {
+  overflow: hidden;
+  transition: 2s;
+  -webkit-transition: 2s;
+  -moz-transition: 2s;
+}
+#recoverFormDiv {
+  height: 0px;
+  overflow: hidden;
+  transition: 2s;
+  -webkit-transition: 0.3s;
+  -moz-transition: 2s;
+}
