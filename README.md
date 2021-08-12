@@ -1,5 +1,5 @@
 <p align="center">
-<img width="200" src="/public/images/dotta_960.png">
+<img width="200" src="public/images/dotta_960.png">
 <br>
 Website:
 <a href="https://dotta.vrixe.com">dotta.vrixe.com</a>
