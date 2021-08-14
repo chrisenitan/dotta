@@ -10,15 +10,9 @@ let isActiveCookie = (req, res, next) => {
 }
 
 let cookieOnly = (req, res, next) => {
-  const cookie = req.cookies
-  console.log(cookie._ga)
-  if (cookie.c_auth != undefined) {
-    console.log(`page access granted on cookie c_auth`)
-  } else {
-    console.log(`page access denied: auth is not set`)
-    res.redirect("/")
-  }
-  next()
+  req.cookies.c_auth != undefined
+    ? (console.log(`page access granted on cookie c_auth`), next())
+    : (console.log(`page access denied: auth is not set`), res.redirect("/"))
 }
 
 let urlLog = (req, res, next) => {
@@ -38,7 +32,6 @@ let urlLog = (req, res, next) => {
     "Long list? Kill what you don't need",
     "Baby gels, shaving cream and nail polish",
   ]
-
   req.goodWill = gW[ranVal]
   next()
 }

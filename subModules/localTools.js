@@ -48,12 +48,10 @@ let dateToNextSub = (req) => {
   switch (req.frequency) {
     case "Every Month":
       //push to next month only if deadline has passed
-      if (req.date <= dateObj.getDate()) {
-        date.month = dateObj.getMonth() + 2
-      } else {
-        //same month but in a few days
-        date.month = dateObj.getMonth() + 1
-      }
+      req.date <= dateObj.getDate()
+        ? (date.month = dateObj.getMonth() + 2)
+        : //same month but in a few days
+          (date.month = dateObj.getMonth() + 1)
       date.date = parseInt(req.date)
       break
     case "Every Week":
@@ -74,13 +72,10 @@ let dateToNextSub = (req) => {
   const todayUTC = Date.UTC(todayYear, todayMonth, todayDate)
   const eventDay = (eventUTC - todayUTC) / 1000 / 60 / 60 / 24
   const result = {}
-  if (eventDay < 0) {
-    result.daysRemaining = 0
-    result.nextDate = 0
-  } else {
-    result.daysRemaining = eventDay
-    result.nextDate = eventDateNorm
-  }
+  eventDay < 0
+    ? ((result.daysRemaining = 0), (result.nextDate = 0))
+    : ((result.daysRemaining = eventDay), (result.nextDate = eventDateNorm))
+
   return result
 }
 
