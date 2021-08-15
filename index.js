@@ -41,6 +41,14 @@ app.use("/account", [isActiveCookie, urlLog], accountRoute)
 const subRoute = require("./routes/sub")
 app.use("/sub", [cookieOnly, urlLog], subRoute)
 
+//404
+app.use((req, res, next) => {
+  res.clearCookie("c_auth")
+  res.status(404).json({
+    message: "The page requested was not found on the server"
+  })
+})
+
 //start server
 const port = process.env.port || 3000
 app.listen(port, () => {
