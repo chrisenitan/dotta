@@ -2,7 +2,7 @@
 <img width="200" src="public/images/dotta_960.png">
 <br>
 Website:
-<a href="https://dotta.vrixe.com">dotta.vrixe.com</a>
+<a href="https://dotta.vrixe.com">https://dotta.vrixe.com</a>
 <br>
 <b>A subscription management and tracking webapp</b>
 </p>
@@ -17,9 +17,10 @@ Dotta is a `NodeJS` app that give you a visual presentation and log of all your 
 
 - Create, edit subscriptions
 - List subscriptions created
-- Coolate information amount subscriptions (individual and cummulative)
-- Other features are work in progress
-  - Working off board https://trello.com/b/EmsTM56q/qboard
+- Coolate information and statistics amount subscriptions (individual and cummulative)
+- Work in progress
+  - Notify users of upcomiing of billed subscriptions
+  - Other managements: disable, cancel and group subscriptions
 
 ## Code Setup
 

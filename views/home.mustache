@@ -28,8 +28,12 @@
 		<h class="subTxt">in {{subFuture.daysRemaining}} days</h><br>
 		<h class="smallTxt">on {{subFuture.nextDate}}</h><br><br>
 		<h class="subCost">{{currency}}{{cost}}</h>
-		<br>
+		<br><br>
+		<div id="progressHandle">
+			<div id="progressBar" style="width:{{subFuture.progressPercent}}%">
 
+			</div>
+		</div>
 	</div>
 	{{/subs}}
 
