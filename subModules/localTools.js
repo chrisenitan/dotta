@@ -1,3 +1,5 @@
+const fs = require("fs")
+
 //generate a random char: recieves int param for lenght
 let randomValue = (req) => {
   var ranId = ""
@@ -30,7 +32,7 @@ let randomInt = () => {
 let secureKey = (req) => {
   var ranKey = ""
   var characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*"
+    "ABCTU$%VWXYZabcdewxyz012345fghijklmnopqrDEFGHIJMNOPQRSstuv67KL89!@#&*"
   for (var i = 0; i < req; i++) {
     ranKey += characters.charAt(Math.floor(Math.random() * characters.length))
   }
@@ -46,11 +48,10 @@ let dateToNextSub = (req) => {
   switch (req.frequency) {
     case "Every Month":
       //push to next month only if deadline has passed
-      if (req.date <= dateObj.getDate()) {
-        date.month = dateObj.getMonth() + 2
-      } else {
-        date.month = dateObj.getMonth() + 1
-      }
+      req.date <= dateObj.getDate()
+        ? (date.month = dateObj.getMonth() + 2)
+        : //same month but in a few days
+          (date.month = dateObj.getMonth() + 1)
       date.date = parseInt(req.date)
       break
     case "Every Week":
@@ -71,24 +72,20 @@ let dateToNextSub = (req) => {
   const todayUTC = Date.UTC(todayYear, todayMonth, todayDate)
   const eventDay = (eventUTC - todayUTC) / 1000 / 60 / 60 / 24
   const result = {}
-  if (eventDay < 0) {
-    result.daysRemaining = 0
-    result.nextDate = 0
-  } else {
-    result.daysRemaining = eventDay
-    result.nextDate = eventDateNorm
-  }
+  eventDay < 0
+    ? ((result.daysRemaining = 0), (result.nextDate = 0))
+    : ((result.daysRemaining = eventDay), (result.nextDate = eventDateNorm))
+
   return result
 }
 
 let getArraySum = (req) => {
   let costSum = 0
   for (let nulAmount = 0; nulAmount < req.length; nulAmount++) {
-    costSum = costSum + parseInt(req[nulAmount].cost)
-    console.log(req[nulAmount].cost + " id here ")
+    costSum = costSum + parseFloat(req[nulAmount].cost)
   }
   let response = {}
-  response.costSum = costSum
+  response.costSum = costSum.toFixed(2)
   response.costCount = req.length
   return response
 }

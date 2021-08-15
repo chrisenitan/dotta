@@ -42,7 +42,7 @@
 		<label for="cost">Useful App Tips</label><br><br>
 		<h class="inputDis"> - To go home anytime, tap the app logo on the top left corner</h><br>
 		<h class="inputDis"> - For easy access: bookmark or add Dotta to your homescreen</h><br>
-		<h style="margin-left:10px" class="inputDis"> - read how to: <a target="_blank"
+		<h style="margin-left:10px" class="inputDis"> - hint: <a target="_blank"
 				href="https://mobilesyrup.com/2020/05/24/how-install-progressive-web-app-pwa-android-ios-pc-mac/">mobilesyrup.com: how to install a
 				pwa</a></h><br>
 		<h class="inputDis"> - Dotta uses minimal cookies technology</h><br>
@@ -52,20 +52,15 @@
 
 		<div class="pageTitle">Your Account Details</div><br>
 		<form method="post" action="account/signup">
-			<div class="TinputDiv">
-				<label for="cost">Email</label><br>
-				<input type="email" value="{{email}}" name="email"><br>
-				<h class="inputDis">Email is optional. (useful for upcomiing notification feature)</h><br>
+
+			<div class="mTinputDiv" style="width:65%">
+				<label for="email">Email</label><br>
+				<input type="text" value="{{email}}" name="email"><br>
+				<h class="inputDis">Email is optional</h><br><br>
 			</div>
 
-			<div class="mTinputDiv">
-				<label for="cost">Username</label><br>
-				<input disabled type="text" value="{{username}}"><br>
-				<h class="inputDis">You cannot change this</h><br><br>
-			</div>
-
-			<div class="mTinputDiv">
-				<label for="cost">Currency</label><br>
+			<div class="mTinputDiv" style="width:25%">
+				<label for="currency">Currency</label><br>
 				<select name="currency" required>
 					<option selected>{{currency}}</option>
 					<option>$</option>
@@ -75,7 +70,19 @@
 					<option>₹</option>
 					<option>£</option>
 				</select><br>
-				<h class="inputDis">Choose a default currency</h><br><br>
+				<h class="inputDis">Main currency</h><br><br>
+			</div>
+
+			<div class="mTinputDiv">
+				<label for="password">Password</label><br>
+				<input type="password" value="{{password}}" name="password"><br>
+				<h class="inputDis">Use a strong combination</h><br><br>
+			</div>
+
+			<div class="mTinputDiv">
+				<label for="username">Username</label><br>
+				<input disabled type="text" value="{{username}}"><br>
+				<h class="inputDis">You cannot change this</h><br><br>
 			</div>
 
 			<input type="hidden" value="{{username}}" name="username" required>
@@ -86,21 +93,13 @@
 
 		<div class="pageTitle">Danger Zone</div><br>
 		<label>Download your data</label>
-		{{!-- account/takeout --}}
-		<a href="/">
+		<a href="/account/takeout">
 			<div class="setBox">
 				<button class="setButton">In JSON Format</button>
 				<button class="setIcon"><span class="material-icons-two-tone md-light">assignment_returned</span></button><br>
 			</div>
 		</a>
-
-		<a href="/">
-			<div class="setBox">
-				<button class="setButton">In CSV Format</button>
-				<button class="setIcon"><span class="material-icons-two-tone md-light on600">assignment_returned</span></button><br>
-			</div>
-		</a>
-		<h class="inputDis">This feature is still a work in progress</h><br><br>
+		<h class="inputDis">Export your data in <a target="_blank" href="https://en.wikipedia.org/wiki/JSON">{JSON}</a> format</h><br><br>
 
 		<form method="post" action="account/delete">
 			<div class="setBox">

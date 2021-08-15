@@ -27,12 +27,11 @@ sqldb.connect((err) => {
 
 appRouter.get("/", (req, res) => {
   const cookie = req.cookies
-  if (cookie.user != undefined) {
-    console.log(`home dir: found cookie: ${cookie.user}`)
-    //res.clearCookie("user")//for now
+  if (cookie.c_auth != undefined) {
+    console.log(`home dir: found cookie`)
     let getUser =
       `SELECT * FROM profiles WHERE cookie = ` +
-      sqldb.escape(cookie.user) +
+      sqldb.escape(cookie.c_auth) +
       `LIMIT 1`
     sqldb.query(getUser, (err, result) => {
       if (err) {
@@ -41,9 +40,17 @@ appRouter.get("/", (req, res) => {
       }
       if (Object.keys(result).length != 0) {
         res.redirect(`/${result[0].username}`)
+      } else {
+        res.clearCookie("user") //fallback for old cookie
+        res.clearCookie("c_auth")
+        let nullUser = {}
+        nullUser.goodWill = req.goodWill
+        res.render("index", nullUser)
       }
     })
   } else {
+    res.clearCookie("user") //fallback for old cookie
+    res.clearCookie("c_auth")
     let nullUser = {}
     nullUser.goodWill = req.goodWill
     res.render("index", nullUser)
@@ -52,8 +59,8 @@ appRouter.get("/", (req, res) => {
 
 //login
 appRouter.get("/login", (req, res) => {
-  if (req.cookies.user) {
-    res.clearCookie("user")
+  if (req.cookies.c_auth) {
+    res.clearCookie("c_auth")
   }
   //set goodwill to user
   let ref = {}
@@ -63,16 +70,16 @@ appRouter.get("/login", (req, res) => {
 
 //logout
 appRouter.get("/logout", (req, res) => {
-  if (req.cookies.user) {
-    res.clearCookie("user")
+  if (req.cookies.c_auth) {
+    res.clearCookie("c_auth")
   }
   res.redirect("/")
 })
 
 //signup
 appRouter.get("/signup", (req, res) => {
-  if (req.cookies.user) {
-    res.clearCookie("user")
+  if (req.cookies.c_auth) {
+    res.clearCookie("c_auth")
   }
   let ranUsername = localTools.randomInt()
   let possibleNames = [
@@ -95,11 +102,11 @@ appRouter.get("/signup", (req, res) => {
 
 //settings
 appRouter.get("/settings", (req, res) => {
-  if (req.cookies.user) {
+  if (req.cookies.c_auth) {
     //get user data
     let getUser =
       `SELECT * FROM profiles WHERE cookie = ` +
-      sqldb.escape(req.cookies.user) +
+      sqldb.escape(req.cookies.c_auth) +
       `LIMIT 1`
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
@@ -122,11 +129,11 @@ appRouter.get("/settings", (req, res) => {
 
 //about
 appRouter.get("/about", (req, res) => {
-  if (req.cookies.user) {
+  if (req.cookies.c_auth) {
     //get user data
     let getUser =
       `SELECT * FROM profiles WHERE cookie = ` +
-      sqldb.escape(req.cookies.user) +
+      sqldb.escape(req.cookies.c_auth) +
       `LIMIT 1`
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
@@ -149,7 +156,7 @@ appRouter.get("/about", (req, res) => {
 
 //statistics
 appRouter.get("/statistics", (req, res) => {
-  if (req.cookies.user) {
+  if (req.cookies.c_auth) {
     //set stat data
     const statData = {}
     //set goodwill message
@@ -157,7 +164,7 @@ appRouter.get("/statistics", (req, res) => {
     //get user data
     let getUser =
       `SELECT * FROM profiles WHERE cookie = ` +
-      sqldb.escape(req.cookies.user) +
+      sqldb.escape(req.cookies.c_auth) +
       `LIMIT 1`
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
@@ -168,6 +175,7 @@ appRouter.get("/statistics", (req, res) => {
         let countSub =
           `SELECT COUNT(ref) AS totalCount FROM subs WHERE username = ` +
           sqldb.escape(returnedUser[0].username)
+        //get total sub cost and round up to 2 decimal points
         let countSubCost =
           `SELECT ROUND(SUM(cost), 2) AS totalCost FROM subs WHERE username = ` +
           sqldb.escape(returnedUser[0].username)
@@ -227,7 +235,6 @@ appRouter.get("/statistics", (req, res) => {
                     //define other obj and send
                     statData.bottomSub = resultLowestSub[0]
                     statData.topSub = resultHighestSub[0]
-                    console.log(statData)
                     res.render("statistics", statData)
                   })
                 })
@@ -276,6 +283,10 @@ appRouter.post(
         //generate a reference code and define other req values
         req.body.ref = localTools.randomValue(9)
         delete req.body.action
+        //default nextlog for legder processes
+        if (req.body.frequency == "Every Week") {
+          req.body.nextlog = req.body.date
+        }
         var currentDate = new Date()
         req.body.created = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`
         sqldb.query(insertNewSub, req.body, (err, insertSubResult, fields) => {
@@ -289,7 +300,6 @@ appRouter.post(
           }
         })
       } else if (req.body.action == "update") {
-        console.log(req.body)
         sqldb.query(
           "UPDATE subs SET name = ?, cost = ?, date = ?, frequency = ?, colour = ? WHERE ref = ?",
           [
@@ -307,8 +317,6 @@ appRouter.post(
               res.send(actionError.errReason)
               console.log(err)
             }
-            console.log(req.body.ref)
-            console.log(updateSubResult)
             res.redirect(`/sub/${req.body.ref}`)
           }
         )
@@ -321,18 +329,17 @@ appRouter.post(
 
 //edit account
 appRouter.get("/account", (req, res) => {
-  if (req.cookies.user) {
+  if (req.cookies.c_auth) {
     //get user data
     let getUser =
       `SELECT * FROM profiles WHERE cookie = ` +
-      sqldb.escape(req.cookies.user) +
+      sqldb.escape(req.cookies.c_auth) +
       `LIMIT 1`
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
       if (Object.keys(returnedUser).length != 0) {
         //set goodwill message
         returnedUser[0].goodWill = req.goodWill
-        console.log(returnedUser[0])
         res.render("profile", returnedUser[0])
       } else {
         //no user found
@@ -354,7 +361,7 @@ appRouter.get("/:username", (req, res) => {
   const paramUser = req.params.username
 
   //only show if user is logged in and sessioned
-  if (paramUser && cookie.user) {
+  if (paramUser && cookie.c_auth) {
     let getUser =
       `SELECT * FROM profiles WHERE username = ` +
       sqldb.escape(paramUser) +
@@ -373,17 +380,19 @@ appRouter.get("/:username", (req, res) => {
         sqldb.query(getUserSubs, (err, returnedSubs) => {
           if (err) throw err
           if (Object.keys(returnedSubs).length != 0) {
-            //set subs to user obj
-            user.subs = returnedSubs
-            //get date to sub countdown and set for all items
-            for (let dateSub = 0; dateSub < returnedSubs.length; dateSub++) {
-              //create req object
-              let dateTo = {}
-              dateTo.date = returnedSubs[dateSub].date
-              dateTo.frequency = returnedSubs[dateSub].frequency
-              returnedSubs[dateSub].subFuture = localTools.dateToNextSub(dateTo)
+            //create a default total cost
+            user.subsTotalled = 0
+            //get date to sub countdown and set for each sub
+            returnedSubs.reduce(nextDate, 0)
+            function nextDate(sum, sub) {
+              //update total sub costs
+              user.subsTotalled =
+                parseFloat(user.subsTotalled) + parseFloat(sub.cost)
+              sub.subFuture = localTools.dateToNextSub(sub)
             }
-            console.log(JSON.stringify(user, null, 2))
+            //set final subs collection to user obj
+            user.subs = returnedSubs
+            //console.dir(user, { depth: null })
             res.render("home", user)
           } else {
             //user has no subs yet

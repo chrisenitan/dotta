@@ -2,57 +2,50 @@
 
 <head>
 	{{> heads}}
-	<title>Recover your account</title>
+	<title>Recover your Dotta account</title>
 </head>
 
 <body>
+	{{!-- header includes error reporting --}}
+	{{> header}}
+	<!--recieve //id title body owner from sqlRoute.js-->
 
-	{{#message}}
-	{{#confirm}}
-	<p>{{message}}</p>
-	{{!-- need to verify password is same here --}}
-	<form action="/account/reset" method="post">
+	<div id="pageContainer">
+		{{^errReason}}
+		<div class="pageTitle">Account Recovery</div><br>
 
-		<label for="email">Your Accounts Email and reset token</label><br>
-		<input type="email" name="email" placeholder="Email" value="sample@test.com" /><br><br>
+		<form method="post" action="">
 
-		<input type="password" name="npassword" placeholder="New Password" value="abcdefg" /><br><br>
-		<input type="password" name="rnPassword" placeholder="Renter Password" value="abcdefg" /><br><br>
-		<input type="text" name="token" placeholder="Your recovery token" value="ChrisToken" /><br><br>
+			<div class="mTinputDiv" style="width:65%">
+				<label for="username">Your Account Email</label><br>
+				<input type="email" name="email" required><br>
+				<h class="inputDis">Pleasesss provide your accounts email</h><br><br>
+			</div>
 
-		<button>Recover </button>
-
-	</form>
-	{{/confirm}}
-
-	{{!-- if completed reset --}}
-	{{#completed}}
-	<p>{{message}}</p>
-	<p>Please login with your new account credentials</p>
-	<a href="/login"><button>Login</button></a>
-	{{/completed}}
-	{{/message}}
-
-
-	{{^message}}
-	<p>Recover your account here</p>
-
-	<form action="/account/recovery" method="post">
-
-		<label for="email">Your Accounts Email</label><br>
-		<input type="text" name="email" placeholder="Email" value="test@test.com" /><br><br>
-
-		<input type="hidden" name="bt" value="" />
-		<input type="hidden" name="request" value="resetPassword" />
-
-		<button>Recover </button>
-
-	</form>
-	{{/message}}
+			<div class="mTinputDiv" style="width:25%">
+				<label for="frequency">Your Account Currency</label><br>
+				<select name="currency" required>
+					<option selected>$</option>
+					<option>€</option>
+					<option>₦</option>
+					<option>¥</option>
+					<option>₹</option>
+					<option>£</option>
+				</select><br>
+				<h class="inputDis">Please select your accounts currency</h><br><br>
+			</div>
 
 
 
+			<input type="hidden" name="action" value="signUp">
+			<button disabled class="cta"><span class="material-icons-two-tone md-light">account_box</span> Recover</button>
+			<br>
+			<h href="login" class="smallTxt">This feature is still a work in progress</h>
+		</form>
+		<br>
+		{{/errReason}}
 
+	</div>
 </body>
 
 </html>

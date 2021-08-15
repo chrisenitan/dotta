@@ -29,29 +29,30 @@ var insertNewAccount = function (req) {
   const reqUser = req
 
   //create other needed data
-  let ranCookie = localTools.randomValue(8)
+  let ranCookie = localTools.secureKey(28)
   req.cookie = ranCookie
+  const today = new Date()
+  req.created = `${today.getFullYear()}-${
+    today.getMonth() + 1
+  }-${today.getDate()}`
 
   //use those to create account
   let trialSignUp = `INSERT INTO profiles SET ?`
   sqldb.query(trialSignUp, reqUser, (err, signupResult, fields) => {
     if (err) {
-      console.log("Errorr inserting new user")
+      console.log("Error inserting new user")
     }
     if (signupResult.insertId != undefined) {
       console.log("New user created")
     }
   })
-
-  //strip secure dtat here first... wip
-
   return req
 }
 
 //trial sign up
 appRouter.get("/trial", (req, res) => {
   //clear existing cookie
-  res.clearCookie("user")
+  res.clearCookie("c_auth")
   //reload of this url should not resignup. app makes sure cookie logeed in is redirected
 
   let ranUsername = localTools.randomString(6)
@@ -65,7 +66,7 @@ appRouter.get("/trial", (req, res) => {
 
   let createUser = insertNewAccount(userData)
   //set client cookie
-  res.cookie("user", createUser.cookie, {
+  res.cookie("c_auth", createUser.cookie, {
     maxAge: 2592000000,
     httpOnly: false,
   })
@@ -78,7 +79,7 @@ appRouter.post(
   [check("action", "Action is not login").equals("logIn")],
   (req, res) => {
     //clear existing cookie
-    res.clearCookie("user")
+    res.clearCookie("c_auth")
 
     //define login status handler
     const loginError = {}
@@ -100,11 +101,10 @@ appRouter.post(
         if (err) throw err
         if (Object.keys(returnedUser).length != 0) {
           //user found, set new cookie
-          res.cookie("user", returnedUser[0].cookie, {
+          res.cookie("c_auth", returnedUser[0].cookie, {
             maxAge: 2592000000,
             httpOnly: false,
           })
-          console.log(returnedUser[0])
           res.redirect(`/${returnedUser[0].username}`)
         } else {
           //no user found
@@ -153,7 +153,7 @@ appRouter.post(
             //user never existed so safe to insert
             createUser = insertNewAccount(signUpData)
             //set client cookie
-            res.cookie("user", createUser.cookie, {
+            res.cookie("c_auth", createUser.cookie, {
               maxAge: 2592000000,
               httpOnly: false,
             })
@@ -171,17 +171,19 @@ appRouter.post(
       else {
         delete req.body.action
         sqldb.query(
-          "UPDATE profiles SET currency = ?, email = ? WHERE username = ?",
-          [`${req.body.currency}`, `${req.body.email}`, `${req.body.username}`],
+          "UPDATE profiles SET currency = ?, email = ?, password = ? WHERE username = ?",
+          [
+            `${req.body.currency}`,
+            `${req.body.email}`,
+            `${req.body.password}`,
+            `${req.body.username}`,
+          ],
           (err, updateSubResult) => {
             if (err) {
               console.log("error updating user")
-              console.log(req.body)
-              //res.redirect("/")//bad
               res.send("error updating")
             }
             console.log("Hit endpoint step")
-            console.log(req.body)
             res.redirect("../account")
           }
         )
@@ -194,10 +196,11 @@ appRouter.post(
 appRouter.get("/takeout", (req, res) => {
   //only if user is logged in
   const cookie = req.cookies
-  if (cookie.user) {
+  if (cookie.c_auth) {
+    //get user data
     let getUser =
       `SELECT * FROM profiles WHERE cookie = ` +
-      sqldb.escape(cookie.user) +
+      sqldb.escape(cookie.c_auth) +
       `LIMIT 1`
     sqldb.query(getUser, (err, resultUser) => {
       if (err) {
@@ -206,41 +209,66 @@ appRouter.get("/takeout", (req, res) => {
       }
       if (Object.keys(resultUser).length != 0) {
         const takeoutUser = resultUser[0]
-        const stTakeoutUser = JSON.stringify(takeoutUser)
-        //create a new takeout file
-        fs.appendFile(
-          `assets/tmp_takeout/${takeoutUser.username}.json`,
-          `${stTakeoutUser}`,
-          function (err) {
+
+        //get user subs
+        let getUserSubs = `SELECT * FROM subs WHERE username = '${takeoutUser.username}'`
+        sqldb.query(getUserSubs, (err, resultUserSubs) => {
+          if (err) throw err
+          if (Object.keys(resultUserSubs).length != 0) {
+            takeoutUser.subscriptions = resultUserSubs
+          }
+          //get user ledger
+          let getUserLegder = `SELECT * FROM ledger WHERE username = '${takeoutUser.username}'`
+          sqldb.query(getUserLegder, (err, resultUserLegder) => {
             if (err) throw err
-            //read file created
-            fs.readFile(
+            if (Object.keys(resultUserLegder).length != 0) {
+              takeoutUser.ledger = resultUserLegder
+            }
+
+            //file management
+            const stTakeoutUser = JSON.stringify(takeoutUser)
+            //create a new takeout file
+            fs.appendFile(
               `assets/tmp_takeout/${takeoutUser.username}.json`,
-              { encoding: "utf-8" },
-              function (err, file) {
+              `${stTakeoutUser}`,
+              function (err) {
                 if (err) throw err
-                res.writeHead(200, {
-                  "Content-Type": "text/json",
-                  "Content-Disposition": `attachment;filename=${takeoutUser.username}.json`,
-                })
-                res.write(file)
-                //delete file when done: maybe wait?
-                fs.unlink(
+                //read file created
+                fs.readFile(
                   `assets/tmp_takeout/${takeoutUser.username}.json`,
-                  function (err) {
+                  { encoding: "utf-8" },
+                  function (err, file) {
                     if (err) throw err
+                    res.writeHead(200, {
+                      "Content-Type": "text/json",
+                      "Content-Disposition": `attachment;filename=${takeoutUser.username}.json`,
+                    })
+                    res.write(file)
+                    //delete file when done: maybe wait?
+                    fs.unlink(
+                      `assets/tmp_takeout/${takeoutUser.username}.json`,
+                      function (err) {
+                        if (err) throw err
+                      }
+                    )
+                    res.end()
                   }
                 )
-                res.end()
               }
             )
-          }
-        )
-      } else {
-        resultUser[0].goodWill = "Could not generate, please contact Dotta"
+          })
+        })
+      }
+      //did not find user
+      else {
+        resultUser[0].goodWill = "Could not generate, please contact team"
         res.render("profile", resultUser[0])
       }
     })
+  }
+  //no cookie, this should not happen
+  else {
+    res.redirect("/")
   }
 })
 
@@ -250,7 +278,7 @@ appRouter.post(
   [check("action", "Action is not a deletion").equals("delete")],
   (req, res) => {
     //clear existing cookie
-    res.clearCookie("user")
+    res.clearCookie("c_auth")
     let actionUser = req.body
     let deleteUser =
       `DELETE FROM profiles WHERE username = ` +
@@ -288,10 +316,13 @@ appRouter.post(
 )
 
 //all recovery of account
-appRouter.get("/recovery", (req, res) => {
-  res.json({
-    message: "recover account here",
-  })
+appRouter.post("/recovery", (req, res) => {
+  res.clearCookie("c_auth")
+
+  //set goodwill to user
+  let ref = {}
+  ref.goodWill = "we have reset your account"
+  res.render("login", ref)
 })
 
 module.exports = appRouter
