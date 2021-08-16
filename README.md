@@ -22,6 +22,10 @@ Dotta is a `NodeJS` app that give you a visual presentation and log of all your 
   - Notify users of upcomiing of billed subscriptions
   - Other managements: disable, cancel and group subscriptions
 
+## Product image
+
+<img width="100%" src="public/images/product.png">
+
 ## Code Setup
 
 **This document assumes you have some knowledge of npm and javascript**<br>
