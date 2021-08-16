@@ -62,7 +62,6 @@ let dateToNextSub = (req) => {
       while (date.date <= dateObj.getDate()) {
         date.date = date.date + 7
       }
-      console.log(`original: ${req.date}. ${req.name}: ${date.date}`)
       var monthDivisor = 7
       var percentDivisor = 14.3
       break
@@ -82,17 +81,28 @@ let dateToNextSub = (req) => {
   var progressPercent = (
     parseFloat(percentDivisor) * parseFloat(monthDivisor - eventDay)
   ).toFixed(2)
+  //interprete progress color
+  var progressColor = ""
+  progressPercent <= 49
+    ? (progressColor = "#88fa91")
+    : progressPercent <= 70
+    ? (progressColor = "#fad788")
+    : progressPercent >= 71
+    ? (progressColor = "#fa8888")
+    : (progressColor = "#88fa91")
   const result = {}
   eventDay < 0
     ? Object.assign(result, {
         daysRemaining: 0,
         nextDate: 0,
         progressPercent: 2,
+        progressColor: "#88fa91",
       })
     : Object.assign(result, {
         daysRemaining: eventDay,
         nextDate: eventDateNorm,
         progressPercent: progressPercent,
+        progressColor: progressColor,
       })
   return result
 }

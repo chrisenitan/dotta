@@ -30,7 +30,7 @@
 		<h class="subCost">{{currency}}{{cost}}</h>
 		<br><br>
 		<div id="progressHandle">
-			<div id="progressBar" style="width:{{subFuture.progressPercent}}%">
+			<div id="progressBar" style="background-color:{{subFuture.progressColor}};width:{{subFuture.progressPercent}}%">
 
 			</div>
 		</div>
@@ -42,19 +42,24 @@
 	<div id="pageContainer">
 		<div class="subsHolder" style="background-color: #e3ffd4">
 			<a href="/">
-				<h class="subName">Demo Sub</h>
+				<h class="subName">Phone bills</h>
 			</a><br><br>
-			<h class="subTxt">in 19 days</h><br>
+			<h class="subTxt">in 12 days</h><br>
 			<h class="smallTxt">on 1-9-2021</h><br><br>
 			<h class="subCost">{{currency}}40</h>
-			<br>
+			<br><br>
+			<div id="progressHandle">
+				<div id="progressBar" style="background-color:#fa8888;width:68%"></div>
 
+			</div>
 		</div><br><br>
 
 		Looks like you haven't recorded any real subscription<br><br>
 		Start by creating one with the<br>
 		<b>"+ New Subscription"</b> button up there
-	</div>
+
+	</div><br>
+
 	{{/subs}}
 
 
