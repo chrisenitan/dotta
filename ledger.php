@@ -25,12 +25,13 @@ while ($rowMonths = mysqli_fetch_array($holderMonths)) {
   $dateEntered = $rowMonths['dateEntered'];
 
   //monthly
-  //if date is today or month is oddmonth and date is 28(all februaries) or month is oddmonth and date is more than 30(31: oddies)
-  if ($frequency == "Every Month" and ($dateDay == $date or (in_array($dateMonth, $oddMonths) and $date == 28) or (in_array($dateMonth, $oddMonths) and $date > 30))) {
+  //only for months, if today is sub day or if month has more tha 30 days and today is 30 or more
+  //(in_array($dateMonth, $oddMonths) and $date == 28) or 
+  if ($frequency == "Every Month" and ($dateDay == $date or (in_array($dateMonth, $oddMonths) and $date > 30 and $todayDate >= 30))) {
 
     $logLedgerMonth = "INSERT INTO ledger (username, ref, cost, dateEntered) VALUES ('$username', '$ref', '$cost', '$todayDate')";
 
-    echo "Logged Month for: $name : $ref <br><br>";
+    echo "<span style='color:red'>Logged Month for: $name : $ref </span> <br><br>";
 
     $updateMonthLog = "UPDATE subs SET lastBilled='$todayDate' WHERE ref = '$ref'";
 
@@ -43,7 +44,7 @@ while ($rowMonths = mysqli_fetch_array($holderMonths)) {
   if ($frequency == "Every Week" and ($dateDay == $nextLog)) {
     $logLedgerWeek = "INSERT INTO ledger (username, ref, cost, dateEntered) VALUES ('$username', '$ref', '$cost', '$todayDate')";
 
-    echo "Logged Week for: $name : $ref <br>";
+    echo "<span style='color:red'>Logged Week for: $name : $ref </span> <br>";
 
     //define next log within month scope
     if ($nextLog <= 28) {

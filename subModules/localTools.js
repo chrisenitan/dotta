@@ -1,5 +1,3 @@
-const fs = require("fs")
-
 //generate a random char: recieves int param for lenght
 let randomValue = (req) => {
   var ranId = ""
@@ -90,6 +88,7 @@ let dateToNextSub = (req) => {
     : progressPercent >= 71
     ? (progressColor = "#fa8888")
     : (progressColor = "#88fa91")
+  //define final response
   const result = {}
   eventDay < 0
     ? Object.assign(result, {
