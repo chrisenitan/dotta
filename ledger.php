@@ -2,6 +2,34 @@
 require("php_env.php");
 $conne = mysqli_connect($server, $username, $password, $database); #server, username, password, database
 
+//send mail reuse
+function sendMail($period)
+{
+  //send any email
+  $subject = "Cpanel ran dotta cron";
+  $feed = 'feedback@vrixe.com';
+  $from = 'events@vrixe.com'; //or could be a name
+  $Mailemail = "enitanchris@gmail.com";
+  $headers = 'MIME-Version: 1.0' . "\r\n";
+  $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+  $headers .= "Organization: Vrixe\r\n";
+  $headers .= "X-Priority: 3\r\n";
+  $headers .= "Return-Path: $feed\r\n";
+
+  $headers .= 'From: Dotta ' . $from . "\r\n" .
+    'Reply-To: ' . $feed . "\r\n" .
+    'X-Mailer: PHP/' . phpversion();
+  $message = "<html><body style='margin:auto;max-width:500px;font-family:Titillium Web, Roboto, sans serif;padding:1%'>
+Your cron ran today $period
+";
+  $message .= "</body></html>";
+  if (mail($Mailemail, $subject, $message, $headers)) {
+    echo "sent mail";
+  } else {
+    echo "email not sent";
+  }
+}
+
 //get today
 $todayDate = date("Y-m-d");
 $dateMonth = date("m");
@@ -35,6 +63,9 @@ while ($rowMonths = mysqli_fetch_array($holderMonths)) {
 
     $updateMonthLog = "UPDATE subs SET lastBilled='$todayDate' WHERE ref = '$ref'";
 
+    //send email
+    sendMail("Month");
+
     if (!mysqli_query($conne, $logLedgerMonth) or !mysqli_query($conne, $updateMonthLog)) {
       die('Error: ' . mysqli_error($conne));
     }
@@ -57,6 +88,8 @@ while ($rowMonths = mysqli_fetch_array($holderMonths)) {
     }
 
     $updateWeekLog = "UPDATE subs SET nextLog='$newNextLog', lastBilled='$todayDate'  WHERE ref = '$ref'";
+    //send email
+    sendMail("Week");
 
     if (!mysqli_query($conne, $updateWeekLog) or !mysqli_query($conne, $logLedgerWeek)) {
       die('Error: ' . mysqli_error($conne));
