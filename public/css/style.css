@@ -143,11 +143,22 @@ select {
   font-weight: bold;
   text-shadow: 0px 0px #000000;
 }
+.openSub{
+  font-size: 14px;
+  color: #000000;
+  width: 48%;
+  background-color: #dcdff4;
+  border-radius: 20px;
+  border: 2px solid#bdb6ea;
+  outline: none;
+  float: right;
+  margin-top: 10px;
+}
 .subsHolder {
   height: auto;
   width: 37%;
   background-color: white;
-  border: 1px solid#a9a9a9;
+  border: none;
   padding: 2%;
   padding-top: 4%;
   padding-bottom: 4%;

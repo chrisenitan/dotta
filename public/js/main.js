@@ -7,6 +7,7 @@ if (document.getElementById("navAdd")) {
     addPanel.style.paddingBottom = "2.5%"
   })
 }
+
 if (document.getElementById("closeAddPanel")) {
   document
     .getElementById("closeAddPanel")

@@ -39,6 +39,14 @@ $dateDay = date("d");
 //define 31 day months array  
 $oddMonths = array("0", "1", "2", "4", "6", "7", "8", "10");
 
+//cron log
+$serve = $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+$time = date("G:i:s");
+$insertCronLog = "INSERT INTO ledger (username, ref, cost, dateEntered) VALUES ('$serve', '$time', '0', '$todayDate')";
+if (!mysqli_query($conne, $insertCronLog)) {
+  die('Error: ' . mysqli_error($conne));
+}
+
 $holderMonths = mysqli_query($conne, "SELECT * FROM subs WHERE frequency != '' ");
 $gotSubMonths = false;
 while ($rowMonths = mysqli_fetch_array($holderMonths)) {
