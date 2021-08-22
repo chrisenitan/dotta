@@ -143,16 +143,16 @@ select {
   font-weight: bold;
   text-shadow: 0px 0px #000000;
 }
-.openSub{
+.openSub {
   font-size: 14px;
-  color: #000000;
-  width: 48%;
-  background-color: #dcdff4;
+  color: #4d4d4d;
+  width: 58%;
+  background-color: #f4f4f4;
   border-radius: 20px;
-  border: 2px solid#bdb6ea;
+  border: 2px solid;
   outline: none;
   float: right;
-  margin-top: 10px;
+  font-family: "Montserrat", sans-serif;
 }
 .subsHolder {
   height: auto;
@@ -327,7 +327,8 @@ select {
   height: 2px;
   border-radius: 5px;
   background-color: #ffffff;
-  border: 1px solid#8b8b8b;
+  border: 1px solid#d3d3d3;
+  margin-top: 13px;
 }
 #progressBar {
   background-color: #9888fa;

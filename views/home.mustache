@@ -29,12 +29,13 @@
 		<h class="smallTxt">on {{subFuture.nextDate}}</h><br><br>
 		<h class="subCost">{{currency}}{{cost}}</h>
 		<br><br>
+		<a href="sub/{{ref}}"><button style="border-color:{{subFuture.progressColor}}" type="button" class="openSub">Open</button></a><br>
 		<div id="progressHandle">
 			<div id="progressBar" style="background-color:{{subFuture.progressColor}};width:{{subFuture.progressPercent}}%">
 
 			</div>
 		</div>
-		<a href="sub/{{ref}}"><button type="button" class="openSub">Open</button></a>
+		
 	</div>
 	{{/subs}}
 
