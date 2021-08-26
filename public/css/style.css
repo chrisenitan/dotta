@@ -87,12 +87,14 @@ select {
 .cta {
   height: 45px;
   width: 45%;
-  font-size: 20px;
+  font-size: 16px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
   color: #000000;
   margin: 5px;
   background-color: #dcdff4;
   border: 3px solid#bdb6ea;
-  border-radius: 6px;
+  border-radius: 14px;
   cursor: pointer;
 }
 .cta:hover {
@@ -102,12 +104,14 @@ select {
 .altcta {
   height: 45px;
   width: 45%;
-  font-size: 20px;
+  font-size: 16px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
   color: #000000;
   margin: 5px;
   background-color: #f4f4f4;
   border: none;
-  border-radius: 3px;
+  border-radius: 14px;
 }
 .smallTxt {
   font-size: 12px;
@@ -194,7 +198,8 @@ select {
   height: auto;
   width: 30%;
   padding: 2%;
-  font-size: 19px;
+  font-size: 18px;
+  font-family: "Montserrat", sans-serif;
   color: #000000;
   margin: 5px;
   background-color: #f4f4f4;
@@ -206,7 +211,8 @@ select {
   height: auto;
   width: 60%;
   padding: 2%;
-  font-size: 19px;
+  font-size: 18px;
+  font-family: "Montserrat", sans-serif;
   color: #000000;
   margin: 5px;
   background-color: #dcdff4;
@@ -243,11 +249,11 @@ select {
   height: 0;
   z-index: 100;
   position: fixed;
-  margin-left: 3%;
+  margin-left: 2.5%;
   bottom: 10px;
   border-radius: 5px;
   overflow: scroll;
-  border: 1px solid#a9a9a9;
+  border: 2px solid#a9a9a9;
   transition: 0.3s;
   -moz-transition: 0.3s;
   -webkit-transition: 0.3s;
