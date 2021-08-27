@@ -209,7 +209,8 @@ select {
 }
 #navAdd {
   height: auto;
-  width: 60%;
+  max-height: 45px;
+  width: 62%;
   padding: 2%;
   font-size: 18px;
   font-family: "Montserrat", sans-serif;
