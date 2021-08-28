@@ -185,14 +185,19 @@ select {
   width: 96%;
   background-color: #f4f4f4;
   padding: 2%;
-  display: inline-block;
+  display: block;
+  overflow: hidden;
 }
 #navHeader {
   height: auto;
   width: 96%;
   background-color: white;
   padding: 2%;
-  display: inline-block;
+  display: block;
+  overflow: hidden;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0px;
 }
 #navMenu {
   height: auto;

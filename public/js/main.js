@@ -1,3 +1,4 @@
+//open sub adding panel
 if (document.getElementById("navAdd")) {
   document.getElementById("navAdd").addEventListener("click", function () {
     document.getElementById("addPanelForm").style.display = "block"
@@ -8,6 +9,7 @@ if (document.getElementById("navAdd")) {
   })
 }
 
+//close sub adding panel
 if (document.getElementById("closeAddPanel")) {
   document.getElementById("closeAddPanel").addEventListener("click", function () {
     document.getElementById("addPanelForm").style.display = "none"
@@ -28,6 +30,7 @@ if (document.getElementById("showRecoverForm")) {
   })
 }
 
+//install service worker
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function () {
     navigator.serviceWorker.register("../dottasw.js").then(
@@ -40,3 +43,13 @@ if ("serviceWorker" in navigator) {
     )
   })
 }
+
+//window listener
+window.addEventListener("load", function () {
+  //match header colour with device theme
+  const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)")
+  const navHeader = document.getElementById("navHeader")
+  darkThemeMq.matches
+    ? (navHeader.style.background = "linear-gradient(to top, #646464a1, #000000, #000000)")
+    : (navHeader.style.backgroundColor = "#fff")
+})
