@@ -47,7 +47,7 @@ Dotta is a `NodeJS` based app that give you a visual presentation and log of all
   - Test version is on Heroku https://dotta.herokuapp.com/
 - Git account is connected to the Git version control in the Cpanel account which pulls latest changes from `main` branch into a seperate folder
 - Deploy `.panel.yml` used in Node App Setup contains script to copy latest files from pulled repo folder into hosting root dir
-- After which you need to restart the node app via the Cpanel
+- After which you may need to restart the node app via the Cpanel
 
 **Cron Jobs**
 
