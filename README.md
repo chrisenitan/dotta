@@ -9,9 +9,9 @@ Website:
 
 ## About Dotta
 
-Dotta is a `NodeJS` app that give you a visual presentation and log of all your recurring subcriptions.
+Dotta is a `NodeJS` based app that give you a visual presentation and log of all your recurring subcriptions or payments.
 
-- Dotta is a [Vrixe](https://github.com/chrisenitan/vrixe) tool
+- Dotta is a [Vrixe](https://github.com/chrisenitan/vrixe) sub tool
 
 ## What it does in details
 
@@ -28,9 +28,9 @@ Dotta is a `NodeJS` app that give you a visual presentation and log of all your 
 
 ## Code Setup
 
-**This document assumes you have at least the basic knowledge of npm and javascript**<br>
+**This document assumes you have basic knowledge of `npm` and `javascript`**<br>
 
-- Clone repo
+- Clone this repo
 - Install dependencies via npm `npm install`
 - Setup env file to connect to database
   - Env and database schema is limited to contributors
@@ -44,6 +44,7 @@ Dotta is a `NodeJS` app that give you a visual presentation and log of all your 
 
 - Hosting and DNS is via Namecheap
 - Cpanel handles both Node App engine and Git version control
+  - Test version is on Heroku https://dotta.herokuapp.com/
 - Git account is connected to the Git version control in the Cpanel account which pulls latest changes from `main` branch into a seperate folder
 - Deploy `.panel.yml` used in Node App Setup contains script to copy latest files from pulled repo folder into hosting root dir
 - After which you need to restart the node app via the Cpanel
