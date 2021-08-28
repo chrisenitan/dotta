@@ -2,30 +2,35 @@
 <img width="200" src="public/images/dotta_960.png">
 <br>
 Website:
-<a href="https://dotta.vrixe.com">dotta.vrixe.com</a>
+<a href="https://dotta.vrixe.com">https://dotta.vrixe.com</a>
 <br>
 <b>A subscription management and tracking webapp</b>
 </p>
 
 ## About Dotta
 
-Dotta is a `NodeJS` app that give you a visual presentation and log of all your recurring subcriptions.
+Dotta is a `NodeJS` based app that give you a visual presentation and log of all your recurring subcriptions or payments.
 
-- Dotta is a [Vrixe](https://github.com/chrisenitan/vrixe) tool
+- Dotta is a [Vrixe](https://github.com/chrisenitan/vrixe) sub tool
 
 ## What it does in details
 
 - Create, edit subscriptions
 - List subscriptions created
-- Coolate information amount subscriptions (individual and cummulative)
-- Other features are work in progress
-  - Working off board https://trello.com/b/EmsTM56q/qboard
+- Coolate information and statistics amount subscriptions (individual and cummulative)
+- Work in progress
+  - Notify users of upcomiing of billed subscriptions
+  - Other managements: disable, cancel and group subscriptions
+
+## Product image
+
+<img width="100%" src="public/images/product.png">
 
 ## Code Setup
 
-**This document assumes you have some knowledge of npm and javascript**<br>
+**This document assumes you have basic knowledge of `npm` and `javascript`**<br>
 
-- Clone repo
+- Clone this repo
 - Install dependencies via npm `npm install`
 - Setup env file to connect to database
   - Env and database schema is limited to contributors
@@ -39,6 +44,7 @@ Dotta is a `NodeJS` app that give you a visual presentation and log of all your 
 
 - Hosting and DNS is via Namecheap
 - Cpanel handles both Node App engine and Git version control
+  - Test version is on Heroku https://dotta.herokuapp.com/
 - Git account is connected to the Git version control in the Cpanel account which pulls latest changes from `main` branch into a seperate folder
 - Deploy `.panel.yml` used in Node App Setup contains script to copy latest files from pulled repo folder into hosting root dir
 - After which you need to restart the node app via the Cpanel

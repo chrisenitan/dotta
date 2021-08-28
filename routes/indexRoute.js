@@ -386,8 +386,9 @@ appRouter.get("/:username", (req, res) => {
             returnedSubs.reduce(nextDate, 0)
             function nextDate(sum, sub) {
               //update total sub costs
-              user.subsTotalled =
+              user.subsTotalled = (
                 parseFloat(user.subsTotalled) + parseFloat(sub.cost)
+              ).toFixed(2)
               sub.subFuture = localTools.dateToNextSub(sub)
             }
             //set final subs collection to user obj

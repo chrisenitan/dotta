@@ -32,9 +32,7 @@ var insertNewAccount = function (req) {
   let ranCookie = localTools.secureKey(28)
   req.cookie = ranCookie
   const today = new Date()
-  req.created = `${today.getFullYear()}-${
-    today.getMonth() + 1
-  }-${today.getDate()}`
+  req.created = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
 
   //use those to create account
   let trialSignUp = `INSERT INTO profiles SET ?`
@@ -60,9 +58,11 @@ appRouter.get("/trial", (req, res) => {
 
   //give rand name and acct values
   var userData = {}
-  userData.password = ranPassword
-  userData.username = `test${ranUsername}`
-  userData.currency = "$"
+  Object.assign(userData, {
+    password: ranPassword,
+    username: `test${ranUsername}`,
+    currency: "$",
+  })
 
   let createUser = insertNewAccount(userData)
   //set client cookie
@@ -74,48 +74,44 @@ appRouter.get("/trial", (req, res) => {
 })
 
 //login
-appRouter.post(
-  "/login",
-  [check("action", "Action is not login").equals("logIn")],
-  (req, res) => {
-    //clear existing cookie
-    res.clearCookie("c_auth")
+appRouter.post("/login", [check("action", "Action is not login").equals("logIn")], (req, res) => {
+  //clear existing cookie
+  res.clearCookie("c_auth")
 
-    //define login status handler
-    const loginError = {}
-    //check validation result
-    const reqErr = validationResult(req)
-    if (!reqErr.isEmpty()) {
-      //return res.status(400).json({ errors: reqErr.array() })
-      loginError.errReason = reqErr.array()[0]
-      loginError.errStatus = false
-      res.render("login", loginError)
-    } else {
-      let loginUser =
-        `SELECT * FROM profiles WHERE username = ` +
-        sqldb.escape(req.body.username) +
-        ` AND password = ` +
-        sqldb.escape(req.body.password) +
-        `LIMIT 1`
-      sqldb.query(loginUser, (err, returnedUser) => {
-        if (err) throw err
-        if (Object.keys(returnedUser).length != 0) {
-          //user found, set new cookie
-          res.cookie("c_auth", returnedUser[0].cookie, {
-            maxAge: 2592000000,
-            httpOnly: false,
-          })
-          res.redirect(`/${returnedUser[0].username}`)
-        } else {
-          //no user found
-          loginError.errReason = { msg: "No user found for that username" }
-          loginError.status = false
-          res.render("login", loginError)
-        }
-      })
-    }
+  //define login status handler
+  const loginError = {}
+  //check validation result
+  const reqErr = validationResult(req)
+  if (!reqErr.isEmpty()) {
+    //return res.status(400).json({ errors: reqErr.array() })
+    loginError.errReason = reqErr.array()[0]
+    loginError.errStatus = false
+    res.render("login", loginError)
+  } else {
+    let loginUser =
+      `SELECT * FROM profiles WHERE username = ` +
+      sqldb.escape(req.body.username) +
+      ` AND password = ` +
+      sqldb.escape(req.body.password) +
+      `LIMIT 1`
+    sqldb.query(loginUser, (err, returnedUser) => {
+      if (err) throw err
+      if (Object.keys(returnedUser).length != 0) {
+        //user found, set new cookie
+        res.cookie("c_auth", returnedUser[0].cookie, {
+          maxAge: 2592000000,
+          httpOnly: false,
+        })
+        res.redirect(`/${returnedUser[0].username}`)
+      } else {
+        //no user found
+        loginError.errReason = { msg: "No user found for that username" }
+        loginError.status = false
+        res.render("login", loginError)
+      }
+    })
   }
-)
+})
 
 //sign up or update account
 appRouter.post(
@@ -140,9 +136,7 @@ appRouter.post(
     } else {
       //check for old usernames
       let checkForUniqueuserName =
-        `SELECT * FROM profiles WHERE username = ` +
-        sqldb.escape(signUpData.username) +
-        `LIMIT 1`
+        `SELECT * FROM profiles WHERE username = ` + sqldb.escape(signUpData.username) + `LIMIT 1`
       //register user if registration is reqested and remove defaul action
       if (req.body.action == "signUp") {
         delete req.body.action
@@ -198,10 +192,7 @@ appRouter.get("/takeout", (req, res) => {
   const cookie = req.cookies
   if (cookie.c_auth) {
     //get user data
-    let getUser =
-      `SELECT * FROM profiles WHERE cookie = ` +
-      sqldb.escape(cookie.c_auth) +
-      `LIMIT 1`
+    let getUser = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(cookie.c_auth) + `LIMIT 1`
     sqldb.query(getUser, (err, resultUser) => {
       if (err) {
         console.log("User not fetched via cookie")
@@ -245,12 +236,9 @@ appRouter.get("/takeout", (req, res) => {
                     })
                     res.write(file)
                     //delete file when done: maybe wait?
-                    fs.unlink(
-                      `assets/tmp_takeout/${takeoutUser.username}.json`,
-                      function (err) {
-                        if (err) throw err
-                      }
-                    )
+                    fs.unlink(`assets/tmp_takeout/${takeoutUser.username}.json`, function (err) {
+                      if (err) throw err
+                    })
                     res.end()
                   }
                 )
@@ -281,12 +269,9 @@ appRouter.post(
     res.clearCookie("c_auth")
     let actionUser = req.body
     let deleteUser =
-      `DELETE FROM profiles WHERE username = ` +
-      sqldb.escape(actionUser.username) +
-      `LIMIT 1`
+      `DELETE FROM profiles WHERE username = ` + sqldb.escape(actionUser.username) + `LIMIT 1`
 
-    let deleteUserSub =
-      `DELETE FROM subs WHERE username = ` + sqldb.escape(actionUser.username)
+    let deleteUserSub = `DELETE FROM subs WHERE username = ` + sqldb.escape(actionUser.username)
 
     let deleteUserLedger =
       `DELETE FROM ledger WHERE username = ` + sqldb.escape(actionUser.username)

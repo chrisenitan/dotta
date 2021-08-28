@@ -55,8 +55,8 @@
 
 			<div class="mTinputDiv" style="width:65%">
 				<label for="email">Email</label><br>
-				<input type="text" value="{{email}}" name="email"><br>
-				<h class="inputDis">Email is optional</h><br><br>
+				<input type="text" value="{{email}}" name="email" placeholder="Optional"><br>
+				<h class="inputDis">Email may be useful for password reset</h><br><br>
 			</div>
 
 			<div class="mTinputDiv" style="width:25%">
@@ -69,6 +69,9 @@
 					<option>¥</option>
 					<option>₹</option>
 					<option>£</option>
+					<option>₿</option>
+					<option>₱</option>
+					<option>د.إ</option>
 				</select><br>
 				<h class="inputDis">Main currency</h><br><br>
 			</div>
@@ -87,7 +90,7 @@
 
 			<input type="hidden" value="{{username}}" name="username" required>
 			<input type="hidden" name="action" value="update" required>
-			<button class="cta"><span class="material-icons-two-tone md-light">account_box</span> Update</button>
+			<button class="cta">Update</button>
 		</form><br>
 
 
