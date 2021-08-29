@@ -33,6 +33,7 @@ let urlLog = (req, res, next) => {
     "Baby gels, shaving cream and nail polish",
   ]
   req.goodWill = gW[ranVal]
+  res.version = "1.01"
   next()
 }
 
