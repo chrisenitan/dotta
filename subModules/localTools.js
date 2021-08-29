@@ -1,8 +1,7 @@
 //generate a random char: recieves int param for lenght
 let randomValue = (req) => {
   var ranId = ""
-  var characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+  var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
   for (var i = 0; i < req; i++) {
     ranId += characters.charAt(Math.floor(Math.random() * characters.length))
   }
@@ -29,8 +28,7 @@ let randomInt = () => {
 
 let secureKey = (req) => {
   var ranKey = ""
-  var characters =
-    "ABCTU$%VWXYZabcdewxyz012345fghijklmnopqrDEFGHIJMNOPQRSstuv67KL89!@#&*"
+  var characters = "ABCTU$%VWXYZabcdewxyz012345fghijklmnopqrDEFGHIJMNOPQRSstuv67KL89!@#&*"
   for (var i = 0; i < req; i++) {
     ranKey += characters.charAt(Math.floor(Math.random() * characters.length))
   }
@@ -68,17 +66,30 @@ let dateToNextSub = (req) => {
       date.month = dateObj.getMonth()
       date.date = dateObj.getDate()
   }
-
-  const eventDateNorm = `${date.date}-${date.month}-${date.year}`
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ]
+  const eventDateNorm = `${date.date} ${monthNames[date.month - 1]} ${date.year}`
   const todayYear = dateObj.getFullYear()
   const todayMonth = dateObj.getMonth()
   const todayDate = dateObj.getDate()
   const eventUTC = Date.UTC(date.year, date.month - 1, date.date)
   const todayUTC = Date.UTC(todayYear, todayMonth, todayDate)
   const eventDay = (eventUTC - todayUTC) / 1000 / 60 / 60 / 24
-  var progressPercent = (
-    parseFloat(percentDivisor) * parseFloat(monthDivisor - eventDay)
-  ).toFixed(2)
+  var progressPercent = (parseFloat(percentDivisor) * parseFloat(monthDivisor - eventDay)).toFixed(
+    2
+  )
   //interprete progress color
   var progressColor = ""
   progressPercent <= 49

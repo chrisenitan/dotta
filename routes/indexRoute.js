@@ -44,7 +44,7 @@ appRouter.get("/", (req, res) => {
         res.clearCookie("user") //fallback for old cookie
         res.clearCookie("c_auth")
         let nullUser = {}
-        nullUser.goodWill = req.goodWill
+        nullUser.appGlobal = req.appGlobal
         res.render("index", nullUser)
       }
     })
@@ -52,7 +52,7 @@ appRouter.get("/", (req, res) => {
     res.clearCookie("user") //fallback for old cookie
     res.clearCookie("c_auth")
     let nullUser = {}
-    nullUser.goodWill = req.goodWill
+    nullUser.appGlobal = req.appGlobal
     res.render("index", nullUser)
   }
 })
@@ -64,7 +64,7 @@ appRouter.get("/login", (req, res) => {
   }
   //set goodwill to user
   let ref = {}
-  ref.goodWill = req.goodWill
+  ref.appGlobal = req.appGlobal
   res.render("login", ref)
 })
 
@@ -96,7 +96,7 @@ appRouter.get("/signup", (req, res) => {
   ]
   const newUser = {}
   newUser.ranUserName = possibleNames[ranUsername]
-  newUser.goodWill = req.goodWill
+  newUser.appGlobal = req.appGlobal
   res.render("signup", newUser)
 })
 
@@ -112,7 +112,7 @@ appRouter.get("/settings", (req, res) => {
       if (err) throw err
       if (Object.keys(returnedUser).length != 0) {
         //set goodwill message
-        returnedUser[0].goodWill = req.goodWill
+        returnedUser[0].appGlobal = req.appGlobal
         res.render("settings", returnedUser[0])
       } else {
         //no user found
@@ -139,7 +139,7 @@ appRouter.get("/about", (req, res) => {
       if (err) throw err
       if (Object.keys(returnedUser).length != 0) {
         //set goodwill to user
-        returnedUser[0].goodWill = req.goodWill
+        returnedUser[0].appGlobal = req.appGlobal
         res.render("about", returnedUser[0])
       } else {
         //no user found
@@ -160,7 +160,7 @@ appRouter.get("/statistics", (req, res) => {
     //set stat data
     const statData = {}
     //set goodwill message
-    statData.goodWill = req.goodWill
+    statData.appGlobal = req.appGlobal
     //get user data
     let getUser =
       `SELECT * FROM profiles WHERE cookie = ` +
@@ -339,7 +339,7 @@ appRouter.get("/account", (req, res) => {
       if (err) throw err
       if (Object.keys(returnedUser).length != 0) {
         //set goodwill message
-        returnedUser[0].goodWill = req.goodWill
+        returnedUser[0].appGlobal = req.appGlobal
         res.render("profile", returnedUser[0])
       } else {
         //no user found
@@ -373,7 +373,7 @@ appRouter.get("/:username", (req, res) => {
         let user = returnedUser[0]
         //get users data from data table
         //set goodwill to user
-        user.goodWill = req.goodWill
+        user.appGlobal = req.appGlobal
         let getUserSubs =
           `SELECT * FROM subs WHERE username = '${user.username}'` +
           `ORDER BY date ASC`

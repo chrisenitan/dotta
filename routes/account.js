@@ -249,7 +249,7 @@ appRouter.get("/takeout", (req, res) => {
       }
       //did not find user
       else {
-        resultUser[0].goodWill = "Could not generate, please contact team"
+        resultUser[0].appGlobal.goodWill = "Could not generate, please contact team"
         res.render("profile", resultUser[0])
       }
     })
@@ -306,7 +306,7 @@ appRouter.post("/recovery", (req, res) => {
 
   //set goodwill to user
   let ref = {}
-  ref.goodWill = "we have reset your account"
+  ref.appGlobal.goodWill = "we have reset your account"
   res.render("login", ref)
 })
 

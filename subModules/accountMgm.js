@@ -19,6 +19,27 @@ let urlLog = (req, res, next) => {
   let url = `${req.protocol}://${req.get("host")}${req.originalUrl}`
   console.log(`\x1b[34m Route hit: ${url} \x1b[0m`)
 
+  //date
+  const dateObj = new Date()
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ]
+  var upToDate = `${dateObj.getDate()} ${
+    monthNames[dateObj.getMonth()]
+  } ${dateObj.getFullYear()}`
+
+  //goodwill
   let ranVal = localTools.randomInt()
   let gW = [
     "I always want to know who billed me",
@@ -32,8 +53,14 @@ let urlLog = (req, res, next) => {
     "Long list? Kill what you don't need",
     "Baby gels, shaving cream and nail polish",
   ]
-  req.goodWill = gW[ranVal]
-  res.version = "1.01"
+  var appGlobal = {}
+  Object.assign(appGlobal, {
+    goodWill: gW[ranVal],
+    assetVersion: "1.01",
+    appVersion: "1.03",
+    latestUpdate: upToDate,
+  })
+  req.appGlobal = appGlobal
   next()
 }
 

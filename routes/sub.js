@@ -69,7 +69,7 @@ appRouter.get("/:ref", (req, res) => {
               }
               //set goodwill message
               subData.user = user
-              subData.goodWill = req.goodWill
+              subData.appGlobal = req.appGlobal
               res.render("sub/subView", subData)
             })
           } else {
