@@ -20,14 +20,7 @@
 				<label for="frequency">Account Currency</label><br>
 				<select name="currency" required>
 					<option selected>$</option>
-					<option>€</option>
-					<option>₦</option>
-					<option>¥</option>
-					<option>₹</option>
-					<option>£</option>
-					<option>₿</option>
-					<option>₱</option>
-					<option>د.إ</option>
+					{{> currencyOptions}}
 				</select><br>
 				<h class="inputDis">Choose a default currency for all subscriptions</h><br><br>
 			</div>

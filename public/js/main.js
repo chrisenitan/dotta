@@ -47,8 +47,10 @@ if ("serviceWorker" in navigator) {
 //window listener
 window.addEventListener("load", function () {
   //match header colour with device theme
-  const navHeader = document.getElementById("navHeader")
-  window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? (navHeader.style.background = "linear-gradient(to top, #646464a1, #000000, #000000)")
-    : (navHeader.style.backgroundColor = "#fff")
+  if (document.getElementById("navHeader")) {
+    const navHeader = document.getElementById("navHeader")
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? (navHeader.style.background = "linear-gradient(to top, #646464a1, #000000, #000000)")
+      : (navHeader.style.backgroundColor = "#fff")
+  }
 })

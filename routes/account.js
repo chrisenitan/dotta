@@ -307,7 +307,7 @@ appRouter.post("/recovery", (req, res) => {
   //set goodwill to user
   let ref = {}
   ref.appGlobal.goodWill = "we have reset your account"
-  res.render("login", ref)
+  res.render("login", ref)//this should prolly go to account/recovery mustache instead. wip
 })
 
 module.exports = appRouter

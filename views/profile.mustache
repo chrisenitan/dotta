@@ -63,15 +63,7 @@
 				<label for="currency">Currency</label><br>
 				<select name="currency" required>
 					<option selected>{{currency}}</option>
-					<option>$</option>
-					<option>€</option>
-					<option>₦</option>
-					<option>¥</option>
-					<option>₹</option>
-					<option>£</option>
-					<option>₿</option>
-					<option>₱</option>
-					<option>د.إ</option>
+					{{> currencyOptions}}
 				</select><br>
 				<h class="inputDis">Main currency</h><br><br>
 			</div>
