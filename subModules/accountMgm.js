@@ -35,9 +35,6 @@ let urlLog = (req, res, next) => {
     "November",
     "December",
   ]
-  var upToDate = `${dateObj.getDate()} ${
-    monthNames[dateObj.getMonth()]
-  } ${dateObj.getFullYear()}`
 
   //goodwill
   let ranVal = localTools.randomInt()
@@ -58,7 +55,7 @@ let urlLog = (req, res, next) => {
     goodWill: gW[ranVal],
     assetVersion: "1.01",
     appVersion: "1.03",
-    latestUpdate: upToDate,
+    latestUpdate: "31 August 2021",
   })
   req.appGlobal = appGlobal
   next()
