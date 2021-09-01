@@ -19,23 +19,6 @@ let urlLog = (req, res, next) => {
   let url = `${req.protocol}://${req.get("host")}${req.originalUrl}`
   console.log(`\x1b[34m Route hit: ${url} \x1b[0m`)
 
-  //date
-  const dateObj = new Date()
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ]
-
   //goodwill
   let ranVal = localTools.randomInt()
   let gW = [
