@@ -14,9 +14,7 @@ const sqldb = mysql.createConnection({
 
 sqldb.connect((err) => {
   if (err) {
-    console.log(
-      `Error connecting to ${process.env.awsserver} on thread: ${sqldb.threadId}`
-    )
+    console.log(`Error connecting to ${process.env.awsserver} on thread: ${sqldb.threadId}`)
     console.log(err)
   } else {
     console.log(
@@ -29,10 +27,7 @@ appRouter.get("/", (req, res) => {
   const cookie = req.cookies
   if (cookie.c_auth != undefined) {
     console.log(`home dir: found cookie`)
-    let getUser =
-      `SELECT * FROM profiles WHERE cookie = ` +
-      sqldb.escape(cookie.c_auth) +
-      `LIMIT 1`
+    let getUser = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(cookie.c_auth) + `LIMIT 1`
     sqldb.query(getUser, (err, result) => {
       if (err) {
         console.log("User not fetchs via cookie")
@@ -105,9 +100,7 @@ appRouter.get("/settings", (req, res) => {
   if (req.cookies.c_auth) {
     //get user data
     let getUser =
-      `SELECT * FROM profiles WHERE cookie = ` +
-      sqldb.escape(req.cookies.c_auth) +
-      `LIMIT 1`
+      `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
       if (Object.keys(returnedUser).length != 0) {
@@ -132,9 +125,7 @@ appRouter.get("/about", (req, res) => {
   if (req.cookies.c_auth) {
     //get user data
     let getUser =
-      `SELECT * FROM profiles WHERE cookie = ` +
-      sqldb.escape(req.cookies.c_auth) +
-      `LIMIT 1`
+      `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
       if (Object.keys(returnedUser).length != 0) {
@@ -163,9 +154,7 @@ appRouter.get("/statistics", (req, res) => {
     statData.appGlobal = req.appGlobal
     //get user data
     let getUser =
-      `SELECT * FROM profiles WHERE cookie = ` +
-      sqldb.escape(req.cookies.c_auth) +
-      `LIMIT 1`
+      `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
       if (Object.keys(returnedUser).length != 0) {
@@ -188,8 +177,7 @@ appRouter.get("/statistics", (req, res) => {
           sqldb.escape(returnedUser[0].username) +
           `ORDER BY CAST(cost AS DECIMAL) ASC LIMIT 1`
         let getSubLedger =
-          `SELECT * FROM ledger WHERE username = ` +
-          sqldb.escape(returnedUser[0].username)
+          `SELECT * FROM ledger WHERE username = ` + sqldb.escape(returnedUser[0].username)
         //get total subs count
         sqldb.query(countSub, (err, resultCountSub) => {
           if (err) {
@@ -255,6 +243,49 @@ appRouter.get("/statistics", (req, res) => {
     })
   } else {
     res.redirect("/")
+  }
+})
+
+//leger
+appRouter.get("/ledger", (req, res) => {
+  if (req.cookies.c_auth) {
+    //get user data
+    let getUser =
+      `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
+    var ledgerData = {}
+    sqldb.query(getUser, (err, returnedUser) => {
+      if (err) throw err
+      if (Object.keys(returnedUser).length != 0) {
+        ledgerData.owner = returnedUser[0]
+
+        let getSubLedger =
+          `SELECT * FROM ledger WHERE username = ` +
+          sqldb.escape(returnedUser[0].username) +
+          `ORDER BY dateEntered DESC`
+        //get all subs logged iinto the ledger history
+        sqldb.query(getSubLedger, (err, resultSubLegder) => {
+          if (err) throw err
+
+          if (Object.keys(resultSubLegder).length != 0) {
+            ledgerData.ledgers = resultSubLegder
+            console.log(ledgerData)
+          } else {
+            console.log("noTHIING")
+          }
+          ledgerData.appGlobal = req.appGlobal
+          res.render("ledger", ledgerData)
+        })
+      } else {
+        //just render empty ledger page
+        res.render("ledger", ledgerData)
+      }
+    })
+  } else {
+    //no user found
+    const getUserError = {}
+    getUserError.errReason = { msg: "No user found for logged in data" }
+    getUserError.status = false
+    res.redirect("/logout")
   }
 })
 
@@ -332,9 +363,7 @@ appRouter.get("/account", (req, res) => {
   if (req.cookies.c_auth) {
     //get user data
     let getUser =
-      `SELECT * FROM profiles WHERE cookie = ` +
-      sqldb.escape(req.cookies.c_auth) +
-      `LIMIT 1`
+      `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
       if (Object.keys(returnedUser).length != 0) {
@@ -362,10 +391,7 @@ appRouter.get("/:username", (req, res) => {
 
   //only show if user is logged in and sessioned
   if (paramUser && cookie.c_auth) {
-    let getUser =
-      `SELECT * FROM profiles WHERE username = ` +
-      sqldb.escape(paramUser) +
-      `LIMIT 1`
+    let getUser = `SELECT * FROM profiles WHERE username = ` + sqldb.escape(paramUser) + `LIMIT 1`
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
       if (Object.keys(returnedUser).length != 0) {
@@ -375,8 +401,7 @@ appRouter.get("/:username", (req, res) => {
         //set goodwill to user
         user.appGlobal = req.appGlobal
         let getUserSubs =
-          `SELECT * FROM subs WHERE username = '${user.username}'` +
-          `ORDER BY date ASC`
+          `SELECT * FROM subs WHERE username = '${user.username}'` + `ORDER BY date ASC`
         sqldb.query(getUserSubs, (err, returnedSubs) => {
           if (err) throw err
           if (Object.keys(returnedSubs).length != 0) {
@@ -386,9 +411,7 @@ appRouter.get("/:username", (req, res) => {
             returnedSubs.reduce(nextDate, 0)
             function nextDate(sum, sub) {
               //update total sub costs
-              user.subsTotalled = (
-                parseFloat(user.subsTotalled) + parseFloat(sub.cost)
-              ).toFixed(2)
+              user.subsTotalled = (parseFloat(user.subsTotalled) + parseFloat(sub.cost)).toFixed(2)
               sub.subFuture = localTools.dateToNextSub(sub)
             }
             //set final subs collection to user obj
