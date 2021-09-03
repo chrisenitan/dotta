@@ -257,7 +257,6 @@ appRouter.get("/ledger", (req, res) => {
       if (err) throw err
       if (Object.keys(returnedUser).length != 0) {
         ledgerData.owner = returnedUser[0]
-
         let getSubLedger =
           `SELECT * FROM ledger WHERE username = ` +
           sqldb.escape(returnedUser[0].username) +
@@ -265,23 +264,21 @@ appRouter.get("/ledger", (req, res) => {
         //get all subs logged iinto the ledger history
         sqldb.query(getSubLedger, (err, resultSubLegder) => {
           if (err) throw err
-
           if (Object.keys(resultSubLegder).length != 0) {
             ledgerData.ledgers = resultSubLegder
-            console.log(ledgerData)
           } else {
-            console.log("noTHIING")
+            console.log("no ledger data found")
           }
           ledgerData.appGlobal = req.appGlobal
           res.render("ledger", ledgerData)
         })
       } else {
-        //just render empty ledger page
-        res.render("ledger", ledgerData)
+        //no user found in db
+        res.redirect("/")
       }
     })
   } else {
-    //no user found
+    //no cookie found
     const getUserError = {}
     getUserError.errReason = { msg: "No user found for logged in data" }
     getUserError.status = false
