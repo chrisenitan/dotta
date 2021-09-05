@@ -307,51 +307,64 @@ appRouter.post(
       res.send(actionError.errReason.msg)
       //redirect to sub individual view
     } else {
-      let insertNewSub = `INSERT INTO subs SET ?`
-      if (req.body.action == "create") {
-        //generate a reference code and define other req values
-        req.body.ref = localTools.randomValue(9)
-        delete req.body.action
-        //default nextlog for legder processes
-        if (req.body.frequency == "Every Week") {
-          req.body.nextlog = req.body.date
-        }
-        var currentDate = new Date()
-        req.body.created = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`
-        sqldb.query(insertNewSub, req.body, (err, insertSubResult, fields) => {
-          if (err) {
-            actionError.errReason = err
-            actionError.errStatus = false
-            res.send(actionError.errReason)
-          }
-          if (insertSubResult.insertId != undefined) {
-            res.redirect(`/sub/${req.body.ref}`)
-          }
-        })
-      } else if (req.body.action == "update") {
-        sqldb.query(
-          "UPDATE subs SET name = ?, cost = ?, date = ?, frequency = ?, colour = ? WHERE ref = ?",
-          [
-            `${req.body.name}`,
-            `${req.body.cost}`,
-            `${req.body.date}`,
-            `${req.body.frequency}`,
-            `${req.body.colour}`,
-            `${req.body.ref}`,
-          ],
-          (err, updateSubResult) => {
-            if (err) {
-              actionError.errReason = err
-              actionError.errStatus = false
-              res.send(actionError.errReason)
-              console.log(err)
+      //no error. proceed to creating sub
+      let getUser =
+        `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
+      sqldb.query(getUser, (err, returnedUser) => {
+        if (err) throw err
+        if (Object.keys(returnedUser).length != 0) {
+          //only enter a sub if a valid user is logged in
+          let insertNewSub = `INSERT INTO subs SET ?`
+          if (req.body.action == "create") {
+            //generate a reference code and define other req values
+            req.body.ref = localTools.randomValue(9)
+            req.body.username = returnedUser[0].username
+            delete req.body.action
+            //default nextlog for legder processes
+            if (req.body.frequency == "Every Week") {
+              req.body.nextlog = req.body.date
             }
-            res.redirect(`/sub/${req.body.ref}`)
+            var currentDate = new Date()
+            req.body.created = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`
+            sqldb.query(insertNewSub, req.body, (err, insertSubResult, fields) => {
+              if (err) {
+                actionError.errReason = err
+                actionError.errStatus = false
+                res.send(actionError.errReason)
+              }
+              if (insertSubResult.insertId != undefined) {
+                res.redirect(`/sub/${req.body.ref}`)
+              }
+            })
+          } else if (req.body.action == "update") {
+            sqldb.query(
+              "UPDATE subs SET name = ?, cost = ?, date = ?, frequency = ?, colour = ? WHERE ref = ?",
+              [
+                `${req.body.name}`,
+                `${req.body.cost}`,
+                `${req.body.date}`,
+                `${req.body.frequency}`,
+                `${req.body.colour}`,
+                `${req.body.ref}`,
+              ],
+              (err, updateSubResult) => {
+                if (err) {
+                  actionError.errReason = err
+                  actionError.errStatus = false
+                  res.send(actionError.errReason)
+                  console.log(err)
+                }
+                res.redirect(`/sub/${req.body.ref}`)
+              }
+            )
+          } else {
+            //not updating, neither creating
           }
-        )
-      } else {
-        //do nothing catch errorr
-      }
+        } else {
+          //no valid user logged in, cannot make a sub
+          res.redirect("/")
+        }
+      })
     }
   }
 )
