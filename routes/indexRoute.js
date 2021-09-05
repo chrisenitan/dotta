@@ -265,7 +265,8 @@ appRouter.get("/ledger", (req, res) => {
         sqldb.query(getSubLedger, (err, resultSubLegder) => {
           if (err) throw err
           if (Object.keys(resultSubLegder).length != 0) {
-            ledgerData.ledgers = resultSubLegder
+            ledgerData.ledger = resultSubLegder
+            console.log(resultSubLegder)
           } else {
             console.log("no ledger data found")
           }

@@ -16,19 +16,19 @@
 	<div id="pageContainer">
 		<div class="pageTitle">Account Ledger</div><br>
 
-		{{#ledgers}}
+		{{#ledger}}
 		<a href="/sub/{{ref}}">
 			<div class="setBox">
-				<button class="setButton">{{name}} <span class="setData">{{owner.currency}}{{cost}}</span></button>
+				<button class="setButton">{{subName}} <span class="setData">{{owner.currency}}{{cost}}</span></button>
 				<button class="setIcon"><span class="material-icons-two-tone md-light">navigate_next</span></button>
 			</div>
 		</a>
 		<h class="inputDis">Registered on {{dateEntered}}</h><br><br>
-		{{/ledgers}}
+		{{/ledger}}
 
-		{{^ledgers}}
+		{{^ledger}}
 		Here you'll find a list of all your due subscriptions.
-		{{/ledgers}}
+		{{/ledger}}
 
 		<br><br>
 	</div>

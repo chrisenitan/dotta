@@ -42,7 +42,7 @@ $oddMonths = array("0", "1", "2", "4", "6", "7", "8", "10");
 //cron log
 $serve = $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
 $time = date("G:i:s");
-$insertCronLog = "INSERT INTO ledger (username, ref, cost, dateEntered) VALUES ('$serve', '$time', 'admin', '0', '$todayDate')";
+$insertCronLog = "INSERT INTO ledger (username, ref, subName, cost, dateEntered) VALUES ('$serve', '$time', 'admin', '0', '$todayDate')";
 if (!mysqli_query($conne, $insertCronLog)) {
   die('Error: ' . mysqli_error($conne));
 }
@@ -64,7 +64,7 @@ while ($rowMonths = mysqli_fetch_array($holderMonths)) {
   //only for months, if today is sub day or if month has more tha 30 days and today is 30 or more
   //(in_array($dateMonth, $oddMonths) and $date == 28) or 
   if ($frequency == "Every Month" and ($dateDay == $date or (in_array($dateMonth, $oddMonths) and $date > 30 and $todayDate >= 30))) {
-    $logLedgerMonth = "INSERT INTO ledger (username, ref, cost, dateEntered) VALUES ('$username', '$ref', '$name', '$cost', '$todayDate')";
+    $logLedgerMonth = "INSERT INTO ledger (username, ref, subName, cost, dateEntered) VALUES ('$username', '$ref', '$name', '$cost', '$todayDate')";
     $updateMonthLog = "UPDATE subs SET lastBilled='$todayDate' WHERE ref = '$ref'";
     echo "<span style='color:red'>Logged Month for: $name : $ref </span> <br><br>";
 
@@ -75,7 +75,7 @@ while ($rowMonths = mysqli_fetch_array($holderMonths)) {
 
   //weekly
   else if ($frequency == "Every Week" and ($dateDay == $nextLog)) {
-    $logLedgerWeek = "INSERT INTO ledger (username, ref, cost, dateEntered) VALUES ('$username', '$ref', '$name', '$cost', '$todayDate')";
+    $logLedgerWeek = "INSERT INTO ledger (username, ref, subName, cost, dateEntered) VALUES ('$username', '$ref', '$name', '$cost', '$todayDate')";
     //define next log within current month scope
     if ($nextLog <= 28) {
       $newNextLog = $nextLog + 7;
