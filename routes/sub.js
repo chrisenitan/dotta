@@ -18,18 +18,13 @@ sqldb.connect((err) => {
   if (err) {
     throw err
   }
-  console.log(
-    `Route = /sub: Connected to ${process.env.awsserver} on thread: ${sqldb.threadId}`
-  )
+  console.log(`Route = /sub: Connected to ${process.env.awsserver} on thread: ${sqldb.threadId}`)
 })
 
 //load and form sub
 appRouter.get("/:ref", (req, res) => {
   if (req.params.ref) {
-    let getSub =
-      `SELECT * FROM subs WHERE ref =` +
-      sqldb.escape(req.params.ref) +
-      `LIMIT 1`
+    let getSub = `SELECT * FROM subs WHERE ref =` + sqldb.escape(req.params.ref) + `LIMIT 1`
     sqldb.query(getSub, (err, resultSub) => {
       if (err) {
         console.log(err)
@@ -38,9 +33,7 @@ appRouter.get("/:ref", (req, res) => {
         const subData = resultSub[0]
         //get owning user
         let getUser =
-          `SELECT * FROM profiles WHERE username = ` +
-          sqldb.escape(subData.username) +
-          `LIMIT 1`
+          `SELECT * FROM profiles WHERE username = ` + sqldb.escape(subData.username) + `LIMIT 1`
         sqldb.query(getUser, (err, returnedUser) => {
           if (err) throw err
           if (Object.keys(returnedUser).length != 0) {
@@ -78,7 +71,12 @@ appRouter.get("/:ref", (req, res) => {
           }
         })
       } else {
-        res.send("did not find any sub with that ref")
+        const resData = {
+          errReason: {
+            msg: "We could not find the data you requested",
+          },
+        }
+        res.render("sub/subView", resData)
       }
     })
   } else {
@@ -89,8 +87,7 @@ appRouter.get("/:ref", (req, res) => {
 //delete sub
 appRouter.get("/delete/:ref", (req, res) => {
   if (req.params.ref) {
-    let deleteSub =
-      `DELETE FROM subs WHERE ref =` + sqldb.escape(req.params.ref) + `LIMIT 1`
+    let deleteSub = `DELETE FROM subs WHERE ref =` + sqldb.escape(req.params.ref) + `LIMIT 1`
     sqldb.query(deleteSub, (err, resultDeleteSub) => {
       if (err) {
         console.log(err)
