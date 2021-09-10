@@ -20,42 +20,42 @@
 
 		<div class="setBox">
 			<button class="setButton">Subscriptions: <span class="setData">{{count}}</span></button>
-			<button class="setIcon"><span class="material-icons-two-tone md-light">receipt</span></button>
+			<button class="setIcon"><span class="material-icons">receipt</span></button>
 		</div>
 
 		<br><label>Expenses</label><br>
 		<div class="setBox">
 			<button class="setButton">Running: <span class="setData">{{owner.currency}}{{totalCost}}</span></button>
-			<button class="setIcon"><span class="material-icons-two-tone md-light">payment</span></button>
+			<button class="setIcon"><span class="material-icons">payment</span></button>
 		</div>
 		<a href="/sub/{{topSub.ref}}">
 			<div class="setBox">
 				<button class="setButton">Highest: <span class="setData">{{topSub.name}}: <span
 							class="smallTxt">{{owner.currency}}{{topSub.cost}}</span></span></button>
-				<button class="setIcon"><span class="material-icons-two-tone md-light">vertical_align_top</span></button>
+				<button class="setIcon"><span class="material-icons">vertical_align_top</span></button>
 			</div>
 		</a>
 		<a href="/sub/{{bottomSub.ref}}">
 			<div class="setBox">
 				<button class="setButton">Lowest: <span class="setData">{{bottomSub.name}}: <span
 							class="smallTxt">{{owner.currency}}{{bottomSub.cost}}</span></span></button>
-				<button class="setIcon"><span class="material-icons-two-tone md-light">vertical_align_bottom</span></button>
+				<button class="setIcon"><span class="material-icons">vertical_align_bottom</span></button>
 			</div>
 		</a>
 
 		<br><label>Ledger</label><br>
 		<div class="setBox">
 			<button class="setButton">Investment: <span class="setData">{{owner.currency}}{{billings.costSum}}</span></button>
-			<button class="setIcon"><span class="material-icons-two-tone md-light">credit_score</span></button>
+			<button class="setIcon"><span class="material-icons">credit_score</span></button>
 		</div>
 		<div class="setBox">
 			<button class="setButton">Entries: <span class="setData">{{billings.costCount}}</span></button>
-			<button class="setIcon"><span class="material-icons-two-tone md-light">account_tree</span></button>
+			<button class="setIcon"><span class="material-icons">account_tree</span></button>
 		</div>
 		<a href="/ledger">
 			<div class="setBox">
 				<button class="setButton">View all entries</button>
-				<button class="setIcon"><span class="material-icons-two-tone md-light">navigate_next</span></button>
+				<button class="setIcon"><span class="material-icons">navigate_next</span></button>
 			</div>
 		</a>
 

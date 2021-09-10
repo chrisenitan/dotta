@@ -46,6 +46,12 @@ if ("serviceWorker" in navigator) {
 
 //window listener
 window.addEventListener("load", function () {
+  if (document.getElementById("pauseBilling")) {
+    document.getElementById("pauseBilling").addEventListener("click", function () {
+      const playB = document.getElementById("playB")
+      const pauseB = document.getElementById("pauseB")
+    })
+  }
   //match header colour with device theme
   /*   if (document.getElementById("navHeader")) {
     const navHeader = document.getElementById("navHeader")
