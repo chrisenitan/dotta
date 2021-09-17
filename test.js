@@ -8,8 +8,8 @@ let assertVowels = ({ string, shouldBe }) => {
   const arrReq = string.toUpperCase().split("")
   arrReq.reduce(counter, 0)
   vowelTotal === shouldBe
-    ? console.log(`\x1b[32m 1 Test Passed \x1b[0m`)
-    : console.log(`\x1b[31m 1 Test Failed \x1b[0m`)
+    ? console.log(`\x1b[32m 1 Test Passed: Asserted ${shouldBe} is ${vowelTotal} \x1b[0m`)
+    : console.log(`\x1b[31m 1 Test Failed: Expected ${shouldBe} to be ${vowelTotal} \x1b[0m`)
 }
 
 //why not chai!
