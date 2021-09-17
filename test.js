@@ -1,17 +1,21 @@
-var number = 0
-function counter(sum, sub) {
+var vowelTotal = 0
+let counter = (start, str) => {
   const vowels = "AEIOU"
-  const pp = vowels.indexOf(sub)
-  if (pp > 0) {
-    number++
-  }
+  const count = vowels.indexOf(str)
+  count > 0 ? vowelTotal++ : (vowelTotal = vowelTotal)
 }
-function countVowels(req) {
-  const upperReq = req.toUpperCase()
-  const arrReq = upperReq.split("")
+let assertVowels = ({ string, shouldBe }) => {
+  const arrReq = string.toUpperCase().split("")
   arrReq.reduce(counter, 0)
-  console.log(number)
+  vowelTotal === shouldBe
+    ? console.log(`\x1b[32m 1 Test Passed \x1b[0m`)
+    : console.log(`\x1b[31m 1 Test Failed \x1b[0m`)
 }
-countVowels("heloAEIOU")
 
-//expect...
+//why not chai!
+assertVowels({
+  string: "heloAEIOU",
+  shouldBe: 6,
+})
+
+//someone needs to build this into a node package and extend it for consonants ;)
