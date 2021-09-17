@@ -2,7 +2,7 @@ var vowelTotal = 0
 let counter = (start, str) => {
   const vowels = "AEIOU"
   const count = vowels.indexOf(str)
-  count > 0 ? vowelTotal++ : (vowelTotal = vowelTotal)
+  count >= 0 ? vowelTotal++ : (vowelTotal = vowelTotal)
 }
 let assertVowels = ({ string, shouldBe }) => {
   const arrReq = string.toUpperCase().split("")
@@ -15,7 +15,7 @@ let assertVowels = ({ string, shouldBe }) => {
 //why not chai!
 assertVowels({
   string: "heloAEIOU",
-  shouldBe: 6,
+  shouldBe: 7,
 })
 
 //someone needs to build this into a node package and extend it for consonants ;)
