@@ -14,9 +14,7 @@ const sqldb = mysql.createConnection({
 
 sqldb.connect((err) => {
   if (err) {
-    console.log(
-      `Error connecting to ${process.env.awsserver} on thread: ${sqldb.threadId}`
-    )
+    console.log(`Error connecting to ${process.env.awsserver} on thread: ${sqldb.threadId}`)
     console.log(err)
   } else {
     console.log(
@@ -29,10 +27,7 @@ appRouter.get("/", (req, res) => {
   const cookie = req.cookies
   if (cookie.c_auth != undefined) {
     console.log(`home dir: found cookie`)
-    let getUser =
-      `SELECT * FROM profiles WHERE cookie = ` +
-      sqldb.escape(cookie.c_auth) +
-      `LIMIT 1`
+    let getUser = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(cookie.c_auth) + `LIMIT 1`
     sqldb.query(getUser, (err, result) => {
       if (err) {
         console.log("User not fetchs via cookie")
@@ -44,7 +39,7 @@ appRouter.get("/", (req, res) => {
         res.clearCookie("user") //fallback for old cookie
         res.clearCookie("c_auth")
         let nullUser = {}
-        nullUser.goodWill = req.goodWill
+        nullUser.appGlobal = req.appGlobal
         res.render("index", nullUser)
       }
     })
@@ -52,7 +47,7 @@ appRouter.get("/", (req, res) => {
     res.clearCookie("user") //fallback for old cookie
     res.clearCookie("c_auth")
     let nullUser = {}
-    nullUser.goodWill = req.goodWill
+    nullUser.appGlobal = req.appGlobal
     res.render("index", nullUser)
   }
 })
@@ -64,7 +59,7 @@ appRouter.get("/login", (req, res) => {
   }
   //set goodwill to user
   let ref = {}
-  ref.goodWill = req.goodWill
+  ref.appGlobal = req.appGlobal
   res.render("login", ref)
 })
 
@@ -96,7 +91,7 @@ appRouter.get("/signup", (req, res) => {
   ]
   const newUser = {}
   newUser.ranUserName = possibleNames[ranUsername]
-  newUser.goodWill = req.goodWill
+  newUser.appGlobal = req.appGlobal
   res.render("signup", newUser)
 })
 
@@ -105,14 +100,12 @@ appRouter.get("/settings", (req, res) => {
   if (req.cookies.c_auth) {
     //get user data
     let getUser =
-      `SELECT * FROM profiles WHERE cookie = ` +
-      sqldb.escape(req.cookies.c_auth) +
-      `LIMIT 1`
+      `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
       if (Object.keys(returnedUser).length != 0) {
         //set goodwill message
-        returnedUser[0].goodWill = req.goodWill
+        returnedUser[0].appGlobal = req.appGlobal
         res.render("settings", returnedUser[0])
       } else {
         //no user found
@@ -132,14 +125,12 @@ appRouter.get("/about", (req, res) => {
   if (req.cookies.c_auth) {
     //get user data
     let getUser =
-      `SELECT * FROM profiles WHERE cookie = ` +
-      sqldb.escape(req.cookies.c_auth) +
-      `LIMIT 1`
+      `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
       if (Object.keys(returnedUser).length != 0) {
         //set goodwill to user
-        returnedUser[0].goodWill = req.goodWill
+        returnedUser[0].appGlobal = req.appGlobal
         res.render("about", returnedUser[0])
       } else {
         //no user found
@@ -160,12 +151,10 @@ appRouter.get("/statistics", (req, res) => {
     //set stat data
     const statData = {}
     //set goodwill message
-    statData.goodWill = req.goodWill
+    statData.appGlobal = req.appGlobal
     //get user data
     let getUser =
-      `SELECT * FROM profiles WHERE cookie = ` +
-      sqldb.escape(req.cookies.c_auth) +
-      `LIMIT 1`
+      `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
       if (Object.keys(returnedUser).length != 0) {
@@ -188,8 +177,7 @@ appRouter.get("/statistics", (req, res) => {
           sqldb.escape(returnedUser[0].username) +
           `ORDER BY CAST(cost AS DECIMAL) ASC LIMIT 1`
         let getSubLedger =
-          `SELECT * FROM ledger WHERE username = ` +
-          sqldb.escape(returnedUser[0].username)
+          `SELECT * FROM ledger WHERE username = ` + sqldb.escape(returnedUser[0].username)
         //get total subs count
         sqldb.query(countSub, (err, resultCountSub) => {
           if (err) {
@@ -258,6 +246,47 @@ appRouter.get("/statistics", (req, res) => {
   }
 })
 
+//leger
+appRouter.get("/ledger", (req, res) => {
+  if (req.cookies.c_auth) {
+    //get user data
+    let getUser =
+      `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
+    var ledgerData = {}
+    sqldb.query(getUser, (err, returnedUser) => {
+      if (err) throw err
+      if (Object.keys(returnedUser).length != 0) {
+        ledgerData.owner = returnedUser[0]
+        let getSubLedger =
+          `SELECT * FROM ledger WHERE username = ` +
+          sqldb.escape(returnedUser[0].username) +
+          `ORDER BY dateEntered DESC`
+        //get all subs logged iinto the ledger history
+        sqldb.query(getSubLedger, (err, resultSubLegder) => {
+          if (err) throw err
+          if (Object.keys(resultSubLegder).length != 0) {
+            ledgerData.ledger = resultSubLegder
+            console.log(resultSubLegder)
+          } else {
+            console.log("no ledger data found")
+          }
+          ledgerData.appGlobal = req.appGlobal
+          res.render("ledger", ledgerData)
+        })
+      } else {
+        //no user found in db
+        res.redirect("/")
+      }
+    })
+  } else {
+    //no cookie found
+    const getUserError = {}
+    getUserError.errReason = { msg: "No user found for logged in data" }
+    getUserError.status = false
+    res.redirect("/logout")
+  }
+})
+
 //save or update new sub entry: /record
 appRouter.post(
   "/record",
@@ -278,51 +307,64 @@ appRouter.post(
       res.send(actionError.errReason.msg)
       //redirect to sub individual view
     } else {
-      let insertNewSub = `INSERT INTO subs SET ?`
-      if (req.body.action == "create") {
-        //generate a reference code and define other req values
-        req.body.ref = localTools.randomValue(9)
-        delete req.body.action
-        //default nextlog for legder processes
-        if (req.body.frequency == "Every Week") {
-          req.body.nextlog = req.body.date
-        }
-        var currentDate = new Date()
-        req.body.created = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`
-        sqldb.query(insertNewSub, req.body, (err, insertSubResult, fields) => {
-          if (err) {
-            actionError.errReason = err
-            actionError.errStatus = false
-            res.send(actionError.errReason)
-          }
-          if (insertSubResult.insertId != undefined) {
-            res.redirect(`/sub/${req.body.ref}`)
-          }
-        })
-      } else if (req.body.action == "update") {
-        sqldb.query(
-          "UPDATE subs SET name = ?, cost = ?, date = ?, frequency = ?, colour = ? WHERE ref = ?",
-          [
-            `${req.body.name}`,
-            `${req.body.cost}`,
-            `${req.body.date}`,
-            `${req.body.frequency}`,
-            `${req.body.colour}`,
-            `${req.body.ref}`,
-          ],
-          (err, updateSubResult) => {
-            if (err) {
-              actionError.errReason = err
-              actionError.errStatus = false
-              res.send(actionError.errReason)
-              console.log(err)
+      //no error. proceed to creating sub
+      let getUser =
+        `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
+      sqldb.query(getUser, (err, returnedUser) => {
+        if (err) throw err
+        if (Object.keys(returnedUser).length != 0) {
+          //only enter a sub if a valid user is logged in
+          let insertNewSub = `INSERT INTO subs SET ?`
+          if (req.body.action == "create") {
+            //generate a reference code and define other req values
+            req.body.ref = localTools.randomValue(9)
+            req.body.username = returnedUser[0].username
+            delete req.body.action
+            //default nextlog for legder processes
+            if (req.body.frequency == "Every Week") {
+              req.body.nextlog = req.body.date
             }
-            res.redirect(`/sub/${req.body.ref}`)
+            var currentDate = new Date()
+            req.body.created = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`
+            sqldb.query(insertNewSub, req.body, (err, insertSubResult, fields) => {
+              if (err) {
+                actionError.errReason = err
+                actionError.errStatus = false
+                res.send(actionError.errReason)
+              }
+              if (insertSubResult.insertId != undefined) {
+                res.redirect(`/sub/${req.body.ref}`)
+              }
+            })
+          } else if (req.body.action == "update") {
+            sqldb.query(
+              "UPDATE subs SET name = ?, cost = ?, date = ?, frequency = ?, colour = ? WHERE ref = ?",
+              [
+                `${req.body.name}`,
+                `${req.body.cost}`,
+                `${req.body.date}`,
+                `${req.body.frequency}`,
+                `${req.body.colour}`,
+                `${req.body.ref}`,
+              ],
+              (err, updateSubResult) => {
+                if (err) {
+                  actionError.errReason = err
+                  actionError.errStatus = false
+                  res.send(actionError.errReason)
+                  console.log(err)
+                }
+                res.redirect(`/sub/${req.body.ref}`)
+              }
+            )
+          } else {
+            //not updating, neither creating
           }
-        )
-      } else {
-        //do nothing catch errorr
-      }
+        } else {
+          //no valid user logged in, cannot make a sub
+          res.redirect("/")
+        }
+      })
     }
   }
 )
@@ -332,14 +374,12 @@ appRouter.get("/account", (req, res) => {
   if (req.cookies.c_auth) {
     //get user data
     let getUser =
-      `SELECT * FROM profiles WHERE cookie = ` +
-      sqldb.escape(req.cookies.c_auth) +
-      `LIMIT 1`
+      `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
       if (Object.keys(returnedUser).length != 0) {
         //set goodwill message
-        returnedUser[0].goodWill = req.goodWill
+        returnedUser[0].appGlobal = req.appGlobal
         res.render("profile", returnedUser[0])
       } else {
         //no user found
@@ -362,10 +402,7 @@ appRouter.get("/:username", (req, res) => {
 
   //only show if user is logged in and sessioned
   if (paramUser && cookie.c_auth) {
-    let getUser =
-      `SELECT * FROM profiles WHERE username = ` +
-      sqldb.escape(paramUser) +
-      `LIMIT 1`
+    let getUser = `SELECT * FROM profiles WHERE username = ` + sqldb.escape(paramUser) + `LIMIT 1`
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
       if (Object.keys(returnedUser).length != 0) {
@@ -373,10 +410,9 @@ appRouter.get("/:username", (req, res) => {
         let user = returnedUser[0]
         //get users data from data table
         //set goodwill to user
-        user.goodWill = req.goodWill
+        user.appGlobal = req.appGlobal
         let getUserSubs =
-          `SELECT * FROM subs WHERE username = '${user.username}'` +
-          `ORDER BY date ASC`
+          `SELECT * FROM subs WHERE username = '${user.username}'` + `ORDER BY date ASC`
         sqldb.query(getUserSubs, (err, returnedSubs) => {
           if (err) throw err
           if (Object.keys(returnedSubs).length != 0) {
@@ -386,9 +422,7 @@ appRouter.get("/:username", (req, res) => {
             returnedSubs.reduce(nextDate, 0)
             function nextDate(sum, sub) {
               //update total sub costs
-              user.subsTotalled = (
-                parseFloat(user.subsTotalled) + parseFloat(sub.cost)
-              ).toFixed(2)
+              user.subsTotalled = (parseFloat(user.subsTotalled) + parseFloat(sub.cost)).toFixed(2)
               sub.subFuture = localTools.dateToNextSub(sub)
             }
             //set final subs collection to user obj

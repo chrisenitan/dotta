@@ -185,14 +185,19 @@ select {
   width: 96%;
   background-color: #f4f4f4;
   padding: 2%;
-  display: inline-block;
+  display: block;
+  overflow: hidden;
 }
 #navHeader {
   height: auto;
   width: 96%;
   background-color: white;
   padding: 2%;
-  display: inline-block;
+  display: block;
+  overflow: hidden;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0px;
 }
 #navMenu {
   height: auto;
@@ -225,19 +230,20 @@ select {
   background-color: #bdb6ea;
   border: 3px solid#9888fa;
 }
-.material-icons-two-tone {
+.material-icons {
   vertical-align: text-bottom;
+  color:#484b4b;
 }
-.material-icons-two-tone.md-18 {
+.material-icons.md-18 {
   font-size: 18px;
 }
-.material-icons-two-tone.md-24 {
+.material-icons.md-24 {
   font-size: 24px;
 }
-.material-icons-two-tone.md-36 {
+.material-icons.md-36 {
   font-size: 36px;
 }
-.material-icons-two-tone.md-48 {
+.material-icons.md-48 {
   font-size: 48px;
 }
 #addPanel {

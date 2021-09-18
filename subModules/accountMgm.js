@@ -19,6 +19,7 @@ let urlLog = (req, res, next) => {
   let url = `${req.protocol}://${req.get("host")}${req.originalUrl}`
   console.log(`\x1b[34m Route hit: ${url} \x1b[0m`)
 
+  //goodwill
   let ranVal = localTools.randomInt()
   let gW = [
     "I always want to know who billed me",
@@ -32,7 +33,14 @@ let urlLog = (req, res, next) => {
     "Long list? Kill what you don't need",
     "Baby gels, shaving cream and nail polish",
   ]
-  req.goodWill = gW[ranVal]
+  var appGlobal = {}
+  Object.assign(appGlobal, {
+    goodWill: gW[ranVal],
+    assetVersion: "1.02",
+    appVersion: "1.04",
+    latestUpdate: "18 September 2021",
+  })
+  req.appGlobal = appGlobal
   next()
 }
 

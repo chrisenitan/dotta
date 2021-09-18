@@ -1,12 +1,12 @@
 <div id="header">
     <a href="/"><img id="subImg" src="/images/dotta_200.png"></a>
 
-    {{^errReason}}
-    <button id="subText">{{goodWill}}</button>
-    {{/errReason}}
-
     {{#errReason}}
     <button id="subText">{{errReason.msg}}</button>
+    {{/errReason}}
+
+    {{^errReason}}
+    <button id="subText">{{appGlobal.goodWill}}</button>
     {{/errReason}}
 
 </div>
