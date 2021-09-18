@@ -123,7 +123,7 @@ let getArraySum = (req) => {
     costSum = costSum + parseFloat(req[nulAmount].cost)
   }
   let response = {}
-  response.costSum = costSum.toFixed(2) //round up to 2 decima
+  response.costSum = costSum.toFixed(2) //round up to 2 decimal
   response.costCount = req.length
   return response
 }

@@ -1,12 +1,13 @@
-var vowelTotal = 0
-let counter = (start, str) => {
+
+let counter = (start, alphChar) => {
   const vowels = "AEIOU"
-  const count = vowels.indexOf(str)
-  count >= 0 ? vowelTotal++ : (vowelTotal = vowelTotal)
+  const count = vowels.indexOf(alphChar)
+  count >= 0 ? (start++) : (start = start)
+  return start
 }
 let assertVowels = ({ string, shouldBe }) => {
   const arrReq = string.toUpperCase().split("")
-  arrReq.reduce(counter, 0)
+ var vowelTotal = arrReq.reduce(counter, 0)
   vowelTotal === shouldBe
     ? console.log(`\x1b[32m 1 Test Passed: Asserted ${shouldBe} is ${vowelTotal} \x1b[0m`)
     : console.log(`\x1b[31m 1 Test Failed: Expected ${shouldBe} to be ${vowelTotal} \x1b[0m`)
