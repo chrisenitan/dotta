@@ -36,9 +36,9 @@ let urlLog = (req, res, next) => {
   var appGlobal = {}
   Object.assign(appGlobal, {
     goodWill: gW[ranVal],
-    assetVersion: "1.01",
-    appVersion: "1.03",
-    latestUpdate: "31 August 2021",
+    assetVersion: "1.02",
+    appVersion: "1.04",
+    latestUpdate: "18 September 2021",
   })
   req.appGlobal = appGlobal
   next()
