@@ -16,19 +16,19 @@
 	{{!-- edit current sub --}}
 	<div id="pageContainer">
 		<div class="pageTitle">View and Edit {{name}}</div><br>
-
-
 		<form method="post" action="/record">
 			{{> subForm}}
 
 			{{!-- others editables --}}
-			{{!-- <div class="setBox">
+			<div class="setBox">
 				<button type='button' class="setButton">Pause Billing</button>
-				<button type='button' class="setIcon" id="pauseBilling"><span class="material-icons" id="pauseB">radio_button_unchecked</span><span class="material-icons" id="playB">radio_button_checked</span></button>
-			</div> --}}
+				<button type='button' class="setIcon" id="pauseBilling"><span class="material-icons" id="pauseB">radio_button_unchecked</span><span
+						class="material-icons" id="playB">radio_button_checked</span></button>
+			</div>
 
 			{{!-- others uneditables --}}
-			<br><br><label>Statistics</label><br>
+			<br><br><label>Statistics</label><br><br>
+			<h class="inputDis">This section is not editable</h><br>
 			<div class="setBox">
 				<button type='button' class="setButton">Created: <span class="setData">{{created}}</span></button>
 				<button type='button' class="setIcon"><span class="material-icons">today</span></button>
@@ -54,7 +54,7 @@
 			<br><br>
 			<input type="hidden" name="ref" value="{{ref}}">
 			<input type="hidden" name="action" value="update">
-			<button class="cta">Update</button>
+			<button class="cta">Save changes</button>
 			<a href="/sub/delete/{{ref}}"><button type='button' class="altcta" id="closeAddPanel">Delete</button></a>
 		</form>
 	</div>
