@@ -338,13 +338,14 @@ appRouter.post(
             })
           } else if (req.body.action == "update") {
             sqldb.query(
-              "UPDATE subs SET name = ?, cost = ?, date = ?, frequency = ?, colour = ? WHERE ref = ?",
+              "UPDATE subs SET name = ?, cost = ?, date = ?, frequency = ?, colour = ?, status = ? WHERE ref = ?",
               [
                 `${req.body.name}`,
                 `${req.body.cost}`,
                 `${req.body.date}`,
                 `${req.body.frequency}`,
                 `${req.body.colour}`,
+                `${req.body.status}`,
                 `${req.body.ref}`,
               ],
               (err, updateSubResult) => {

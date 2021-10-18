@@ -232,7 +232,7 @@ select {
 }
 .material-icons {
   vertical-align: text-bottom;
-  color:#484b4b;
+  color: #484b4b;
 }
 .material-icons.md-18 {
   font-size: 18px;
@@ -346,4 +346,7 @@ select {
 #progressBar {
   background-color: #9888fa;
   height: 2px;
+}
+#playB {
+  display: none;
 }

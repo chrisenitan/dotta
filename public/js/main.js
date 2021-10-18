@@ -47,9 +47,29 @@ if ("serviceWorker" in navigator) {
 //window listener
 window.addEventListener("load", function () {
   if (document.getElementById("pauseBilling")) {
-    document.getElementById("pauseBilling").addEventListener("click", function () {
-      const playB = document.getElementById("playB")
-      const pauseB = document.getElementById("pauseB")
+    const playPauseButton = document.getElementById("pauseBilling")
+    const status = document.getElementById("status")
+    //update visual user default
+    if (status.value == "active") {
+      checked.style.display = "none"
+      unchecked.style.display = "block"
+    } else {
+      checked.style.display = "block"
+      unchecked.style.display = "none"
+    }
+    //handle status changes
+    playPauseButton.addEventListener("click", function () {
+      const checked = document.getElementById("checked")
+      const unchecked = document.getElementById("unchecked")
+      if (status.value == "active") {
+        checked.style.display = "block"
+        unchecked.style.display = "none"
+        status.value = "inactive"
+      } else {
+        checked.style.display = "none"
+        unchecked.style.display = "block"
+        status.value = "active"
+      }
     })
   }
   //match header colour with device theme
