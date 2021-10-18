@@ -347,6 +347,7 @@ select {
   background-color: #9888fa;
   height: 2px;
 }
-#playB {
+#checked {
   display: none;
+  color: #28549a;
 }
