@@ -425,10 +425,14 @@ appRouter.get("/:username", (req, res) => {
               //update total sub costs
               user.subsTotalled = (parseFloat(user.subsTotalled) + parseFloat(sub.cost)).toFixed(2)
               sub.subFuture = localTools.dateToNextSub(sub)
+              //create an opacity handler for inactive subs
+              if (sub.status == "inactive") {
+                sub.statusInactive = true
+              }
             }
-            //set final subs collection to user obj
+            //export sub collection to user obj
             user.subs = returnedSubs
-            //console.dir(user, { depth: null })
+            // console.dir(user, { depth: null })
             res.render("home", user)
           } else {
             //user has no subs yet

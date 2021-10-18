@@ -46,6 +46,7 @@ if ("serviceWorker" in navigator) {
 
 //window listener
 window.addEventListener("load", function () {
+  //control edit sub status 
   if (document.getElementById("pauseBilling")) {
     const playPauseButton = document.getElementById("pauseBilling")
     const status = document.getElementById("status")
@@ -72,6 +73,7 @@ window.addEventListener("load", function () {
       }
     })
   }
+  
   //match header colour with device theme
   /*   if (document.getElementById("navHeader")) {
     const navHeader = document.getElementById("navHeader")

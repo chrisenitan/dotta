@@ -25,8 +25,15 @@
 		<a href="sub/{{ref}}">
 			<h class="subName">{{name}}</h>
 		</a><br><br>
+		{{!-- show status related info per sub --}}
+		{{#statusInactive}}
+		<h class="subTxt">'Inactive'</h><br>
+		<h class="smallTxt">{{subFuture.nextDate}}</h><br><br>
+		{{/statusInactive}}
+		{{^statusInactive}}
 		<h class="subTxt">in {{subFuture.daysRemaining}} days</h><br>
 		<h class="smallTxt">{{subFuture.nextDate}}</h><br><br>
+		{{/statusInactive}}
 		<h class="subCost">{{currency}}{{cost}}</h>
 		<br><br>
 		<a href="sub/{{ref}}"><button style="border-color:{{subFuture.progressColor}}" type="button" class="openSub">Open</button></a><br>
