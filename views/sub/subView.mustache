@@ -16,19 +16,21 @@
 	{{!-- edit current sub --}}
 	<div id="pageContainer">
 		<div class="pageTitle">View and Edit {{name}}</div><br>
-
-
 		<form method="post" action="/record">
 			{{> subForm}}
 
 			{{!-- others editables --}}
-			{{!-- <div class="setBox">
+			<div class="setBox">
+				<input type="hidden" value="{{status}}" id="status" name="status">
 				<button type='button' class="setButton">Pause Billing</button>
-				<button type='button' class="setIcon" id="pauseBilling"><span class="material-icons" id="pauseB">radio_button_unchecked</span><span class="material-icons" id="playB">radio_button_checked</span></button>
-			</div> --}}
+				<button type='button' class="setIcon" id="pauseBilling"><span class="material-icons" id="unchecked">radio_button_unchecked</span><span
+						class="material-icons" id="checked">radio_button_checked</span></button>
+			</div>
+			<h class="inputDis">Paused subscriptions are not logged in your <a href="/ledger"><u>ledger</u></a></h><br>
 
 			{{!-- others uneditables --}}
-			<br><br><label>Statistics</label><br>
+			<br><br><label>Statistics</label><br><br>
+			<h class="inputDis">This section is not editable</h><br>
 			<div class="setBox">
 				<button type='button' class="setButton">Created: <span class="setData">{{created}}</span></button>
 				<button type='button' class="setIcon"><span class="material-icons">today</span></button>

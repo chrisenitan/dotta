@@ -39,7 +39,7 @@ $dateDay = date("d");
 //define 31 day months array  
 $oddMonths = array("0", "1", "2", "4", "6", "7", "8", "10");
 
-//cron log
+//log that cron happened
 $serve = $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
 $time = date("G:i:s");
 $insertCronLog = "INSERT INTO ledger (username, ref, subName, cost, dateEntered) VALUES ('$serve', '$time', 'admin', '0', '$todayDate')";
@@ -47,6 +47,7 @@ if (!mysqli_query($conne, $insertCronLog)) {
   die('Error: ' . mysqli_error($conne));
 }
 
+//get basee data
 $holderMonths = mysqli_query($conne, "SELECT * FROM subs WHERE frequency != '' ");
 $gotSubMonths = false;
 while ($rowMonths = mysqli_fetch_array($holderMonths)) {
@@ -59,11 +60,12 @@ while ($rowMonths = mysqli_fetch_array($holderMonths)) {
   $nextLog = $rowMonths['nextLog'];
   $frequency = $rowMonths['frequency'];
   $dateEntered = $rowMonths['dateEntered'];
+  $status = $rowMonths['status'];
 
   //monthly
   //only for months, if today is sub day or if month has more tha 30 days and today is 30 or more
   //(in_array($dateMonth, $oddMonths) and $date == 28) or 
-  if ($frequency == "Every Month" and ($dateDay == $date or (in_array($dateMonth, $oddMonths) and $date > 30 and $todayDate >= 30))) {
+  if ($frequency == "Every Month" and ($dateDay == $date or (in_array($dateMonth, $oddMonths) and $date > 30 and $todayDate >= 30)) and $status == "active") {
     $logLedgerMonth = "INSERT INTO ledger (username, ref, subName, cost, dateEntered) VALUES ('$username', '$ref', '$name', '$cost', '$todayDate')";
     $updateMonthLog = "UPDATE subs SET lastBilled='$todayDate' WHERE ref = '$ref'";
     echo "<span style='color:red'>Logged Month for: $name : $ref </span> <br><br>";
@@ -74,7 +76,7 @@ while ($rowMonths = mysqli_fetch_array($holderMonths)) {
   }
 
   //weekly
-  else if ($frequency == "Every Week" and ($dateDay == $nextLog)) {
+  else if ($frequency == "Every Week" and ($dateDay == $nextLog) and $status == "active") {
     $logLedgerWeek = "INSERT INTO ledger (username, ref, subName, cost, dateEntered) VALUES ('$username', '$ref', '$name', '$cost', '$todayDate')";
     //define next log within current month scope
     if ($nextLog <= 28) {

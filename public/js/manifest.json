@@ -3,7 +3,7 @@
   "description": "Subscription management software",
   "background_color": "#acb1b9",
   "short_name": "Dotta",
-  "theme_color": "#f1fafa",
+  "theme_color": "#fff",
   "lang": "en_US",
   "icons": [
     {
@@ -38,7 +38,5 @@
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "scope": "/",
-  "gcm_sender_id": "482941778795",
-  "gcm_sender_id_comment": "Do not change the GCM Sender ID"
+  "scope": "/"
 }

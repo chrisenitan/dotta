@@ -205,7 +205,7 @@ appRouter.get("/statistics", (req, res) => {
                     console.log(err)
                   }
 
-                  //get all subs logged iinto the ledger history
+                  //get all subs logged into the ledger history
                   sqldb.query(getSubLedger, (err, resultSubLegder) => {
                     if (err) throw err
 
@@ -338,13 +338,14 @@ appRouter.post(
             })
           } else if (req.body.action == "update") {
             sqldb.query(
-              "UPDATE subs SET name = ?, cost = ?, date = ?, frequency = ?, colour = ? WHERE ref = ?",
+              "UPDATE subs SET name = ?, cost = ?, date = ?, frequency = ?, colour = ?, status = ? WHERE ref = ?",
               [
                 `${req.body.name}`,
                 `${req.body.cost}`,
                 `${req.body.date}`,
                 `${req.body.frequency}`,
                 `${req.body.colour}`,
+                `${req.body.status}`,
                 `${req.body.ref}`,
               ],
               (err, updateSubResult) => {
@@ -424,10 +425,14 @@ appRouter.get("/:username", (req, res) => {
               //update total sub costs
               user.subsTotalled = (parseFloat(user.subsTotalled) + parseFloat(sub.cost)).toFixed(2)
               sub.subFuture = localTools.dateToNextSub(sub)
+              //create an opacity handler for inactive subs
+              if (sub.status == "inactive") {
+                sub.statusInactive = true
+              }
             }
-            //set final subs collection to user obj
+            //export sub collection to user obj
             user.subs = returnedSubs
-            //console.dir(user, { depth: null })
+            // console.dir(user, { depth: null })
             res.render("home", user)
           } else {
             //user has no subs yet

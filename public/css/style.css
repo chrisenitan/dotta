@@ -9,6 +9,7 @@ body {
 }
 a {
   text-decoration: none;
+  color: #161717;
 }
 button {
   cursor: pointer;
@@ -232,7 +233,7 @@ select {
 }
 .material-icons {
   vertical-align: text-bottom;
-  color:#484b4b;
+  color: #484b4b;
 }
 .material-icons.md-18 {
   font-size: 18px;
@@ -346,4 +347,8 @@ select {
 #progressBar {
   background-color: #9888fa;
   height: 2px;
+}
+#checked {
+  display: none;
+  color: #28549a;
 }

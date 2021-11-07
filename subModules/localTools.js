@@ -117,17 +117,17 @@ let dateToNextSub = (req) => {
   return result
 }
 
+//recieves an array of objects containing at least cost in prop
 let getArraySum = (req) => {
   let costSum = 0
   for (let nulAmount = 0; nulAmount < req.length; nulAmount++) {
     costSum = costSum + parseFloat(req[nulAmount].cost)
   }
   let response = {}
-  response.costSum = costSum.toFixed(2) //round up to 2 decimal
+  response.costSum = parseFloat(costSum.toFixed(2)).toLocaleString() //round up to 2 decimal with 000,
   response.costCount = req.length
   return response
 }
-
 module.exports = {
   dateToNextSub,
   secureKey,
