@@ -205,7 +205,7 @@ appRouter.get("/statistics", (req, res) => {
                     console.log(err)
                   }
 
-                  //get all subs logged iinto the ledger history
+                  //get all subs logged into the ledger history
                   sqldb.query(getSubLedger, (err, resultSubLegder) => {
                     if (err) throw err
 
