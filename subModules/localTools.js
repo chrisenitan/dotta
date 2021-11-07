@@ -127,7 +127,6 @@ let getArraySum = (req) => {
   response.costCount = req.length
   return response
 }
-
 module.exports = {
   dateToNextSub,
   secureKey,
