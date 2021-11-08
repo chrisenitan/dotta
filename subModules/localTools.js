@@ -124,7 +124,9 @@ let getArraySum = (req) => {
     costSum = costSum + parseFloat(req[nulAmount].cost)
   }
   let response = {}
-  response.costSum = parseFloat(costSum.toFixed(2)).toLocaleString() //round up to 2 decimal with 000,
+  response.costSum = parseFloat(costSum.toFixed(2))
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   response.costCount = req.length
   return response
 }
