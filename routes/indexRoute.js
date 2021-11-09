@@ -3,25 +3,7 @@ const { body, check, validationResult, cookie } = require("express-validator")
 const mysql = require("mysql")
 const appRouter = express()
 const localTools = require("../subModules/localTools")
-
-const sqldb = mysql.createConnection({
-  host: process.env.awsserver,
-  port: process.env.awsport,
-  user: process.env.awsuser,
-  password: process.env.awspass,
-  database: process.env.awsdb,
-})
-
-sqldb.connect((err) => {
-  if (err) {
-    console.log(`Error connecting to ${process.env.awsserver} on thread: ${sqldb.threadId}`)
-    console.log(err)
-  } else {
-    console.log(
-      `Route = /indexRoute: Connected to ${process.env.awsserver} on thread: ${sqldb.threadId}`
-    )
-  }
-})
+const sqldb = require("../connectDb.js")
 
 appRouter.get("/", (req, res) => {
   const cookie = req.cookies
@@ -433,8 +415,6 @@ appRouter.get("/:username", (req, res) => {
             }
             user.subsTotalled = totalSubCost.toLocaleString()
             user.subs = returnedSubs
-            user.envs = process.env.appEnvironment
-            //console.log(user.envs)
             res.render("home", user)
           } else {
             //user has no subs yet

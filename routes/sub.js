@@ -3,23 +3,7 @@ const mysql = require("mysql")
 const appRouter = express()
 const { check, validationResult, cookie } = require("express-validator")
 const localTools = require("../subModules/localTools")
-
-//set mysql
-const sqldb = mysql.createConnection({
-  host: process.env.awsserver,
-  port: process.env.awsport,
-  user: process.env.awsuser,
-  password: process.env.awspass,
-  database: process.env.awsdb,
-})
-
-//connect mysql
-sqldb.connect((err) => {
-  if (err) {
-    throw err
-  }
-  console.log(`Route = /sub: Connected to ${process.env.awsserver} on thread: ${sqldb.threadId}`)
-})
+const sqldb = require("../connectDb.js")
 
 //load and form sub
 appRouter.get("/:ref", (req, res) => {
