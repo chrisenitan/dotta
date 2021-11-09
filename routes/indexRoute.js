@@ -434,7 +434,7 @@ appRouter.get("/:username", (req, res) => {
             user.subsTotalled = totalSubCost.toLocaleString()
             user.subs = returnedSubs
             user.envs = process.env.appEnvironment
-            console.log(user.envs)
+            //console.log(user.envs)
             res.render("home", user)
           } else {
             //user has no subs yet

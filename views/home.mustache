@@ -19,7 +19,7 @@
 	{{/pageRequest}}
 
 	{{^errReason}}
-	<div class="pageTitle">Subscriptions: <a href="/statistics" class="smallTxt">{{currency}}{{subsTotalled}}</a></div>
+	<div class="pageTitle">Subscriptions: {{envs}}<a href="/statistics" class="smallTxt">{{currency}}{{subsTotalled}}</a></div>
 	{{#subs}}
 	<div class="subsHolder" style="background-color: {{colour}};">
 		<a href="sub/{{ref}}">
