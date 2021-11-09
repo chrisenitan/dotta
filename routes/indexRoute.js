@@ -417,22 +417,24 @@ appRouter.get("/:username", (req, res) => {
         sqldb.query(getUserSubs, (err, returnedSubs) => {
           if (err) throw err
           if (Object.keys(returnedSubs).length != 0) {
-            //create a default total cost
-            user.subsTotalled = 0
+            //create a default total sub cost
+            var totalSubCost = 0
             //get date to sub countdown and set for each sub
             returnedSubs.reduce(nextDate, 0)
             function nextDate(sum, sub) {
-              //update total sub costs
-              user.subsTotalled = (parseFloat(user.subsTotalled) + parseFloat(sub.cost)).toFixed(2)
               sub.subFuture = localTools.dateToNextSub(sub)
               //create an opacity handler for inactive subs
               if (sub.status == "inactive") {
                 sub.statusInactive = true
+              } else {
+                //update total sub costs only if sub is active
+                totalSubCost += parseFloat(sub.cost)
               }
             }
-            //export sub collection to user obj
+            user.subsTotalled = totalSubCost.toLocaleString()
             user.subs = returnedSubs
-            // console.dir(user, { depth: null })
+            user.envs = process.env.appEnvironment
+            console.log(user.envs)
             res.render("home", user)
           } else {
             //user has no subs yet

@@ -15,6 +15,7 @@ let cookieOnly = (req, res, next) => {
     : (console.log(`page access denied: auth is not set`), res.redirect("/"))
 }
 
+//logs the url and exports some app requirments
 let urlLog = (req, res, next) => {
   let url = `${req.protocol}://${req.get("host")}${req.originalUrl}`
   console.log(`\x1b[34m Route hit: ${url} \x1b[0m`)
@@ -36,9 +37,9 @@ let urlLog = (req, res, next) => {
   var appGlobal = {}
   Object.assign(appGlobal, {
     goodWill: gW[ranVal],
-    assetVersion: "1.03",
-    appVersion: "1.05",
-    latestUpdate: "07 November 2021",
+    assetVersion: "1.04",
+    appVersion: "1.06",
+    latestUpdate: "09 November 2021",
   })
   req.appGlobal = appGlobal
   next()
