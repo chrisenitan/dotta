@@ -1,12 +1,24 @@
 const mysql = require("mysql")
-var sqldb = mysql.createPool({
-  connectionLimit: 10,
-  host: process.env.awsserver,
-  port: process.env.awsport,
-  user: process.env.awsuser,
-  password: process.env.awspass,
-  database: process.env.awsdb,
-})
+if (process.env.appEnvironment == "production") {
+  var sqldb = mysql.createPool({
+    connectionLimit: 10,
+    host: process.env.awsserver,
+    port: process.env.awsport,
+    user: process.env.awsuser,
+    password: process.env.awspass,
+    database: process.env.awsdb,
+  })
+} else {
+  var sqldb = mysql.createPool({
+    connectionLimit: 10,
+    host: process.env.stagingAwsserver,
+    port: process.env.awsport,
+    user: process.env.awsuser,
+    password: process.env.stagingAwspass,
+    database: process.env.awsdb,
+  })
+}
+
 sqldb.getConnection((err, connection) => {
   if (err) {
     if (err.code === "PROTOCOL_CONNECTION_LOST") {
@@ -19,7 +31,9 @@ sqldb.getConnection((err, connection) => {
       console.error("Database connection was refused.")
     }
   } else {
-    console.log(`DB Connected to ${process.env.awsserver} on thread: ${connection.threadId}`)
+    console.log(
+      `\x1b[34mEnvironment:\x1b[0m ${process.env.appEnvironment}\n\x1b[34mEndpoint:\x1b[0m ${process.env.awsserver} \n\x1b[34mThread:\x1b[0m ${connection.threadId}`
+    )
   }
   if (connection) connection.release()
   return
