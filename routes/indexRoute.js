@@ -1,6 +1,5 @@
 const express = require("express")
 const { body, check, validationResult, cookie } = require("express-validator")
-const mysql = require("mysql")
 const appRouter = express()
 const localTools = require("../subModules/localTools")
 const sqldb = require("../connectDb.js")

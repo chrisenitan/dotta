@@ -1,5 +1,4 @@
 const express = require("express")
-const mysql = require("mysql")
 const appRouter = express()
 const { check, validationResult, cookie } = require("express-validator")
 const localTools = require("../subModules/localTools")
