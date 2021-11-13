@@ -394,7 +394,7 @@ appRouter.get("/:username", (req, res) => {
         //set goodwill to user
         user.appGlobal = req.appGlobal
         let getUserSubs =
-          `SELECT * FROM subs WHERE username = '${user.username}'` + `ORDER BY date ASC`
+          `SELECT * FROM subs WHERE username = '${user.username}'` + `ORDER BY status, date ASC`
         sqldb.query(getUserSubs, (err, returnedSubs) => {
           if (err) throw err
           if (Object.keys(returnedSubs).length != 0) {
@@ -414,6 +414,7 @@ appRouter.get("/:username", (req, res) => {
             }
             user.subsTotalled = totalSubCost.toLocaleString()
             user.subs = returnedSubs
+            //console.log(user)
             res.render("home", user)
           } else {
             //user has no subs yet
