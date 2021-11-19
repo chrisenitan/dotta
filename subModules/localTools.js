@@ -90,7 +90,7 @@ let dateToNextSub = (req) => {
   var progressPercent = (parseFloat(percentDivisor) * parseFloat(monthDivisor - eventDay)).toFixed(
     2
   )
-  //interprete progress color
+  //interprete progress colour
   var progressColor = ""
   progressPercent <= 49
     ? (progressColor = "#88fa91")
