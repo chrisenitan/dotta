@@ -13,6 +13,10 @@ Dotta is a `NodeJS` based app that give you a visual presentation and log of all
 
 - Dotta is a [Vrixe](https://github.com/chrisenitan/vrixe) sub tool
 
+## Product image
+
+<img width="100%" src="public/images/product.png">
+
 ## What it does in details
 
 - Create, edit subscriptions
@@ -22,11 +26,9 @@ Dotta is a `NodeJS` based app that give you a visual presentation and log of all
   - Notify users of upcomiing of billed subscriptions
   - Other managements: disable, cancel and group subscriptions
 
-## Product image
+# Stack
 
-<img width="100%" src="public/images/product.png">
-
-## Code Setup
+### Setup
 
 **This document assumes you have basic knowledge of `npm` and `javascript`**<br>
 
@@ -36,13 +38,10 @@ Dotta is a `NodeJS` based app that give you a visual presentation and log of all
   - Env and database schema is limited to contributors
 - Start the app with the script `npm start`
 
-## Feedbacks and feature requests
-
-- Please use this <a target="_blank" href="https://forms.gle/nNLY7e6ET1GQBwyN6">Google Form</a>
-
-## Deployment
+### Tech
 
 - Hosting and DNS is via Namecheap
+- Databse is via AWS-RDS
 - Cpanel handles both Node App engine and Git version control
   - Test version is on Heroku https://dotta.herokuapp.com/
 - Git account is connected to the Git version control in the Cpanel account which pulls latest changes from `main` branch into a seperate folder
@@ -52,3 +51,7 @@ Dotta is a `NodeJS` based app that give you a visual presentation and log of all
 **Cron Jobs**
 
 - `ledger.php` handles logging all subscription according to their frequeicny and is ran once per day
+
+## Feedbacks and feature requests
+
+- Please use this <a target="_blank" href="https://forms.gle/nNLY7e6ET1GQBwyN6">Google Form</a>
