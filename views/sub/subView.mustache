@@ -20,6 +20,12 @@
 			{{> subForm}}
 
 			{{!-- others editables --}}
+			<div class="TinputDiv">
+				<label for="name">Notes</label><br>
+				<textarea>{{notes}}</textarea><br>
+				<h class="inputDis">Jot something to this sub</h><br><br>
+			</div>
+
 			<div class="setBox">
 				<input type="hidden" value="{{status}}" id="status" name="status">
 				<button type='button' class="setButton">Pause Billing</button>

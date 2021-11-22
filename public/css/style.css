@@ -51,6 +51,23 @@ input:hover {
   font-size: 10px;
   float: left;
 }
+textarea {
+  height: 90px;
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid #1a2739;
+  border-left: none;
+  border-right: none;
+  border-radius: 0px;
+  color: #28549a;
+  outline: none;
+  padding: 10px;
+  padding-left: 2%;
+  padding-right: 2%;
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-family: "Montserrat", sans-serif;
+}
 select {
   height: 45px;
   width: 100%;

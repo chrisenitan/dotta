@@ -2,7 +2,7 @@
 <img width="200" src="public/images/dotta_960.png">
 <br>
 Website:
-<a href="https://dotta.vrixe.com">https://dotta.vrixe.com</a>
+<a href="https://dotta.vrixe.com">dotta.vrixe.com</a>
 <br>
 <b>A subscription management and tracking NodeApp</b>
 </p>
