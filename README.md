@@ -4,7 +4,7 @@
 Website:
 <a href="https://dotta.vrixe.com">https://dotta.vrixe.com</a>
 <br>
-<b>A subscription management and tracking webapp</b>
+<b>A subscription management and tracking NodeApp</b>
 </p>
 
 ## About Dotta
