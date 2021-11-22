@@ -26,7 +26,7 @@ sqldb.getConnection((err, connection) => {
     if (err.code === "ECONNREFUSED") console.error("Database connection was refused.")
   } else {
     console.log(
-      `\x1b[34mEnvironment:\x1b[0m ${process.env.appEnvironment}\n\x1b[34mEndpoint:\x1b[0m ${process.env.awsserver} \n\x1b[34mThread:\x1b[0m ${connection.threadId}`
+      `\x1b[34mEnvironment:\x1b[0m ${process.env.appEnvironment}\n\x1b[34mEndpoint:\x1b[0m ${sqldb.config.connectionConfig.host} \n\x1b[34mThread:\x1b[0m ${connection.threadId}`
     )
   }
   if (connection) connection.release()
