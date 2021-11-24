@@ -41,10 +41,11 @@ app.use("/sub", [cookieOnly, urlLog], subRoute)
 app.use((req, res, next) => {
   const error = {
     message: "The page requested was not found on the server",
+    status: "103",
   }
   error.appGlobal = req.appGlobal
   console.log(error)
-  res.render("404", error)
+  res.render("serverStatus", error)
 })
 
 //start server

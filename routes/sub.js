@@ -28,10 +28,11 @@ appRouter.get("/:ref", (req, res) => {
               const error = {
                 message: "User is not athorised",
                 description: "You do not have proper permissions to view this data.",
+                status: "401",
               }
               error.appGlobal = req.appGlobal
               error.appGlobal.goodWill = `"${req.params.ref}" is blocked`
-              res.render("404", error)
+              res.render("serverStatus", error)
               return false
             }
             //get sub ledger information if username is found
@@ -72,10 +73,11 @@ appRouter.get("/:ref", (req, res) => {
           message: "This subscription is missing or does not exist",
           description:
             "Please check the url or ID you have entered for mistakes. Or go back to your profile page",
+          status: "404",
         }
         error.appGlobal = req.appGlobal
         error.appGlobal.goodWill = `"${req.params.ref}" is not found`
-        res.render("404", error)
+        res.render("serverStatus", error)
       }
     })
   } else {
