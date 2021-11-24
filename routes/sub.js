@@ -32,7 +32,7 @@ appRouter.get("/:ref", (req, res) => {
               }
               error.appGlobal = req.appGlobal
               error.appGlobal.goodWill = `"${req.params.ref}" is blocked`
-              res.render("serverStatus", error)
+              res.render("status", error)
               return false
             }
             //get sub ledger information if username is found
@@ -77,7 +77,7 @@ appRouter.get("/:ref", (req, res) => {
         }
         error.appGlobal = req.appGlobal
         error.appGlobal.goodWill = `"${req.params.ref}" is not found`
-        res.render("serverStatus", error)
+        res.render("status", error)
       }
     })
   } else {

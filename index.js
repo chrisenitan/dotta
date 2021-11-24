@@ -45,7 +45,7 @@ app.use((req, res, next) => {
   }
   error.appGlobal = req.appGlobal
   console.log(error)
-  res.render("serverStatus", error)
+  res.render("status", error)
 })
 
 //start server
