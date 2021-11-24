@@ -3,9 +3,11 @@ if (document.getElementById("navAdd")) {
   document.getElementById("navAdd").addEventListener("click", function () {
     document.getElementById("addPanelForm").style.display = "block"
     const addPanel = document.getElementById("addPanel")
-    addPanel.style.width = "370px"
+    //addPanel.style.width = "370px"
     addPanel.style.height = "70vh"
-    addPanel.style.padding = "2.5%"
+    //addPanel.style.padding = "2.5%"
+    addPanel.style.paddingTop = "2.5%"
+    addPanel.style.paddingBottom = "2.5%"
   })
 }
 

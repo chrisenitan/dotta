@@ -50,6 +50,7 @@ input:hover {
   color: #929292;
   font-size: 10px;
   float: left;
+  text-align: left;
 }
 textarea {
   height: 90px;

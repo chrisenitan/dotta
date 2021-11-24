@@ -14,8 +14,15 @@
 	<!--recieve //id title body owner from sqlRoute.js-->
 	<div id="pageContainer">
 		{{message}}
-		{{description}}
-
+		<div class="setBox">
+			<a href="/"><button class="setButton">Back Home <span class="setData">{{count}}</span></button></a>
+			<button class="setIcon"><span class="material-icons">receipt</span></button>
+		</div>
+		<h class="inputDis">{{description}}</h><br><br>
+		<div class="setBox">
+			<a target="_blank" href="https://forms.gle/nNLY7e6ET1GQBwyN6"><button class="setButton">Report Issue <span class="setData">{{count}}</span></button></a>
+			<button class="setIcon"><span class="material-icons">receipt</span></button>
+		</div>
 
 	</div>
 </body>
