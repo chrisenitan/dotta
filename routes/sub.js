@@ -6,6 +6,7 @@ const sqldb = require("../connectDb.js")
 
 //load and form sub
 appRouter.get("/:ref", (req, res) => {
+  //bug: this page is open to everyone!!!
   if (req.params.ref) {
     let getSub = `SELECT * FROM subs WHERE ref =` + sqldb.escape(req.params.ref) + `LIMIT 1`
     sqldb.query(getSub, (err, resultSub) => {
@@ -13,7 +14,7 @@ appRouter.get("/:ref", (req, res) => {
         console.log(err)
       }
       if (Object.keys(resultSub).length != 0) {
-        const subData = resultSub[0]
+        console.log(subData)
         //get owning user
         let getUser =
           `SELECT * FROM profiles WHERE username = ` + sqldb.escape(subData.username) + `LIMIT 1`
@@ -55,12 +56,20 @@ appRouter.get("/:ref", (req, res) => {
           }
         })
       } else {
-        const resData = {
+        //no sub found
+        const error = {
+          message: "This subscription is missing or does not exist",
+          description: "Please check the url or ID you have entered for mistakes. Or go back to you"
+        }
+        error.appGlobal = req.appGlobal
+        error.appGlobal.goodWill = `"${req.params.ref}" is not found`
+        res.render("404", error)
+        /* const resData = {
           errReason: {
             msg: "We could not find the data you requested",
           },
         }
-        res.render("sub/subView", resData)
+        res.render("sub/subView", resData) */
       }
     })
   } else {

@@ -39,10 +39,12 @@ app.use("/sub", [cookieOnly, urlLog], subRoute)
 
 //404
 app.use((req, res, next) => {
-  res.clearCookie("c_auth")
-  res.status(404).json({
+  const error = {
     message: "The page requested was not found on the server",
-  })
+  }
+  error.appGlobal = req.appGlobal
+  console.log(error)
+  res.render("404", error)
 })
 
 //start server

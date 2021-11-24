@@ -19,7 +19,6 @@ let cookieOnly = (req, res, next) => {
 let urlLog = (req, res, next) => {
   let url = `${req.protocol}://${req.get("host")}${req.originalUrl}`
   console.log(`\x1b[34m Route hit: ${url} \x1b[0m`)
-
   //goodwill
   let ranVal = localTools.randomInt()
   let gW = [

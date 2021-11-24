@@ -1,0 +1,23 @@
+<!DOCTYPE html lang="en">
+
+<head>
+	{{> heads}}
+	<title>404 - Page Not Found</title>
+</head>
+
+<body>
+	{{!-- add new event --}}
+	{{> addPanel}}
+	{{!-- Page nav head --}}
+	{{> navHeader}}
+	{{> header}}
+	<!--recieve //id title body owner from sqlRoute.js-->
+	<div id="pageContainer">
+		{{message}}
+		{{description}}
+
+
+	</div>
+</body>
+
+</html>
