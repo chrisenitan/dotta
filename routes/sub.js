@@ -6,7 +6,6 @@ const sqldb = require("../connectDb.js")
 
 //load and form sub
 appRouter.get("/:ref", (req, res) => {
-  //bug: this page is open to everyone!!!
   if (req.params.ref) {
     let getSub = `SELECT * FROM subs WHERE ref =` + sqldb.escape(req.params.ref) + `LIMIT 1`
     sqldb.query(getSub, (err, resultSub) => {
@@ -14,7 +13,7 @@ appRouter.get("/:ref", (req, res) => {
         console.log(err)
       }
       if (Object.keys(resultSub).length != 0) {
-        console.log(subData)
+        const subData = resultSub[0]
         //get owning user
         let getUser =
           `SELECT * FROM profiles WHERE username = ` + sqldb.escape(subData.username) + `LIMIT 1`
@@ -23,7 +22,19 @@ appRouter.get("/:ref", (req, res) => {
           if (Object.keys(returnedUser).length != 0) {
             //set user objct
             let user = returnedUser[0]
-            //get sub ledge information if username is found
+            //block access if user is not authorised
+            if (user.cookie != req.cookies.c_auth) {
+              //no sub found with provided id
+              const error = {
+                message: "User is not athorised",
+                description: "You do not have proper permissions to view this data.",
+              }
+              error.appGlobal = req.appGlobal
+              error.appGlobal.goodWill = `"${req.params.ref}" is blocked`
+              res.render("404", error)
+              return false
+            }
+            //get sub ledger information if username is found
             let getSubLedger = `SELECT * FROM ledger WHERE ref = '${subData.ref}' ORDER BY dateEntered ASC`
             sqldb.query(getSubLedger, (err, resultSubLegder) => {
               if (err) throw err
@@ -56,20 +67,15 @@ appRouter.get("/:ref", (req, res) => {
           }
         })
       } else {
-        //no sub found
+        //no sub found with provided id
         const error = {
           message: "This subscription is missing or does not exist",
-          description: "Please check the url or ID you have entered for mistakes. Or go back to you"
+          description:
+            "Please check the url or ID you have entered for mistakes. Or go back to your profile page",
         }
         error.appGlobal = req.appGlobal
         error.appGlobal.goodWill = `"${req.params.ref}" is not found`
         res.render("404", error)
-        /* const resData = {
-          errReason: {
-            msg: "We could not find the data you requested",
-          },
-        }
-        res.render("sub/subView", resData) */
       }
     })
   } else {
