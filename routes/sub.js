@@ -72,7 +72,7 @@ appRouter.get("/:ref", (req, res) => {
         const error = {
           message: "This is a 404",
           description:
-            "Please check the url or ID you have entered for mistakes. Or go back to your profile page",
+            "The page you expected does not exist, please check the link for errors or refresh later",
           status: "404",
         }
         error.appGlobal = req.appGlobal
