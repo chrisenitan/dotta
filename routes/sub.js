@@ -26,7 +26,7 @@ appRouter.get("/:ref", (req, res) => {
             if (user.cookie != req.cookies.c_auth) {
               //no sub found with provided id
               const error = {
-                message: "User is not athorised",
+                message: "This is a 401",
                 description: "You do not have proper permissions to view this data.",
                 status: "401",
               }
@@ -70,7 +70,7 @@ appRouter.get("/:ref", (req, res) => {
       } else {
         //no sub found with provided id
         const error = {
-          message: "This subscription is missing or does not exist",
+          message: "This is a 404",
           description:
             "Please check the url or ID you have entered for mistakes. Or go back to your profile page",
           status: "404",
