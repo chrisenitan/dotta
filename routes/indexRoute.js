@@ -319,13 +319,14 @@ appRouter.post(
             })
           } else if (req.body.action == "update") {
             sqldb.query(
-              "UPDATE subs SET name = ?, cost = ?, date = ?, frequency = ?, colour = ?, status = ? WHERE ref = ?",
+              "UPDATE subs SET name = ?, cost = ?, date = ?, frequency = ?, colour = ?, note = ?, status = ? WHERE ref = ?",
               [
                 `${req.body.name}`,
                 `${req.body.cost}`,
                 `${req.body.date}`,
                 `${req.body.frequency}`,
                 `${req.body.colour}`,
+                `${req.body.note}`,
                 `${req.body.status}`,
                 `${req.body.ref}`,
               ],
@@ -375,6 +376,23 @@ appRouter.get("/account", (req, res) => {
     res.redirect("/")
   }
 })
+
+//wip keep for live deployment
+/* appRouter.get("/seek", (req, res) => {
+  //let getT = `ALTER TABLE subs ALTER COLUMN note NULL`
+  //let getT = `ALTER TABLE subs DROP COLUMN note`
+  let getT = `SELECT * FROM subs WHERE id != 0`
+  sqldb.query(getT, (err, response) => {
+    if (err) throw err
+    if (Object.keys(response[0] != 0)) {
+      res.send("working")
+      console.log(response[0])
+    }
+    else {
+      res.send("not working")
+    }
+  })
+}) */
 
 //profile
 appRouter.get("/:username", (req, res) => {

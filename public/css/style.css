@@ -52,6 +52,10 @@ input:hover {
   float: left;
   text-align: left;
 }
+marquee {
+  font-size: 9px;
+  width: 100%;
+}
 textarea {
   height: 90px;
   width: 100%;
@@ -179,6 +183,8 @@ select {
 }
 .subsHolder {
   height: auto;
+  min-height: 210px;
+  vertical-align: top;
   width: 37%;
   background-color: white;
   border: none;

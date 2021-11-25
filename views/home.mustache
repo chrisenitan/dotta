@@ -35,6 +35,9 @@
 		<h class="smallTxt">{{subFuture.nextDate}}</h><br><br>
 		{{/statusInactive}}
 		<h class="subCost">{{currency}}{{cost}}</h>
+		{{#note}}
+		<marquee direction="left">{{note}}</marquee>
+		{{/note}}
 		<br><br>
 		<a href="sub/{{ref}}"><button style="border-color:{{subFuture.progressColor}}" type="button" class="openSub">Open</button></a><br>
 		<div id="progressHandle">
