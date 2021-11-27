@@ -6,6 +6,7 @@ body {
   width: 100%;
   max-width: 500px;
   margin: auto;
+  margin-bottom: 30%;
 }
 a {
   text-decoration: none;

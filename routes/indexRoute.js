@@ -247,7 +247,6 @@ appRouter.get("/ledger", (req, res) => {
           if (err) throw err
           if (Object.keys(resultSubLegder).length != 0) {
             ledgerData.ledger = resultSubLegder
-            console.log(resultSubLegder)
           } else {
             console.log("no ledger data found")
           }
@@ -386,7 +385,6 @@ appRouter.get("/account", (req, res) => {
     if (err) throw err
     if (Object.keys(response[0] != 0)) {
       res.send("working")
-      console.log(response[0])
     }
     else {
       res.send("not working")
