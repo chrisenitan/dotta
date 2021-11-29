@@ -2,7 +2,7 @@
 
 <head>
 	{{> heads}}
-	<title>Recover your account</title>
+	<title>{{name}} Subscription</title>
 </head>
 
 <body>
@@ -20,6 +20,12 @@
 			{{> subForm}}
 
 			{{!-- others editables --}}
+			<div class="TinputDiv">
+				<label for="note">Note</label><br>
+				<textarea name="note">{{note}}</textarea><br>
+				<h class="inputDis">Jot something to this sub</h><br><br>
+			</div>
+
 			<div class="setBox">
 				<input type="hidden" value="{{status}}" id="status" name="status">
 				<button type='button' class="setButton">Pause Billing</button>
@@ -60,7 +66,7 @@
 			<a href="/sub/delete/{{ref}}"><button type='button' class="altcta" id="closeAddPanel">Delete</button></a>
 		</form>
 	</div>
-	<br><br><br>
+	<br>
 </body>
 
 </html>

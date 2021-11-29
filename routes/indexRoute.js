@@ -1,27 +1,8 @@
 const express = require("express")
 const { body, check, validationResult, cookie } = require("express-validator")
-const mysql = require("mysql")
 const appRouter = express()
 const localTools = require("../subModules/localTools")
-
-const sqldb = mysql.createConnection({
-  host: process.env.awsserver,
-  port: process.env.awsport,
-  user: process.env.awsuser,
-  password: process.env.awspass,
-  database: process.env.awsdb,
-})
-
-sqldb.connect((err) => {
-  if (err) {
-    console.log(`Error connecting to ${process.env.awsserver} on thread: ${sqldb.threadId}`)
-    console.log(err)
-  } else {
-    console.log(
-      `Route = /indexRoute: Connected to ${process.env.awsserver} on thread: ${sqldb.threadId}`
-    )
-  }
-})
+const sqldb = require("../connectDb.js")
 
 appRouter.get("/", (req, res) => {
   const cookie = req.cookies
@@ -266,7 +247,6 @@ appRouter.get("/ledger", (req, res) => {
           if (err) throw err
           if (Object.keys(resultSubLegder).length != 0) {
             ledgerData.ledger = resultSubLegder
-            console.log(resultSubLegder)
           } else {
             console.log("no ledger data found")
           }
@@ -338,13 +318,14 @@ appRouter.post(
             })
           } else if (req.body.action == "update") {
             sqldb.query(
-              "UPDATE subs SET name = ?, cost = ?, date = ?, frequency = ?, colour = ?, status = ? WHERE ref = ?",
+              "UPDATE subs SET name = ?, cost = ?, date = ?, frequency = ?, colour = ?, note = ?, status = ? WHERE ref = ?",
               [
                 `${req.body.name}`,
                 `${req.body.cost}`,
                 `${req.body.date}`,
                 `${req.body.frequency}`,
                 `${req.body.colour}`,
+                `${req.body.note}`,
                 `${req.body.status}`,
                 `${req.body.ref}`,
               ],
@@ -395,6 +376,22 @@ appRouter.get("/account", (req, res) => {
   }
 })
 
+//wip keep for live deployment
+/* appRouter.get("/seek", (req, res) => {
+  //let getT = `ALTER TABLE subs ALTER COLUMN note NULL`
+  //let getT = `ALTER TABLE subs DROP COLUMN note`
+  let getT = `SELECT * FROM subs WHERE id != 0`
+  sqldb.query(getT, (err, response) => {
+    if (err) throw err
+    if (Object.keys(response[0] != 0)) {
+      res.send("working")
+    }
+    else {
+      res.send("not working")
+    }
+  })
+}) */
+
 //profile
 appRouter.get("/:username", (req, res) => {
   //set dependecies
@@ -413,7 +410,7 @@ appRouter.get("/:username", (req, res) => {
         //set goodwill to user
         user.appGlobal = req.appGlobal
         let getUserSubs =
-          `SELECT * FROM subs WHERE username = '${user.username}'` + `ORDER BY date ASC`
+          `SELECT * FROM subs WHERE username = '${user.username}'` + `ORDER BY status, date ASC`
         sqldb.query(getUserSubs, (err, returnedSubs) => {
           if (err) throw err
           if (Object.keys(returnedSubs).length != 0) {
@@ -433,8 +430,7 @@ appRouter.get("/:username", (req, res) => {
             }
             user.subsTotalled = totalSubCost.toLocaleString()
             user.subs = returnedSubs
-            user.envs = process.env.appEnvironment
-            //console.log(user.envs)
+            //console.log(user)
             res.render("home", user)
           } else {
             //user has no subs yet

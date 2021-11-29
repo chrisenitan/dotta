@@ -1,10 +1,6 @@
 //Index. Rewuire and initialize Express server
 const express = require("express")
-const {
-  isActiveCookie,
-  cookieOnly,
-  urlLog,
-} = require("./subModules/accountMgm")
+const { isActiveCookie, cookieOnly, urlLog, sqldb } = require("./subModules/accountMgm")
 const app = express()
 
 //cookie parser
@@ -43,16 +39,18 @@ app.use("/sub", [cookieOnly, urlLog], subRoute)
 
 //404
 app.use((req, res, next) => {
-  res.clearCookie("c_auth")
-  res.status(404).json({
-    message: "The page requested was not found on the server"
-  })
+  const error = {
+    message: "This is a 404",
+    description: "The page you expected does not exist, please check the link for errors or refresh later",
+    status: "404",
+  }
+  error.appGlobal = req.appGlobal
+  console.log(error)
+  res.render("status", error)
 })
 
 //start server
 const port = process.env.port || 3000
 app.listen(port, () => {
-  console.log(
-    `\x1b[32m...Dotta ready on port ${process.env.port}... \x1b[0m  \n`
-  )
+  console.log(`\x1b[32mDotta ready on port ${process.env.port}... \x1b[0m  \n`)
 })

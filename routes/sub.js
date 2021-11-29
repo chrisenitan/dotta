@@ -1,25 +1,8 @@
 const express = require("express")
-const mysql = require("mysql")
 const appRouter = express()
 const { check, validationResult, cookie } = require("express-validator")
 const localTools = require("../subModules/localTools")
-
-//set mysql
-const sqldb = mysql.createConnection({
-  host: process.env.awsserver,
-  port: process.env.awsport,
-  user: process.env.awsuser,
-  password: process.env.awspass,
-  database: process.env.awsdb,
-})
-
-//connect mysql
-sqldb.connect((err) => {
-  if (err) {
-    throw err
-  }
-  console.log(`Route = /sub: Connected to ${process.env.awsserver} on thread: ${sqldb.threadId}`)
-})
+const sqldb = require("../connectDb.js")
 
 //load and form sub
 appRouter.get("/:ref", (req, res) => {
@@ -39,7 +22,20 @@ appRouter.get("/:ref", (req, res) => {
           if (Object.keys(returnedUser).length != 0) {
             //set user objct
             let user = returnedUser[0]
-            //get sub ledge information if username is found
+            //block access if user is not authorised
+            if (user.cookie != req.cookies.c_auth) {
+              //no sub found with provided id
+              const error = {
+                message: "This is a 401",
+                description: "You do not have proper permissions to view this data.",
+                status: "401",
+              }
+              error.appGlobal = req.appGlobal
+              error.appGlobal.goodWill = `"${req.params.ref}" is blocked`
+              res.render("status", error)
+              return false
+            }
+            //get sub ledger information if username is found
             let getSubLedger = `SELECT * FROM ledger WHERE ref = '${subData.ref}' ORDER BY dateEntered ASC`
             sqldb.query(getSubLedger, (err, resultSubLegder) => {
               if (err) throw err
@@ -72,12 +68,16 @@ appRouter.get("/:ref", (req, res) => {
           }
         })
       } else {
-        const resData = {
-          errReason: {
-            msg: "We could not find the data you requested",
-          },
+        //no sub found with provided id
+        const error = {
+          message: "This is a 404",
+          description:
+            "The page you expected does not exist, please check the link for errors or refresh later",
+          status: "404",
         }
-        res.render("sub/subView", resData)
+        error.appGlobal = req.appGlobal
+        error.appGlobal.goodWill = `"${req.params.ref}" is not found`
+        res.render("status", error)
       }
     })
   } else {

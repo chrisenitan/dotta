@@ -6,6 +6,7 @@ body {
   width: 100%;
   max-width: 500px;
   margin: auto;
+  margin-bottom: 30%;
 }
 a {
   text-decoration: none;
@@ -50,6 +51,28 @@ input:hover {
   color: #929292;
   font-size: 10px;
   float: left;
+  text-align: left;
+}
+marquee {
+  font-size: 9px;
+  width: 100%;
+}
+textarea {
+  height: 90px;
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid #1a2739;
+  border-left: none;
+  border-right: none;
+  border-radius: 0px;
+  color: #28549a;
+  outline: none;
+  padding: 10px;
+  padding-left: 2%;
+  padding-right: 2%;
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-family: "Montserrat", sans-serif;
 }
 select {
   height: 45px;
@@ -161,6 +184,8 @@ select {
 }
 .subsHolder {
   height: auto;
+  min-height: 210px;
+  vertical-align: top;
   width: 37%;
   background-color: white;
   border: none;
@@ -269,9 +294,9 @@ select {
 @media screen and (min-width: 980px) {
   #addPanel {
     width: 100%;
+    height: 0vh;
     margin: 0px;
-    max-width: 450px;
-    padding: 1%;
+    padding: 0.5%;
     max-height: 600px;
     overflow: hidden;
   }

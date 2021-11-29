@@ -1,28 +1,9 @@
 const express = require("express")
-const mysql = require("mysql")
 const appRouter = express()
 const { check, validationResult, cookie } = require("express-validator")
 const localTools = require("../subModules/localTools")
 const fs = require("fs")
-
-//set mysql data
-const sqldb = mysql.createConnection({
-  host: process.env.awsserver,
-  port: process.env.awsport,
-  user: process.env.awsuser,
-  password: process.env.awspass,
-  database: process.env.awsdb,
-})
-
-//connect mysql
-sqldb.connect((err) => {
-  if (err) {
-    throw err
-  }
-  console.log(
-    `Route = /account: Connected to ${process.env.awsserver} on thread: ${sqldb.threadId}`
-  )
-})
+const sqldb = require("../connectDb.js")
 
 //magic mode: insert new account reuse
 var insertNewAccount = function (req) {
@@ -307,7 +288,7 @@ appRouter.post("/recovery", (req, res) => {
   //set goodwill to user
   let ref = {}
   ref.appGlobal.goodWill = "we have reset your account"
-  res.render("login", ref)//this should prolly go to account/recovery mustache instead. wip
+  res.render("login", ref) //this should prolly go to account/recovery mustache instead. wip
 })
 
 module.exports = appRouter
