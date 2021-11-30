@@ -31,7 +31,7 @@
 		<h class="smallTxt">{{subFuture.nextDate}}</h><br><br>
 		{{/statusInactive}}
 		{{^statusInactive}}
-		<h class="subTxt">in {{subFuture.daysRemaining}} days</h><br>
+		<h class="subTxt">in {{subFuture.daysRemaining}} {{subFuture.daysRemainingString}}</h><br>
 		<h class="smallTxt">{{subFuture.nextDate}}</h><br><br>
 		{{/statusInactive}}
 		<h class="subCost">{{currency}}{{cost}}</h>
