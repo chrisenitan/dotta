@@ -376,22 +376,6 @@ appRouter.get("/account", (req, res) => {
   }
 })
 
-//wip keep for live deployment
-/* appRouter.get("/seek", (req, res) => {
-  //let getT = `ALTER TABLE subs ALTER COLUMN note NULL`
-  //let getT = `ALTER TABLE subs DROP COLUMN note`
-  let getT = `SELECT * FROM subs WHERE id != 0`
-  sqldb.query(getT, (err, response) => {
-    if (err) throw err
-    if (Object.keys(response[0] != 0)) {
-      res.send("working")
-    }
-    else {
-      res.send("not working")
-    }
-  })
-}) */
-
 //profile
 appRouter.get("/:username", (req, res) => {
   //set dependecies
