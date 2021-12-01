@@ -28,6 +28,11 @@
 
 <div class="mTinputDiv">
     <label for="colour">Theme Colour</label><br>
+    {{#colour}}
     <input type="color" value="{{colour}}" name="colour" required><br>
+    {{/colour}}
+    {{^colour}}
+    <input type="color" value="#fbc7ff" name="colour" required><br>
+    {{/colour}}
     <h class="inputDis">Lighter colours work best</h><br><br>
 </div>
