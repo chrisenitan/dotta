@@ -1,4 +1,5 @@
 <?php
+# cronjob to log due subscriptions
 require("php_env.php");
 $conne = mysqli_connect($server, $username, $password, $database); #server, username, password, database
 
