@@ -52,5 +52,5 @@ app.use((req, res, next) => {
 //start server
 const port = process.env.port || 3000
 app.listen(port, () => {
-  console.log(`\x1b[32mDotta ready on port ${port}... \x1b[0m  \n`)
+  console.log(`\x1b[32mDotta ready on port ${port}... \x1b[0m  \n`) 
 })
