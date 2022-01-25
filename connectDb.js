@@ -8,23 +8,13 @@ if (process.env.appEnvironment == "production") {
     password: process.env.awspass,
     database: process.env.awsdb,
   })
-} else if (process.env.appEnvironment == "fh") {
-  var sqldb = mysql.createPool({
-    connectionLimit: 10,
-    host: process.env.fhserver,
-    port: process.env.fhport,
-    user: process.env.fhuser,
-    password: process.env.fhpassword,
-    database: process.env.fhdb,
-  })
 } else {
   var sqldb = mysql.createPool({
     connectionLimit: 10,
-    host: process.env.stagingAwsserver,
-    port: process.env.awsport,
-    user: process.env.awsuser,
-    password: process.env.stagingAwspass,
-    database: process.env.awsdb,
+    host: process.env.stagingDottaServer,
+    user: process.env.stagingDottaUser,
+    password: process.env.stagingDottaPass,
+    database: process.env.stagingDottaDb,
   })
 }
 
