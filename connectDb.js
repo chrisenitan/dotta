@@ -11,22 +11,26 @@ if (process.env.appEnvironment == "production") {
 } else {
   var sqldb = mysql.createPool({
     connectionLimit: 10,
-    host: process.env.stagingAwsserver,
-    port: process.env.awsport,
-    user: process.env.awsuser,
-    password: process.env.stagingAwspass,
-    database: process.env.awsdb,
+    host: process.env.stagingDottaServer,
+    user: process.env.stagingDottaUser,
+    password: process.env.stagingDottaPass,
+    database: process.env.stagingDottaDb,
   })
 }
 
 sqldb.getConnection((err, connection) => {
   if (err) {
-    if (err.code === "PROTOCOL_CONNECTION_LOST") console.error("Database connection was closed.")
-    if (err.code === "ER_CON_COUNT_ERROR") console.error("Database has too many connections.")
-    if (err.code === "ECONNREFUSED") console.error("Database connection was refused.")
+    if (
+      err.code === "PROTOCOL_CONNECTION_LOST" ||
+      err.code === "ECONNREFUSED" ||
+      err.code === "ER_CON_COUNT_ERROR" ||
+      err.code === "PROTOCOL_SEQUENCE_TIMEOUT"
+    )
+      console.error(`Database connection was closed. Error: ${err.code}`)
+    else console.log(err)
   } else {
     console.log(
-      `\x1b[34mEnvironment:\x1b[0m ${process.env.appEnvironment}\n\x1b[34mEndpoint:\x1b[0m ${sqldb.config.connectionConfig.host} \n\x1b[34mThread:\x1b[0m ${connection.threadId}`
+      `Database Connected \n\x1b[34mEnvironment:\x1b[0m ${process.env.appEnvironment}\n\x1b[34mEndpoint:\x1b[0m ${sqldb.config.connectionConfig.host} \n\x1b[34mThread:\x1b[0m ${connection.threadId}`
     )
   }
   if (connection) connection.release()

@@ -35,6 +35,7 @@ let secureKey = (req) => {
   return ranKey
 }
 
+//calculates the countdown to a sub and other progress rel data
 let dateToNextSub = (req) => {
   const dateObj = new Date()
   //instatiate req obj
@@ -100,7 +101,11 @@ let dateToNextSub = (req) => {
     ? (progressColor = "#fa8888")
     : (progressColor = "#88fa91")
   //define final response
-  const result = {}
+  const result = { daysRemainingString: "days" }
+  //some English
+  if (eventDay == 1) {
+    result.daysRemainingString = "day"
+  }
   eventDay < 0
     ? Object.assign(result, {
         daysRemaining: 0,
