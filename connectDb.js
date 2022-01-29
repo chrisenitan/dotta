@@ -2,11 +2,10 @@ const mysql = require("mysql")
 if (process.env.appEnvironment == "production") {
   var sqldb = mysql.createPool({
     connectionLimit: 10,
-    host: process.env.awsserver,
-    port: process.env.awsport,
-    user: process.env.awsuser,
-    password: process.env.awspass,
-    database: process.env.awsdb,
+    host: process.env.prodDottaServer,
+    user: process.env.prodDottaUser,
+    password: process.env.prodDottaPass,
+    database: process.env.prodDottaDb,
   })
 } else {
   var sqldb = mysql.createPool({
