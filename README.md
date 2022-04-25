@@ -28,6 +28,27 @@ Dotta is a `NodeJS` based app that give you a visual presentation and log of all
 
 # Stack
 
+- UI
+  - Template engine is handled with [Mustache](https://github.com/mustache/mustache.github.com)
+  - Other custom styling done with native CSS
+- Server Engine used is [Express](https://github.com/expressjs/express)
+- Account and session management is custom built in dir: `/subModules`
+- Database is MySql
+
+### Project
+
+- Project is managed on a [Trello Board](https://trello.com/b/TgYufO4D/dotta)
+- Hosting and DNS is via Namecheap
+- Databse is via AWS-RDS
+- Cpanel handles both Node App engine and Git version control
+  - Test version is on Heroku https://dotta.herokuapp.com/
+- Git account is connected to the Git version control in the Cpanel account which pulls latest changes from `main` branch into a seperate hosting folder
+- Deploy `.panel.yml` used in Node App Setup contains script to copy latest files from pulled repo folder into hosting root dir
+
+**Cron Jobs**
+
+- `ledger.php` handles logging all subscription according to their frequeicny and is ran once per day
+
 ### Setup
 
 **This document assumes you have basic knowledge of `npm` and `javascript`**<br>
@@ -38,20 +59,7 @@ Dotta is a `NodeJS` based app that give you a visual presentation and log of all
   - Env and database schema is limited to contributors
 - Start the app with the script `npm start`
 
-### Tech
+## Contributing
 
-- Project is managed on a [Trello Board](https://trello.com/b/TgYufO4D/dotta)
-- Hosting and DNS is via Namecheap
-- Databse is via AWS-RDS
-- Cpanel handles both Node App engine and Git version control
-  - Test version is on Heroku https://dotta.herokuapp.com/
-- Git account is connected to the Git version control in the Cpanel account which pulls latest changes from `main` branch into a seperate folder
-- Deploy `.panel.yml` used in Node App Setup contains script to copy latest files from pulled repo folder into hosting root dir
-
-**Cron Jobs**
-
-- `ledger.php` handles logging all subscription according to their frequeicny and is ran once per day
-
-## Feedbacks and feature requests
-
-- Please use this <a target="_blank" href="https://forms.gle/nNLY7e6ET1GQBwyN6">Google Form</a>
+- Open: please ask for the schemas
+- Please use this <a target="_blank" href="https://forms.gle/nNLY7e6ET1GQBwyN6">Google Form</a> for direct private feedbacks
