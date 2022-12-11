@@ -88,14 +88,7 @@ if (document.getElementById("deleteSubButton")) {
   document.getElementById("deleteSubButton").addEventListener(
     "click",
     function (event) {
-      console.log("dhgjhf")
-      let text = "Should delete."
-      if (confirm(text) == true) {
-        text = "You pressed OK!"
-      } else {
-        event.preventDefault()
-        text = "You canceled!"
-      }
+      if (confirm("sure to delete this subscription?") == false) event.preventDefault()
     },
     false
   )
