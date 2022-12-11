@@ -15,8 +15,7 @@ appRouter.get("/:ref", (req, res) => {
       if (Object.keys(resultSub).length != 0) {
         const subData = resultSub[0]
         //get owning user
-        let getUser =
-          `SELECT * FROM profiles WHERE username = ` + sqldb.escape(subData.username) + `LIMIT 1`
+        let getUser = `SELECT * FROM profiles WHERE username = ` + sqldb.escape(subData.username) + `LIMIT 1`
         sqldb.query(getUser, (err, returnedUser) => {
           if (err) throw err
           if (Object.keys(returnedUser).length != 0) {
@@ -71,8 +70,7 @@ appRouter.get("/:ref", (req, res) => {
         //no sub found with provided id
         const error = {
           message: "This is a 404",
-          description:
-            "The page you expected does not exist, please check the link for errors or refresh later",
+          description: "The page you expected does not exist, please check the link for errors or refresh later",
           status: "404",
         }
         error.appGlobal = req.appGlobal
