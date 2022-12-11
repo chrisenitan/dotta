@@ -82,3 +82,21 @@ window.addEventListener("load", function () {
       : (navHeader.style.backgroundColor = "#fff")
   } */
 })
+
+//other page actions
+if (document.getElementById("deleteSubButton")) {
+  document.getElementById("deleteSubButton").addEventListener(
+    "click",
+    function (event) {
+      console.log("dhgjhf")
+      let text = "Should delete."
+      if (confirm(text) == true) {
+        text = "You pressed OK!"
+      } else {
+        event.preventDefault()
+        text = "You canceled!"
+      }
+    },
+    false
+  )
+}
