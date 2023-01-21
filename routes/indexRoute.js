@@ -80,8 +80,7 @@ appRouter.get("/signup", (req, res) => {
 appRouter.get("/settings", (req, res) => {
   if (req.cookies.c_auth) {
     //get user data
-    let getUser =
-      `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
+    let getUser = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
       if (Object.keys(returnedUser).length != 0) {
@@ -105,8 +104,7 @@ appRouter.get("/settings", (req, res) => {
 appRouter.get("/about", (req, res) => {
   if (req.cookies.c_auth) {
     //get user data
-    let getUser =
-      `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
+    let getUser = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
       if (Object.keys(returnedUser).length != 0) {
@@ -134,31 +132,21 @@ appRouter.get("/statistics", (req, res) => {
     //set goodwill message
     statData.appGlobal = req.appGlobal
     //get user data
-    let getUser =
-      `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
+    let getUser = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
       if (Object.keys(returnedUser).length != 0) {
         statData.owner = returnedUser[0]
 
         //get more stat data
-        let countSub =
-          `SELECT COUNT(ref) AS totalCount FROM subs WHERE username = ` +
-          sqldb.escape(returnedUser[0].username)
+        let countSub = `SELECT COUNT(ref) AS totalCount FROM subs WHERE username = ` + sqldb.escape(returnedUser[0].username)
         //get total sub cost and round up to 2 decimal points
-        let countSubCost =
-          `SELECT ROUND(SUM(cost), 2) AS totalCost FROM subs WHERE username = ` +
-          sqldb.escape(returnedUser[0].username)
+        let countSubCost = `SELECT ROUND(SUM(cost), 2) AS totalCost FROM subs WHERE username = ` + sqldb.escape(returnedUser[0].username)
         let highestSub =
-          `SELECT * FROM subs WHERE username = ` +
-          sqldb.escape(returnedUser[0].username) +
-          `ORDER BY CAST(cost AS DECIMAL) DESC LIMIT 1`
+          `SELECT * FROM subs WHERE username = ` + sqldb.escape(returnedUser[0].username) + `ORDER BY CAST(cost AS DECIMAL) DESC LIMIT 1`
         let lowestSub =
-          `SELECT * FROM subs WHERE username = ` +
-          sqldb.escape(returnedUser[0].username) +
-          `ORDER BY CAST(cost AS DECIMAL) ASC LIMIT 1`
-        let getSubLedger =
-          `SELECT * FROM ledger WHERE username = ` + sqldb.escape(returnedUser[0].username)
+          `SELECT * FROM subs WHERE username = ` + sqldb.escape(returnedUser[0].username) + `ORDER BY CAST(cost AS DECIMAL) ASC LIMIT 1`
+        let getSubLedger = `SELECT * FROM ledger WHERE username = ` + sqldb.escape(returnedUser[0].username)
         //get total subs count
         sqldb.query(countSub, (err, resultCountSub) => {
           if (err) {
@@ -231,17 +219,13 @@ appRouter.get("/statistics", (req, res) => {
 appRouter.get("/ledger", (req, res) => {
   if (req.cookies.c_auth) {
     //get user data
-    let getUser =
-      `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
+    let getUser = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
     var ledgerData = {}
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
       if (Object.keys(returnedUser).length != 0) {
         ledgerData.owner = returnedUser[0]
-        let getSubLedger =
-          `SELECT * FROM ledger WHERE username = ` +
-          sqldb.escape(returnedUser[0].username) +
-          `ORDER BY dateEntered DESC`
+        let getSubLedger = `SELECT * FROM ledger WHERE username = ` + sqldb.escape(returnedUser[0].username) + `ORDER BY dateEntered DESC`
         //get all subs logged iinto the ledger history
         sqldb.query(getSubLedger, (err, resultSubLegder) => {
           if (err) throw err
@@ -288,8 +272,7 @@ appRouter.post(
       //redirect to sub individual view
     } else {
       //no error. proceed to creating sub
-      let getUser =
-        `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
+      let getUser = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
       sqldb.query(getUser, (err, returnedUser) => {
         if (err) throw err
         if (Object.keys(returnedUser).length != 0) {
@@ -355,8 +338,7 @@ appRouter.post(
 appRouter.get("/account", (req, res) => {
   if (req.cookies.c_auth) {
     //get user data
-    let getUser =
-      `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
+    let getUser = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.c_auth) + `LIMIT 1`
     sqldb.query(getUser, (err, returnedUser) => {
       if (err) throw err
       if (Object.keys(returnedUser).length != 0) {
@@ -393,8 +375,7 @@ appRouter.get("/:username", (req, res) => {
         //get users data from data table
         //set goodwill to user
         user.appGlobal = req.appGlobal
-        let getUserSubs =
-          `SELECT * FROM subs WHERE username = '${user.username}'` + `ORDER BY status, date ASC`
+        let getUserSubs = `SELECT * FROM subs WHERE username = '${user.username}'` + `ORDER BY status, date ASC`
         sqldb.query(getUserSubs, (err, returnedSubs) => {
           if (err) throw err
           if (Object.keys(returnedSubs).length != 0) {

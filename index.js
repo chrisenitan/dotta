@@ -1,4 +1,4 @@
-//Index. Rewuire and initialize Express server
+//Index. Require and initialize Express server
 const express = require("express")
 const { isActiveCookie, cookieOnly, urlLog, sqldb } = require("./subModules/accountMgm")
 const app = express()
@@ -50,7 +50,7 @@ app.use((req, res, next) => {
 })
 
 //start server
-const port = process.env.port || 3000
+const port = process.env.dottaHostPort || 3000
 app.listen(port, () => {
-  console.log(`\x1b[32mDotta ready on port ${port}... \x1b[0m  \n`) 
+console.log(`\x1b[32mdotta ready on http://localhost:${port}/ \x1b[0m  \n`) 
 })

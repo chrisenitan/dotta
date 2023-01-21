@@ -1,32 +1,64 @@
-//open sub adding panel
-if (document.getElementById("navAdd")) {
-  document.getElementById("navAdd").addEventListener("click", function () {
+//page features
+const app = {
+  openNewSubForm: () => {
     document.getElementById("addPanelForm").style.display = "block"
     const addPanel = document.getElementById("addPanel")
     addPanel.style.height = "70vh"
     addPanel.style.paddingTop = "2.5%"
     addPanel.style.paddingBottom = "2.5%"
-  })
-}
+  },
 
-//close sub adding panel
-if (document.getElementById("closeAddPanel")) {
-  document.getElementById("closeAddPanel").addEventListener("click", function () {
+  closeNewSubForm: () => {
     document.getElementById("addPanelForm").style.display = "none"
     const addPanel = document.getElementById("addPanel")
     addPanel.style.height = "0vh"
     addPanel.style.paddingTop = "0.5%"
     addPanel.style.paddingBottom = "0.5%"
-  })
-}
+  },
 
-if (document.getElementById("showRecoverForm")) {
-  document.getElementById("showRecoverForm").addEventListener("click", function () {
+  openRecoverAccountForm: () => {
     const loginForm = document.getElementById("loginForm")
     const recoverForm = document.getElementById("recoverFormDiv")
     loginForm.style.height = "0px"
     recoverForm.style.height = "100vh"
     document.getElementById("recoverForm").reset()
+  },
+
+  deleteSubscription: (event) => {
+    if (confirm("sure to delete this subscription?") == false) event.preventDefault()
+  },
+}
+
+//dom preparations values
+const preloads = {
+  navAdd: {
+    id: "navAdd",
+    type: "click",
+    func: [app.openNewSubForm],
+  },
+  closeAddPanel: {
+    id: "closeAddPanel",
+    type: "click",
+    func: [app.closeNewSubForm],
+  },
+  showRecoverForm: {
+    id: "closeAddPanel",
+    type: "click",
+    func: [app.openRecoverAccountForm],
+  },
+  deleteSubButton: {
+    id: "deleteSubButton",
+    type: "click",
+    func: [app.deleteSubscription],
+  },
+}
+
+//add document background events
+for (const [, value] of Object.entries(preloads)) {
+  value.func.forEach((element) => {
+    if (document.getElementById(value.id)) {
+      document.getElementById(value.id).addEventListener(value.type, element, false)
+    }
   })
 }
 
@@ -44,7 +76,7 @@ if ("serviceWorker" in navigator) {
   })
 }
 
-//window listener
+//control pause billing button on dom
 window.addEventListener("load", function () {
   //control edit sub status
   if (document.getElementById("pauseBilling")) {
@@ -74,7 +106,7 @@ window.addEventListener("load", function () {
     })
   }
 
-  //match header colour with device theme
+  //match header color with device theme
   /*   if (document.getElementById("navHeader")) {
     const navHeader = document.getElementById("navHeader")
     window.matchMedia("(prefers-color-scheme: dark)").matches

@@ -1,4 +1,5 @@
-//generate a random char: recieves int param for lenght
+const { tools: tools } = require("./dataFactory")
+//generate a random char: receives int param for length
 let randomValue = (req) => {
   var ranId = ""
   var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
@@ -38,91 +39,45 @@ let secureKey = (req) => {
 //calculates the countdown to a sub and other progress rel data
 let dateToNextSub = (req) => {
   const dateObj = new Date()
-  //instatiate req obj
   let date = {}
-  date.year = dateObj.getFullYear()
 
-  switch (req.frequency) {
-    case "Every Month":
-      //push to next month only if deadline has passed
-      req.date <= dateObj.getDate()
-        ? (date.month = dateObj.getMonth() + 2)
-        : //same month but in a few days
-          (date.month = dateObj.getMonth() + 1)
-      date.date = parseInt(req.date)
-      var monthDivisor = 30
-      var percentDivisor = 3.34
-      break
-    case "Every Week":
-      date.month = dateObj.getMonth() + 1
-      date.date = parseInt(req.date) + 7
-      while (date.date <= dateObj.getDate()) {
-        date.date = date.date + 7
-      }
-      var monthDivisor = 7
-      var percentDivisor = 14.3
-      break
-
-    default:
-      date.month = dateObj.getMonth()
-      date.date = dateObj.getDate()
+  if (req.frequency == "Every Month") {
+    date = { ...tools.dateForMonth(req) }
+    date.date = parseInt(req.date)
+    var monthDivisor = 30
+    var percentDivisor = 3.34
+  } else {
+    date = { ...tools.dateForWeek(req) }
+    var monthDivisor = 7
+    var percentDivisor = 14.3
   }
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ]
-  const eventDateNorm = `${date.date} ${monthNames[date.month - 1]} ${date.year}`
-  const todayYear = dateObj.getFullYear()
-  const todayMonth = dateObj.getMonth()
-  const todayDate = dateObj.getDate()
-  const eventUTC = Date.UTC(date.year, date.month - 1, date.date)
-  const todayUTC = Date.UTC(todayYear, todayMonth, todayDate)
+
+  const eventDateNorm = `${date.date} ${tools.monthNames[date.month]} ${date.year}`
+  const eventUTC = Date.UTC(date.year, date.month, date.date)
+  const todayUTC = Date.UTC(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate())
   const eventDay = (eventUTC - todayUTC) / 1000 / 60 / 60 / 24
-  var progressPercent = (parseFloat(percentDivisor) * parseFloat(monthDivisor - eventDay)).toFixed(
-    2
-  )
-  //interprete progress colour
-  var progressColor = ""
-  progressPercent <= 49
-    ? (progressColor = "#88fa91")
-    : progressPercent <= 70
-    ? (progressColor = "#fad788")
-    : progressPercent >= 71
-    ? (progressColor = "#fa8888")
-    : (progressColor = "#88fa91")
-  //define final response
-  const result = { daysRemainingString: "days" }
-  //some English
-  if (eventDay == 1) {
-    result.daysRemainingString = "day"
+  const progressPercent = (parseFloat(percentDivisor) * parseFloat(monthDivisor - eventDay)).toFixed(2)
+
+  const resolve = {
+    daysRemaining: 0,
+    nextDate: 0,
+    progressPercent: 2,
+    progressColor: "#88fa91",
+    daysRemainingString: "days",
   }
-  eventDay < 0
-    ? Object.assign(result, {
-        daysRemaining: 0,
-        nextDate: 0,
-        progressPercent: 2,
-        progressColor: "#88fa91",
-      })
-    : Object.assign(result, {
-        daysRemaining: eventDay,
-        nextDate: eventDateNorm,
-        progressPercent: progressPercent,
-        progressColor: progressColor,
-      })
-  return result
+  if (eventDay > 0) {
+    Object.assign(resolve, {
+      daysRemaining: eventDay,
+      nextDate: eventDateNorm,
+      progressPercent: progressPercent,
+      progressColor: progressPercent <= 49 ? "#88fa91" : progressPercent <= 70 ? "#fad788" : progressPercent >= 71 ? "#fa8888" : "#88fa91",
+      daysRemainingString: eventDay == 1 ? "day" : "days",
+    })
+  }
+  return resolve
 }
 
-//recieves an array of objects containing at least cost in prop
+//receives an array of objects containing at least cost in prop
 let getArraySum = (req) => {
   let costSum = 0
   for (let nulAmount = 0; nulAmount < req.length; nulAmount++) {
@@ -135,6 +90,7 @@ let getArraySum = (req) => {
   response.costCount = req.length
   return response
 }
+
 module.exports = {
   dateToNextSub,
   secureKey,

@@ -98,10 +98,7 @@ appRouter.post("/login", [check("action", "Action is not login").equals("logIn")
 appRouter.post(
   "/signup",
   //do some form sanitisation. need a module
-  [
-    check("username", "Name should not have spaces").isAlpha("en-US"),
-    check("action", "Action is not create").isIn(["signUp", "update"]),
-  ],
+  [check("username", "Name should not have spaces").isAlpha("en-US"), check("action", "Action is not create").isIn(["signUp", "update"])],
   (req, res) => {
     //get request body
     let signUpData = req.body
@@ -116,8 +113,7 @@ appRouter.post(
       res.render("signup", signupError)
     } else {
       //check for old usernames
-      let checkForUniqueuserName =
-        `SELECT * FROM profiles WHERE username = ` + sqldb.escape(signUpData.username) + `LIMIT 1`
+      let checkForUniqueuserName = `SELECT * FROM profiles WHERE username = ` + sqldb.escape(signUpData.username) + `LIMIT 1`
       //register user if registration is reqested and remove defaul action
       if (req.body.action == "signUp") {
         delete req.body.action
@@ -147,12 +143,7 @@ appRouter.post(
         delete req.body.action
         sqldb.query(
           "UPDATE profiles SET currency = ?, email = ?, password = ? WHERE username = ?",
-          [
-            `${req.body.currency}`,
-            `${req.body.email}`,
-            `${req.body.password}`,
-            `${req.body.username}`,
-          ],
+          [`${req.body.currency}`, `${req.body.email}`, `${req.body.password}`, `${req.body.username}`],
           (err, updateSubResult) => {
             if (err) {
               console.log("error updating user")
@@ -200,31 +191,23 @@ appRouter.get("/takeout", (req, res) => {
             //file management
             const stTakeoutUser = JSON.stringify(takeoutUser)
             //create a new takeout file
-            fs.appendFile(
-              `assets/tmp_takeout/${takeoutUser.username}.json`,
-              `${stTakeoutUser}`,
-              function (err) {
+            fs.appendFile(`assets/tmp_takeout/${takeoutUser.username}.json`, `${stTakeoutUser}`, function (err) {
+              if (err) throw err
+              //read file created
+              fs.readFile(`assets/tmp_takeout/${takeoutUser.username}.json`, { encoding: "utf-8" }, function (err, file) {
                 if (err) throw err
-                //read file created
-                fs.readFile(
-                  `assets/tmp_takeout/${takeoutUser.username}.json`,
-                  { encoding: "utf-8" },
-                  function (err, file) {
-                    if (err) throw err
-                    res.writeHead(200, {
-                      "Content-Type": "text/json",
-                      "Content-Disposition": `attachment;filename=${takeoutUser.username}.json`,
-                    })
-                    res.write(file)
-                    //delete file when done: maybe wait?
-                    fs.unlink(`assets/tmp_takeout/${takeoutUser.username}.json`, function (err) {
-                      if (err) throw err
-                    })
-                    res.end()
-                  }
-                )
-              }
-            )
+                res.writeHead(200, {
+                  "Content-Type": "text/json",
+                  "Content-Disposition": `attachment;filename=${takeoutUser.username}.json`,
+                })
+                res.write(file)
+                //delete file when done: maybe wait?
+                fs.unlink(`assets/tmp_takeout/${takeoutUser.username}.json`, function (err) {
+                  if (err) throw err
+                })
+                res.end()
+              })
+            })
           })
         })
       }
@@ -242,44 +225,38 @@ appRouter.get("/takeout", (req, res) => {
 })
 
 //delete an account
-appRouter.post(
-  "/delete",
-  [check("action", "Action is not a deletion").equals("delete")],
-  (req, res) => {
-    //clear existing cookie
-    res.clearCookie("c_auth")
-    let actionUser = req.body
-    let deleteUser =
-      `DELETE FROM profiles WHERE username = ` + sqldb.escape(actionUser.username) + `LIMIT 1`
+appRouter.post("/delete", [check("action", "Action is not a deletion").equals("delete")], (req, res) => {
+  //clear existing cookie
+  res.clearCookie("c_auth")
+  let actionUser = req.body
+  let deleteUser = `DELETE FROM profiles WHERE username = ` + sqldb.escape(actionUser.username) + `LIMIT 1`
 
-    let deleteUserSub = `DELETE FROM subs WHERE username = ` + sqldb.escape(actionUser.username)
+  let deleteUserSub = `DELETE FROM subs WHERE username = ` + sqldb.escape(actionUser.username)
 
-    let deleteUserLedger =
-      `DELETE FROM ledger WHERE username = ` + sqldb.escape(actionUser.username)
+  let deleteUserLedger = `DELETE FROM ledger WHERE username = ` + sqldb.escape(actionUser.username)
 
-    //start deletion
-    //user
-    sqldb.query(deleteUser, (err, resDeleteUser) => {
-      if (err) {
-        console.log(err)
-        return false
-      }
-      if (Object.keys(resDeleteUser).length != 0) {
-        //if user deleted, do deletion: user subs
-        sqldb.query(deleteUserSub, (err, resDeleteUserSub) => {
-          if (err) throw err
-        })
-        //if user deleted, do deletion: user ledger
-        sqldb.query(deleteUserLedger, (err, resDeleteUserLedger) => {
-          if (err) throw err
-        })
-        res.redirect("/")
-      } else {
-        res.send("There was an error deleting the user")
-      }
-    })
-  }
-)
+  //start deletion
+  //user
+  sqldb.query(deleteUser, (err, resDeleteUser) => {
+    if (err) {
+      console.log(err)
+      return false
+    }
+    if (Object.keys(resDeleteUser).length != 0) {
+      //if user deleted, do deletion: user subs
+      sqldb.query(deleteUserSub, (err, resDeleteUserSub) => {
+        if (err) throw err
+      })
+      //if user deleted, do deletion: user ledger
+      sqldb.query(deleteUserLedger, (err, resDeleteUserLedger) => {
+        if (err) throw err
+      })
+      res.redirect("/")
+    } else {
+      res.send("There was an error deleting the user")
+    }
+  })
+})
 
 //all recovery of account
 appRouter.post("/recovery", (req, res) => {
