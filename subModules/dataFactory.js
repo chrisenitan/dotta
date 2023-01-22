@@ -27,7 +27,7 @@ const tools = {
     let periodOffset = 0
     let newDate = 0
     if (proposedDate <= 31) {
-      newDate = request.date + 7
+      newDate = parseInt(request.date) + 7
     } else {
       newDate = 7 - Math.abs(31 - proposedDate)
       periodOffset = 1
