@@ -1,3 +1,7 @@
+# further updates to dotta will be moved to teh `mspn` repo currently private
+
+## this project would still be available for contributions
+
 <p align="center">
 <img width="200" src="public/images/dotta_960.png">
 <br>
